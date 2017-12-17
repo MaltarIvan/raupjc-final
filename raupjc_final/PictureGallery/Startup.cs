@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using PictureGallery.Data;
 using PictureGallery.Services;
 using Owin;
+using PictureGallery.Core.Database;
+using PictureGallery.Core;
+using PictureGallery.Core.Repositories;
 
 namespace PictureGallery
 {
@@ -28,6 +31,9 @@ namespace PictureGallery
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IGalleryRepository, GallerySqlRepository>();
+            services.AddScoped<GalleryDbContext>(g => { return new GalleryDbContext(Configuration["ConnectionStrings:DefaultConnection"]); });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

@@ -4,6 +4,9 @@
     <UserSecretsId>aspnet-PictureGallery-15FB18EA-17A3-4892-853E-2D129925C563</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.Mvc.Futures" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="2.0.1" />
@@ -16,6 +19,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="3.1.0" />
     <PackageReference Include="Microsoft.Owin.Security.Facebook" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" PrivateAssets="All" />
@@ -25,5 +29,11 @@
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\Content\default-profile-picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
   </ItemGroup>
 </Project>
