@@ -9,7 +9,8 @@ namespace PictureGallery.Core.Repositories
     {
         Task<UserProfile> AddUserAsync(UserProfile user);
         Task<UserProfile> GetUserByIdAsync(Guid id);
-        void UpdateUserAsync(UserProfile user);
+        Task<UserProfile> UpdateUserAsync(UserProfile user);
         Task<List<UserProfile>> GetAllUsersAsync();
+        Task<Picture> UpdatePictureAsync(Picture profilePicture);
     }
 }

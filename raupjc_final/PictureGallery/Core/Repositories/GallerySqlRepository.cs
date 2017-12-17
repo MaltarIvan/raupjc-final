@@ -38,7 +38,7 @@ namespace PictureGallery.Core
             return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).SingleOrDefaultAsync(u => u.Id == id);
         }
 
-        public void UpdateUserAsync(UserProfile user)
+        public async Task<UserProfile> UpdateUserAsync(UserProfile user)
         {
             /*
             _context.UserProfiles.Attach(user);
@@ -52,13 +52,14 @@ namespace PictureGallery.Core
             userProfile.DateCreated = user.DateCreated;
             userProfile.Albums = user.Albums;
             userProfile.Favorites = user.Favorites;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+            return userProfile;
         }
 
         public Task<List<UserProfile>> GetAllUsersAsync()
         {
             return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).ToListAsync();
-        } 
+        }
 
         public async Task<Picture> AddPictureAsync(Picture picture)
         {
@@ -72,6 +73,22 @@ namespace PictureGallery.Core
                 await _context.SaveChangesAsync();
             }
             return picture;
+        }
+
+        public async Task<Picture> UpdatePictureAsync(Picture picture)
+        {
+            _context.Pictures.Attach(picture);
+            _context.Entry(picture).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return picture;
+
+            /*
+            var pic = _context.Pictures.First(p => p.Id == picture.Id);
+            pic.Data = picture.Data;
+            pic.Description = picture.Description;
+            await _context.SaveChangesAsync();
+            return pic;
+            */
         }
     }
 }

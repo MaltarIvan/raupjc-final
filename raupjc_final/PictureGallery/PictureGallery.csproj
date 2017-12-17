@@ -4,6 +4,7 @@
     <UserSecretsId>aspnet-PictureGallery-15FB18EA-17A3-4892-853E-2D129925C563</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="bootstrap" Version="3.3.7" />
     <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
     <PackageReference Include="Microsoft.AspNet.Mvc.Futures" Version="5.0.0" />

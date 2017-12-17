@@ -12,6 +12,7 @@ using PictureGallery.Models;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using PictureGallery.Models.Main;
 
 namespace PictureGallery.Controllers
 {
@@ -36,13 +37,17 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             if (currentUser == null)
             {
-                /*
                 currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
                 await _repository.AddUserAsync(currentUser);
-                */
                 return RedirectToAction("MakeNewProfile");
             }
-            return View();
+
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            List<PictureVM> picturesToPresent = new List<PictureVM>();
+            IndexViewModel indexViewModel = new IndexViewModel(userProfileVM, picturesToPresent);
+
+            return View(indexViewModel);
         }
 
         public ActionResult MakeNewProfile()
@@ -81,7 +86,7 @@ namespace PictureGallery.Controllers
                     profilePicture = new Picture(new Guid(applicationUser.Id), data);
                 }
 
-                UserProfile currentUser = new UserProfile(new Guid(applicationUser.Id));
+                UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
 
                 if (profilePicture != null)
                 {
@@ -90,8 +95,7 @@ namespace PictureGallery.Controllers
                 }
 
                 currentUser.UserName = model.UserName;
-                //_repository.UpdateUserAsync(currentUser);
-                await _repository.AddUserAsync(currentUser);
+                await _repository.UpdateUserAsync(currentUser);
                 
                 return RedirectToAction("Index");
             }

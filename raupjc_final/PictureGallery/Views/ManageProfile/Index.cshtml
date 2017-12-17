@@ -1,0 +1,16 @@
+﻿@using PictureGallery.Models.ManageProfile
+@model ManageProfileVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="padding:5px">
+            @Html.Partial("YourProfilePicturePartial", Model.UserProfile.ProfilePicture)
+            <a class="btn btn-primary" asp-action="ChangeProfilePicture" style="margin:10px">Change Profile Picture</a><br/>
+            <a class="btn btn-primary" asp-action="AddNewAlbum" style="margin:10px">Add New Album</a>
+        </div>
+    </div>
+</div>
