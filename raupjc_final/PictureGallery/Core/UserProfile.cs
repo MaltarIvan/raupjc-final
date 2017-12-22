@@ -33,5 +33,15 @@ namespace PictureGallery.Core
             Id = id;
             DateCreated = DateTime.Now;
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            UserProfile userProfile = (UserProfile)obj;
+            return Id == userProfile.Id;
+        }
     }
 }

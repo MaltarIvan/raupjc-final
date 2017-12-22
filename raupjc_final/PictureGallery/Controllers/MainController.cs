@@ -44,6 +44,8 @@ namespace PictureGallery.Controllers
                 await _repository.AddUserAsync(currentUser);
                 return RedirectToAction("MakeNewProfile");
             }
+            return RedirectToAction("All");
+            /**
             List<Picture> pictures = await _repository.GetAllPicturesAsync();
 
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
@@ -64,8 +66,9 @@ namespace PictureGallery.Controllers
             }
 
             IndexViewModel indexViewModel = new IndexViewModel(userProfileVM, picturesToPresent, userProfilesVM);
-
+            
             return View(indexViewModel);
+    */
         }
 
         public ActionResult MakeNewProfile()
@@ -125,6 +128,62 @@ namespace PictureGallery.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        public async Task<IActionResult> All()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            List<Picture> pictures = await _repository.GetAllPicturesAsync();
+
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            List<PictureVM> picturesToPresent = new List<PictureVM>();
+            foreach (var item in pictures)
+            {
+                string data = Convert.ToBase64String(item.Data);
+                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+            }
+
+            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
+            List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
+            foreach (var userProfile in userProfiles)
+            {
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
+                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
+            }
+
+            IndexViewModel indexViewModel = new IndexViewModel("Newest", userProfileVM, picturesToPresent, userProfilesVM);
+
+            return View("Index", indexViewModel);
+        }
+
+        public async Task<IActionResult> Favorites()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            List<Picture> pictures = currentUser.Favorites;
+
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            List<PictureVM> picturesToPresent = new List<PictureVM>();
+            foreach (var item in pictures)
+            {
+                string data = Convert.ToBase64String(item.Data);
+                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+            }
+
+            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
+            List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
+            foreach (var userProfile in userProfiles)
+            {
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
+                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
+            }
+
+            IndexViewModel indexViewModel = new IndexViewModel("Your favorites", userProfileVM, picturesToPresent, userProfilesVM);
+            
+            return View("Index", indexViewModel);
         }
 
         private UserProfile CreateNewUserProfile(Guid id)

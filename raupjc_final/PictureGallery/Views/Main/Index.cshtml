@@ -14,9 +14,12 @@
             <p style="font-size:24px; margin-top:10px">@Model.UserProfile.UserName</p>
             <div class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span><a asp-controller="ManageProfile" asp-action="Index" style="color:white">Manage your pictures</a>
-            </div>
+            </div><br />
+            <a asp-action="All" class="btn btn-primary" style="margin:10px">Show Newest!</a><br/>
+            <a asp-action="Favorites" class="btn btn-primary" style="margin:10px">Show Favorites!</a>
         </div>
         <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+            <h3>@Model.PictureGroup</h3>
         @foreach (var item in Model.PicturesToPresent)
          {
             @Html.Partial("~/Views/ManageAlbum/PicturePartial.cshtml", item)

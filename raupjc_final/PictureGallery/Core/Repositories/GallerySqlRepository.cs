@@ -171,5 +171,10 @@ namespace PictureGallery.Core
         {
             return  await _context.Comments.Include(c => c.User.ProfilePicture).Where(c => c.Picture.Id == pictureId).ToListAsync();
         }
+
+        public Task<List<Picture>> GetUsersFavoritePictures(UserProfile user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

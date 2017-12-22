@@ -12,6 +12,7 @@ namespace PictureGallery.Core.Repositories
         Task<UserProfile> UpdateUserAsync(UserProfile user);
         Task<List<UserProfile>> GetAllUsersAsync();
         Task<Picture> GetPictureAsync(Guid id);
+        Task<List<Picture>> GetUsersFavoritePictures(UserProfile user);
         Task<Picture> UpdatePictureAsync(Picture profilePicture);
         Task<Picture> LikePictureAsync(Guid Id, Guid userId);
         Task<Picture> DislikePictureAsync(Guid id, Guid userId);
