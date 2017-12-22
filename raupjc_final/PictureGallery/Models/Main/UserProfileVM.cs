@@ -26,5 +26,10 @@ namespace PictureGallery.Models.Main
             UserName = userName;
             DateCreated = dateCreated;
         }
+
+        public UserProfileVM()
+        {
+
+        }
     }
 }

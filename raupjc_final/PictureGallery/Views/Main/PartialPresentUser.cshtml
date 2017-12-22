@@ -6,4 +6,4 @@
 }
 
 <img src="data:image/png;base64, @Model.ProfilePicture.Data" width="50" height="50" style="margin:10px" />
-<p>@Model.UserName</p>
+<a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.Id">@Model.UserName</a>

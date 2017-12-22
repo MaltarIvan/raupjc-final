@@ -29,6 +29,10 @@
             <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
         </div>
     </div>
+    @if (Model.CommentsVM.Count > 0)
+    {
+        <h1>Comments:</h1>
+    }
     @foreach (var item in Model.CommentsVM)
     {
         @Html.Partial("CommentPartial", item)

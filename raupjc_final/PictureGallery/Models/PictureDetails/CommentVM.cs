@@ -11,7 +11,7 @@ namespace PictureGallery.Models.PictureDetails
         public Guid Id { get; set; }
         public string UserName { get; set; }
         public string UsersProfilePicture { get; set; }
-        public string DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
         public string Text { get; set; }
 
         public CommentVM(Comment comment)
@@ -19,7 +19,7 @@ namespace PictureGallery.Models.PictureDetails
             Id = comment.Id;
             UserName = comment.User.UserName;
             UsersProfilePicture = Convert.ToBase64String(comment.User.ProfilePicture.Data);
-            DateCreated = comment.DateCreated.ToShortDateString();
+            DateCreated = comment.DateCreated;
             Text = comment.Text;
         }
     }

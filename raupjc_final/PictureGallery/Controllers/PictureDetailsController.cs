@@ -95,8 +95,11 @@ namespace PictureGallery.Controllers
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile user = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             Picture picture = await _repository.GetPictureAsync(pictureId);
-            user.Favorites.Add(picture);
-            await _repository.UpdateUserAsync(user);
+            if (!user.Favorites.Contains(picture))
+            {
+                user.Favorites.Add(picture);
+                await _repository.UpdateUserAsync(user);
+            }
             return RedirectToAction("Index", new { id = pictureId });
         }
     }

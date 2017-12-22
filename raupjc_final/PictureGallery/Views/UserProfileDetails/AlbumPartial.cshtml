@@ -1,0 +1,12 @@
+﻿@using PictureGallery.Models.ManageProfile
+@model AlbumVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "AlbumPartial";
+}
+
+<div style="margin:25px">
+    <img src="~/Content/album.jpg" width="100" height="100" /><br />
+    <a asp-action="ViewAlbum" asp-route-id="@Model.Id" style="font-size:20px">@Model.Description</a><br />
+    <p>@Model.DateCreated</p>
+</div>

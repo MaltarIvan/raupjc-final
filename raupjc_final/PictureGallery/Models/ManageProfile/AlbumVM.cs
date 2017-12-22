@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PictureGallery.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,14 @@ namespace PictureGallery.Models.ManageProfile
             UserId = userId;
             DateCreated = dateCreated.ToShortDateString();
             Description = description;
+        }
+
+        public AlbumVM(Album album)
+        {
+            Id = album.Id;
+            UserId = album.UserId;
+            DateCreated = album.DateCreated.ToShortDateString();
+            Description = album.Description;
         }
     }
 }

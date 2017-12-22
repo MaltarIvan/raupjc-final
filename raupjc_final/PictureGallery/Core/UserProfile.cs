@@ -43,5 +43,10 @@ namespace PictureGallery.Core
             UserProfile userProfile = (UserProfile)obj;
             return Id == userProfile.Id;
         }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }
