@@ -9,14 +9,14 @@ namespace PictureGallery.Models.ManageProfile
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public DateTime DateCreated { get; set; }
+        public String DateCreated { get; set; }
         public string Description { get; set; }
 
         public AlbumVM(Guid id, Guid userId, DateTime dateCreated, string description)
         {
             Id = id;
             UserId = userId;
-            DateCreated = dateCreated;
+            DateCreated = dateCreated.ToShortDateString();
             Description = description;
         }
     }

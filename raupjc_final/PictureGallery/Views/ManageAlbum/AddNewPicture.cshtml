@@ -1,0 +1,15 @@
+﻿@using PictureGallery.Models.ManageAlbum
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model AddNewPictureVM
+@{
+    ViewData["Title"] = "AddNewPicture";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>AddNewPicture</h2>
+<form asp-action="AddNewPicture" method="post" enctype="multipart/form-data">
+    Picture: <input asp-for="Picture" type="file" /><span asp-validation-for="Picture" style="color:red"></span> <br />
+    Description: <input asp-for="Description" /><span asp-validation-for="Description" style="color:red"></span><br />
+    <input asp-for="AlbumId" type="hidden"/>
+    <input type="submit" />
+</form>

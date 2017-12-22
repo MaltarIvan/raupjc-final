@@ -13,6 +13,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using PictureGallery.Models.Main;
+using Microsoft.AspNetCore.Hosting;
 
 namespace PictureGallery.Controllers
 {
@@ -21,11 +22,13 @@ namespace PictureGallery.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGalleryRepository _repository;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public MainController(IGalleryRepository repository, UserManager<ApplicationUser> userManager)
+        public MainController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _repository = repository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public object GallerySqlRepository { get; private set; }
@@ -41,11 +44,26 @@ namespace PictureGallery.Controllers
                 await _repository.AddUserAsync(currentUser);
                 return RedirectToAction("MakeNewProfile");
             }
+            List<Picture> pictures = await _repository.GetAllPicturesAsync();
 
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
             UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
-            IndexViewModel indexViewModel = new IndexViewModel(userProfileVM, picturesToPresent);
+            foreach (var item in pictures)
+            {
+                string data = Convert.ToBase64String(item.Data);
+                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+            }
+
+            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
+            List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
+            foreach (var userProfile in userProfiles)
+            {
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
+                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
+            }
+
+            IndexViewModel indexViewModel = new IndexViewModel(userProfileVM, picturesToPresent, userProfilesVM);
 
             return View(indexViewModel);
         }
@@ -77,12 +95,19 @@ namespace PictureGallery.Controllers
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
                 Picture profilePicture = null;
+                byte[] data = null;
 
                 if (model.ProfilePictureUpload != null && model.ProfilePictureUpload.Length > 0)
                 {
-                    byte[] data = null;
                     BinaryReader reader = new BinaryReader(model.ProfilePictureUpload.OpenReadStream());
                     data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
+                    profilePicture = new Picture(new Guid(applicationUser.Id), data);
+                }
+                else
+                {
+                    var webRoot = _hostingEnvironment.WebRootPath;
+                    var file = Path.Combine(webRoot, "Content\\default-profile-picture.png");
+                    data = System.IO.File.ReadAllBytes(file);
                     profilePicture = new Picture(new Guid(applicationUser.Id), data);
                 }
 

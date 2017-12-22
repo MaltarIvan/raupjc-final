@@ -1,0 +1,9 @@
+﻿@using PictureGallery.Models.Main
+@model UserProfileVM
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<img src="data:image/png;base64, @Model.ProfilePicture.Data" width="50" height="50" style="margin:10px" />
+<p>@Model.UserName</p>

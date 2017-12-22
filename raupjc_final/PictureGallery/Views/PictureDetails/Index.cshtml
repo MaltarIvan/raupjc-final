@@ -1,0 +1,31 @@
+﻿@using PictureGallery.Models.PictureDetails;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model PictureDetailsVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <img src="data:image/png;base64, @Model.Data" width="400" height="400" style="margin:10px" />
+    </div>
+    <div style="margin:15px">
+        <p>@Model.DateCreated</p>
+    </div>
+    <div class="row">
+        <div class="col-sm-1">
+            <a class="btn btn-primary" asp-action="LikePicture" asp-route-id="@Model.Id" style="margin:10px">@Model.NumberOfLikes</a>
+        </div>
+        <div class="col-sm-1">
+            <a class="btn btn-primary" asp-action="DislikePicture" asp-route-id="@Model.Id" style="margin:10px">@Model.NumberOfDislikes</a>
+        </div>
+        <a class="btn btn-primary" asp-action="AddNewComment" asp-route-pictureId="@Model.Id" style="margin:10px">Add Comment</a>
+    </div>
+    @foreach (var item in Model.CommentsVM)
+    {
+        @Html.Partial("CommentPartial", item)
+    }
+</div>

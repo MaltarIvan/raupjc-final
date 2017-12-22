@@ -1,0 +1,25 @@
+﻿@using PictureGallery.Models.Main
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model PictureVM
+@{
+    ViewData["Title"] = "PicturePartial";
+}
+
+<div style="padding:10px; border-style:solid; border-color:black;">
+    <div class="row">
+        <div class="col-sm-5">
+            <a asp-controller="PictureDetails" asp-action="Index" asp-route-id="@Model.Id"><img src="data:image/png;base64, @Model.Data" width="300" height="300" style="margin:10px" /></a>
+        </div>
+        <div class="col-sm-7">
+            <p style="font-size:24px; margin:25px">@Model.Description</p>
+        </div>
+    </div>
+
+   
+    
+    <p>@Model.DateCreated</p>
+    <a>@Model.NumberOfLikes</a>  <a>@Model.NumberOfDislikes</a> <br />
+</div>
+
+
+

@@ -1,0 +1,26 @@
+﻿@using PictureGallery.Models.PictureDetails;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model CommentVM
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CommentPartial</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-1">
+            <img src="data:image/png;base64, @Model.UsersProfilePicture" width="50" height="50" style="margin:10px" />
+        </div>
+        <div class="col-sim-8">
+            <h4 style="text-decoration:underline">@Model.UserName</h4>
+            <p>@Model.Text</p>
+        </div>
+    </div>
+</body>
+</html>

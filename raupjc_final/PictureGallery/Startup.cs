@@ -15,6 +15,8 @@ using Owin;
 using PictureGallery.Core.Database;
 using PictureGallery.Core;
 using PictureGallery.Core.Repositories;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace PictureGallery
 {
@@ -74,6 +76,12 @@ namespace PictureGallery
             }
 
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), @"Content")),
+                RequestPath = new PathString("/StaticFiles")
+            });
 
             app.UseAuthentication();
 

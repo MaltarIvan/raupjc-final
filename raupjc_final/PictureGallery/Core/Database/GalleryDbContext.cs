@@ -15,6 +15,7 @@ namespace PictureGallery.Core.Database
         public IDbSet<UserProfile> UserProfiles { get; set; }
         public IDbSet<Album> Albums { get; set; }
         public IDbSet<Picture> Pictures { get; set; }
+        public IDbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -24,7 +25,10 @@ namespace PictureGallery.Core.Database
             modelBuilder.Entity<UserProfile>().Property(u => u.UserName).IsOptional();
             modelBuilder.Entity<UserProfile>().HasMany(u => u.Favorites).WithMany(p => p.UsersFavorite);
             modelBuilder.Entity<UserProfile>().Property(u => u.DateCreated).IsRequired();
-            modelBuilder.Entity<UserProfile>().HasOptional(u => u.ProfilePicture).WithRequired(p => p.User);
+            modelBuilder.Entity<UserProfile>().HasOptional(u => u.ProfilePicture).WithOptionalDependent(p => p.User);
+            modelBuilder.Entity<UserProfile>().HasMany(u => u.PicturesLiked).WithMany(p => p.UsersLiked);
+            modelBuilder.Entity<UserProfile>().HasMany(u => u.PicturesDisliked).WithMany(p => p.UsersDisliked);
+            modelBuilder.Entity<UserProfile>().HasMany(u => u.Comments).WithRequired(c => c.User);
 
             modelBuilder.Entity<Album>().HasKey(a => a.Id);
             modelBuilder.Entity<Album>().HasRequired(a => a.User).WithMany(u => u.Albums);
@@ -39,7 +43,14 @@ namespace PictureGallery.Core.Database
             modelBuilder.Entity<Picture>().Property(p => p.DateCreted).IsRequired();
             modelBuilder.Entity<Picture>().HasOptional(p => p.Album).WithMany(a => a.Pictures);
             modelBuilder.Entity<Picture>().Property(p => p.Data).IsRequired();
+            modelBuilder.Entity<Picture>().Property(p => p.NumberOfLikes).IsRequired();
+            modelBuilder.Entity<Picture>().Property(p => p.NumberOfDislikes).IsRequired();
+            modelBuilder.Entity<Picture>().HasMany(p => p.Comments).WithRequired(c => c.Picture);
             //modelBuilder.Entity<Picture>().HasRequired(p => p.User).WithOptional(u => u.ProfilePicture);
+
+            modelBuilder.Entity<Comment>().HasKey(c => c.Id);
+            modelBuilder.Entity<Comment>().Property(c => c.Text).IsRequired();
+            modelBuilder.Entity<Comment>().Property(c => c.DateCreated).IsRequired();
         }
     }
 }

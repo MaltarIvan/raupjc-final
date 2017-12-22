@@ -18,7 +18,7 @@ namespace PictureGallery.Core
 
         public Album(Guid userId, string description)
         {
-            Id = new Guid();
+            Id = Guid.NewGuid();
             UserId = userId;
             DateCreated = DateTime.Now;
             Description = description;
@@ -27,6 +27,7 @@ namespace PictureGallery.Core
 
         public Album()
         {
+            Pictures = new List<Picture>();
         }
     }
 }

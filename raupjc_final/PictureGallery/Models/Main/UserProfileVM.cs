@@ -19,5 +19,12 @@ namespace PictureGallery.Models.Main
             DateCreated = dateCreated;
             ProfilePicture = profilePicture;
         }
+
+        public UserProfileVM(Guid id, string userName, DateTime dateCreated)
+        {
+            Id = id;
+            UserName = userName;
+            DateCreated = dateCreated;
+        }
     }
 }

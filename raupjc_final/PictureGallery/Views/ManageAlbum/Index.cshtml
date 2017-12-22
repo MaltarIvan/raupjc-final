@@ -1,0 +1,25 @@
+﻿@using PictureGallery.Models.ManageAlbum
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ManageAlbumVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="padding:5px">
+            <img src="~/Content/album.jpg" width="100" height="100" style="margin:10px" />
+            <h2>@Model.AlbumVM.Description</h2>
+            <p>@Model.AlbumVM.DateCreated</p>
+            <a class="btn btn-primary" asp-action="AddNewPicture" asp-route-id="@Model.AlbumVM.Id" style="margin:10px">Add New Picture</a>
+        </div>
+        <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+            @foreach (var item in Model.PicturesVM)
+            {
+                @Html.Partial("PicturePartial", item)
+            }
+        </div>
+    </div>
+</div>
+

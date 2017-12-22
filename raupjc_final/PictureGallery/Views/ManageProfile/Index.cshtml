@@ -12,5 +12,11 @@
             <a class="btn btn-primary" asp-action="ChangeProfilePicture" style="margin:10px">Change Profile Picture</a><br/>
             <a class="btn btn-primary" asp-action="AddNewAlbum" style="margin:10px">Add New Album</a>
         </div>
+        <div class="col-sm-8" style="padding:5px">
+            @foreach (var item in Model.Albums)
+            {
+                @Html.Partial("AlbumPartial", item)
+            }
+        </div>
     </div>
 </div>
