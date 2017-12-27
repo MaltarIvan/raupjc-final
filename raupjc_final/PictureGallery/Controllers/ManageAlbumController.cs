@@ -92,5 +92,28 @@ namespace PictureGallery.Controllers
             }
             return View(model);
         }
+
+        public IActionResult ChangeAlbumDescription(Guid id, string description)
+        {
+            ChangeAlbumDescriptionVM changeAlbumDescriptionVM = new ChangeAlbumDescriptionVM
+            {
+                Id = id,
+                Description = description
+            };
+            return View(changeAlbumDescriptionVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeAlbumDescription(ChangeAlbumDescriptionVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                Album album = await _repository.GetAlbumAsync(model.Id);
+                album.Description = model.Description;
+                await _repository.UpdateAlbumAsync(album);
+                return RedirectToAction("Index", new { id = model.Id });
+            }
+            return View(model);
+        }
     }
 }
