@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Core;
 using PictureGallery.Models.Main;
 using PictureGallery.Models.UserProfileDetails;
+using PictureGallery.Models.ManageProfile;
 
 namespace PictureGallery.Controllers
 {
@@ -34,6 +35,21 @@ namespace PictureGallery.Controllers
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
             UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile, userProfile.Albums);
             return View(userProfileDetailsVM);
+        }
+
+        [HttpGet("Album/{id}")]
+        public async Task<IActionResult> AlbumDetails(Guid id)
+        {
+            Album album = await _repository.GetAlbumAsync(id);
+            AlbumVM albumVM = new AlbumVM(album);
+            List<Picture> pictures = await _repository.GetPicturesFromAlbumAsync(id);
+            List<PictureVM> picturesVM = new List<PictureVM>();
+            foreach (var picture in pictures)
+            {
+                picturesVM.Add(new PictureVM(picture));
+            }
+            AlbumDetailsVM albumDetailsVM = new AlbumDetailsVM(album.UserId, albumVM, picturesVM);
+            return View(albumDetailsVM);
         }
     }
 }

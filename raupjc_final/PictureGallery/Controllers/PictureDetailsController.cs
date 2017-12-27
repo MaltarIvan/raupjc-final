@@ -81,7 +81,7 @@ namespace PictureGallery.Controllers
                     DateCreated = DateTime.Now,
                     Picture = picture
                 };
-                await _repository.AddComment(comment);
+                await _repository.AddCommentAsync(comment);
                 return RedirectToAction("Index", new { id = model.PictureId });
             }
             else

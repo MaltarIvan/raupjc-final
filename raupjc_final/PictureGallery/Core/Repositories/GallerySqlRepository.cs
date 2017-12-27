@@ -103,7 +103,7 @@ namespace PictureGallery.Core
             return picture;
         }
 
-        public async Task<List<Picture>> GetPicturesFromAlbum(Guid id)
+        public async Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id)
         {
             return await _context.Pictures.Where(p => p.Album.Id == id).ToListAsync();
         }
@@ -160,19 +160,19 @@ namespace PictureGallery.Core
             return await _context.UserProfiles.Where(u => u.Id != currentUserId).Include(u => u.ProfilePicture).ToListAsync();
         }
 
-        public async Task<Comment> AddComment(Comment comment)
+        public async Task<Comment> AddCommentAsync(Comment comment)
         {
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
             return comment;
         }
 
-        public async Task<List<Comment>> GetComments(Guid pictureId)
+        public async Task<List<Comment>> GetCommentsAsync(Guid pictureId)
         {
             return  await _context.Comments.Include(c => c.User.ProfilePicture).Where(c => c.Picture.Id == pictureId).ToListAsync();
         }
 
-        public Task<List<Picture>> GetUsersFavoritePictures(UserProfile user)
+        public Task<List<Picture>> GetUsersFavoritePicturesAsync(UserProfile user)
         {
             throw new NotImplementedException();
         }

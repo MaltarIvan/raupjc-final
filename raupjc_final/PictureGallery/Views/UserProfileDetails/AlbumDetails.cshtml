@@ -1,0 +1,24 @@
+﻿@using PictureGallery.Models.UserProfileDetails
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model AlbumDetailsVM
+@{
+    ViewData["Title"] = "AlbumDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4" style="padding:5px">
+            <img src="~/Content/album.jpg" width="100" height="100" style="margin:10px" />
+            <h2>@Model.AlbumVM.Description</h2>
+            <p>@Model.AlbumVM.DateCreated</p>
+        </div>
+        <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+            @foreach (var item in Model.PicturesVM)
+            {
+                @Html.Partial("~/Views/ManageAlbum/PicturePartial.cshtml", item)
+            }
+        </div>
+    </div>
+</div>
+

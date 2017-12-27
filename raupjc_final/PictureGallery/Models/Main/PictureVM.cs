@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PictureGallery.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,17 @@ namespace PictureGallery.Models.Main
             Description = description;
             NumberOfLikes = numberOfLikes;
             NumberOfDislikes = numberOfDislikes;
+        }
+
+        public PictureVM(Picture picture)
+        {
+            Id = picture.Id;
+            UserId = picture.UserId;
+            Data = Convert.ToBase64String(picture.Data);
+            DateCreated = picture.DateCreted.ToShortDateString();
+            Description = picture.Description;
+            NumberOfLikes = picture.NumberOfLikes;
+            NumberOfDislikes = picture.NumberOfDislikes;
         }
     }
 }
