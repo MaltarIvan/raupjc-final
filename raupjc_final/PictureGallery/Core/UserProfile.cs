@@ -18,6 +18,8 @@ namespace PictureGallery.Core
         public List<Picture> PicturesLiked { get; set; }
         public List<Picture> PicturesDisliked { get; set; }
         public List<Comment> Comments { get; set; }
+        public List<UserProfile> Followers { get; set; }
+        public List<UserProfile> Following { get; set; }
 
         public UserProfile()
         {
@@ -26,6 +28,8 @@ namespace PictureGallery.Core
             PicturesLiked = new List<Picture>();
             PicturesDisliked = new List<Picture>();
             Comments = new List<Comment>();
+            Followers = new List<UserProfile>();
+            Following = new List<UserProfile>();
         }
 
         public UserProfile(Guid id)

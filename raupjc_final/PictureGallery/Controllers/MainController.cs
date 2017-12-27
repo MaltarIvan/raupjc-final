@@ -45,30 +45,6 @@ namespace PictureGallery.Controllers
                 return RedirectToAction("MakeNewProfile");
             }
             return RedirectToAction("All");
-            /**
-            List<Picture> pictures = await _repository.GetAllPicturesAsync();
-
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
-            List<PictureVM> picturesToPresent = new List<PictureVM>();
-            foreach (var item in pictures)
-            {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
-            }
-
-            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
-            List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
-            foreach (var userProfile in userProfiles)
-            {
-                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
-                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
-            }
-
-            IndexViewModel indexViewModel = new IndexViewModel(userProfileVM, picturesToPresent, userProfilesVM);
-            
-            return View(indexViewModel);
-    */
         }
 
         public ActionResult MakeNewProfile()
@@ -145,15 +121,13 @@ namespace PictureGallery.Controllers
                 picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
             }
 
-            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
-            List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
-            foreach (var userProfile in userProfiles)
-            {
-                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
-                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
-            }
+            // get all users
+            List<UserProfileVM> userProfilesVM = await GetAllUsersVMAsync(currentUser.Id);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Newest", userProfileVM, picturesToPresent, userProfilesVM);
+            //get following users
+            List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
+
+            IndexViewModel indexViewModel = new IndexViewModel("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -173,17 +147,39 @@ namespace PictureGallery.Controllers
                 picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
             }
 
-            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(currentUser.Id);
+            // get all users
+            List<UserProfileVM> userProfilesVM = await GetAllUsersVMAsync(currentUser.Id);
+
+            //get following users
+            List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
+
+            IndexViewModel indexViewModel = new IndexViewModel("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            
+            return View("Index", indexViewModel);
+        }
+
+        public async Task<List<UserProfileVM>> GetAllUsersVMAsync(Guid id)
+        {
+            List<UserProfile> userProfiles = await _repository.GetUserProfilesAsync(id);
             List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
             foreach (var userProfile in userProfiles)
             {
                 ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
                 userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
             }
+            return userProfilesVM;
+        }
 
-            IndexViewModel indexViewModel = new IndexViewModel("Your favorites", userProfileVM, picturesToPresent, userProfilesVM);
-            
-            return View("Index", indexViewModel);
+        public List<UserProfileVM> GetFollowingUsersVM(UserProfile currentUser)
+        {
+            List<UserProfile> followingUserProfiles = currentUser.Following;
+            List<UserProfileVM> followingUserProfilesVM = new List<UserProfileVM>();
+            foreach (var followingUserProfile in followingUserProfiles)
+            {
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(followingUserProfile.Id, followingUserProfile.ProfilePicture.Id, Convert.ToBase64String(followingUserProfile.ProfilePicture.Data));
+                followingUserProfilesVM.Add(new UserProfileVM(followingUserProfile.Id, followingUserProfile.UserName, followingUserProfile.DateCreated, usersProfilePictureVM));
+            }
+            return followingUserProfilesVM;
         }
 
         private UserProfile CreateNewUserProfile(Guid id)

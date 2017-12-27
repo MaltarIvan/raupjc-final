@@ -36,7 +36,17 @@ namespace PictureGallery.Core
 
         public Task<UserProfile> GetUserByIdAsync(Guid id)
         {
-            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).SingleOrDefaultAsync(u => u.Id == id);
+            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).Include(u => u.Following).SingleOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId)
+        {
+            return await _context.UserProfiles.Where(u => u.Id != currentUserId).Include(u => u.ProfilePicture).ToListAsync();
+        }
+
+        public Task<List<UserProfile>> GetFollowingUserProfiles(Guid currentUserId)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<UserProfile> UpdateUserAsync(UserProfile user)
@@ -53,6 +63,8 @@ namespace PictureGallery.Core
             userProfile.DateCreated = user.DateCreated;
             userProfile.Albums = user.Albums;
             userProfile.Favorites = user.Favorites;
+            userProfile.Following = user.Following;
+            userProfile.Followers = user.Followers;
             await _context.SaveChangesAsync();
             return userProfile;
         }
@@ -153,11 +165,6 @@ namespace PictureGallery.Core
         public async Task<List<Picture>> GetAllPicturesAsync()
         {
             return await _context.Pictures.Where(p => p.Album != null).ToListAsync();
-        }
-
-        public async Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId)
-        {
-            return await _context.UserProfiles.Where(u => u.Id != currentUserId).Include(u => u.ProfilePicture).ToListAsync();
         }
 
         public async Task<Comment> AddCommentAsync(Comment comment)

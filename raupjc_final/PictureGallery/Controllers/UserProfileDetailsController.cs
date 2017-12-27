@@ -51,5 +51,20 @@ namespace PictureGallery.Controllers
             AlbumDetailsVM albumDetailsVM = new AlbumDetailsVM(album.UserId, albumVM, picturesVM);
             return View(albumDetailsVM);
         }
+
+
+        //TODO staviti model UserProfileVM i u RedirectAction metodu poslati parametar UserId
+        public async Task<IActionResult> AddToFollowers(Guid id)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            UserProfile user = await _repository.GetUserByIdAsync(id);
+            if (!currentUser.Following.Contains(user))
+            {
+                currentUser.Following.Add(user);
+                await _repository.UpdateUserAsync(currentUser);
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
     }
 }

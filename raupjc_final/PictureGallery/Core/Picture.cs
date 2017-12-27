@@ -15,6 +15,7 @@ namespace PictureGallery.Core
         public DateTime DateCreted { get; set; }
         public Album Album { get; set; }
         public byte[] Data { get; set; }
+        public bool IsHot { get; set; }
         public UserProfile User { get; set; }
         public List<UserProfile> UsersFavorite { get; set; }
         public int NumberOfLikes { get; set; }
@@ -37,6 +38,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             Comments = new List<Comment>();
+            IsHot = false;
         }
 
         public Picture(Guid userId, byte[] data)
@@ -51,6 +53,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             Comments = new List<Comment>();
+            IsHot = false;
         }
 
         public Picture()
@@ -59,6 +62,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             UsersFavorite = new List<UserProfile>();
+            IsHot = false;
         }
     }
 }

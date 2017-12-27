@@ -29,6 +29,7 @@ namespace PictureGallery.Core.Database
             modelBuilder.Entity<UserProfile>().HasMany(u => u.PicturesLiked).WithMany(p => p.UsersLiked);
             modelBuilder.Entity<UserProfile>().HasMany(u => u.PicturesDisliked).WithMany(p => p.UsersDisliked);
             modelBuilder.Entity<UserProfile>().HasMany(u => u.Comments).WithRequired(c => c.User);
+            modelBuilder.Entity<UserProfile>().HasMany(u => u.Following).WithMany(u => u.Followers);
 
             modelBuilder.Entity<Album>().HasKey(a => a.Id);
             modelBuilder.Entity<Album>().HasRequired(a => a.User).WithMany(u => u.Albums);
@@ -46,6 +47,7 @@ namespace PictureGallery.Core.Database
             modelBuilder.Entity<Picture>().Property(p => p.NumberOfLikes).IsRequired();
             modelBuilder.Entity<Picture>().Property(p => p.NumberOfDislikes).IsRequired();
             modelBuilder.Entity<Picture>().HasMany(p => p.Comments).WithRequired(c => c.Picture);
+            modelBuilder.Entity<Picture>().Property(p => p.IsHot).IsRequired();
             //modelBuilder.Entity<Picture>().HasRequired(p => p.User).WithOptional(u => u.ProfilePicture);
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
