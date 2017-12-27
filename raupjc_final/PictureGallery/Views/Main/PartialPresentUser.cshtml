@@ -5,5 +5,7 @@
     Layout = null;
 }
 
-<img src="data:image/png;base64, @Model.ProfilePicture.Data" width="50" height="50" style="margin:10px" />
-<a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.Id">@Model.UserName</a>
+<div style="border-color:black; border-left-style:solid; border-top-style:solid">
+    <img src="data:image/png;base64, @Model.ProfilePicture.Data" width="50" height="50" style="margin:10px" />
+    <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.Id">@Model.UserName</a>
+</div>

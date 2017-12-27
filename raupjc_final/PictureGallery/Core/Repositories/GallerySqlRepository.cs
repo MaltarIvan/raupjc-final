@@ -183,5 +183,10 @@ namespace PictureGallery.Core
         {
             throw new NotImplementedException();
         }
+
+        public async Task<List<Picture>> GetAllPicturesFromUserAsync(Guid id)
+        {
+            return await _context.Pictures.Where(p => p.UserId == id && p.User == null).ToListAsync();
+        }
     }
 }

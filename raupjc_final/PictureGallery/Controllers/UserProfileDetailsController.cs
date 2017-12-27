@@ -54,7 +54,7 @@ namespace PictureGallery.Controllers
 
 
         //TODO staviti model UserProfileVM i u RedirectAction metodu poslati parametar UserId
-        public async Task<IActionResult> AddToFollowers(Guid id)
+        public async Task<IActionResult> FollowUser(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
