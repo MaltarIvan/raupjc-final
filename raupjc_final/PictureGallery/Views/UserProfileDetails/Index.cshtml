@@ -10,7 +10,15 @@
     <div class="col-sm-4" style="padding:5px">
         <h2>@Model.UserProfileVM.UserName</h2>
         <img src="data:image/png;base64, @Model.UserProfileVM.ProfilePicture.Data" width="100" height="100" style="margin:10px" /> <br />
-        <a class="btn btn-primary" asp-action="FollowUser" asp-route-id="@Model.UserProfileVM.Id" style="margin:10px">Add To Followers</a><br />
+        @if (Model.IsFollowing)
+        {
+            <a class="btn btn-primary" asp-action="UnfollowUser" asp-route-id="@Model.UserProfileVM.Id" style="margin:10px; background-color:red">Unfollow User</a><br />
+        }
+        else
+        {
+            <a class="btn btn-primary" asp-action="FollowUser" asp-route-id="@Model.UserProfileVM.Id" style="margin:10px">Add To Followers</a><br />
+
+        }
     </div>
     <div class="col-sm-8" style="padding:5px">
         @foreach (var item in Model.Albums)

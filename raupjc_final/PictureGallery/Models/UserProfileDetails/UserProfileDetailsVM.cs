@@ -10,11 +10,13 @@ namespace PictureGallery.Models.UserProfileDetails
 {
     public class UserProfileDetailsVM
     {
+        public bool IsFollowing;
         public UserProfileVM UserProfileVM { get; set; }
         public List<AlbumVM> Albums { get; set; }
 
-        public UserProfileDetailsVM(UserProfile userProfile, List<Album> albums)
+        public UserProfileDetailsVM(bool isFollowing, UserProfile userProfile, List<Album> albums)
         {
+            IsFollowing = isFollowing;
             UserProfileVM = new UserProfileVM()
             {
                 Id = userProfile.Id,

@@ -36,7 +36,7 @@ namespace PictureGallery.Core
 
         public Task<UserProfile> GetUserByIdAsync(Guid id)
         {
-            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).Include(u => u.Following).SingleOrDefaultAsync(u => u.Id == id);
+            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers).SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId)
@@ -103,7 +103,7 @@ namespace PictureGallery.Core
 
         public async Task<Picture> GetPictureAsync(Guid id)
         {
-            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).FirstAsync(p => p.Id == id);
+            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).FirstAsync(p => p.Id == id);
         }
 
         // nepotrebno ?

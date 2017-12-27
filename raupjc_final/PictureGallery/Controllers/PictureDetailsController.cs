@@ -37,8 +37,10 @@ namespace PictureGallery.Controllers
         [HttpGet("Picture/{id}")]
         public async Task<IActionResult> Index(Guid id)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(id);
-            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture);
+            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), picture);
             return View(pictureDetailsVM);
         }
 
@@ -98,6 +100,19 @@ namespace PictureGallery.Controllers
             if (!user.Favorites.Contains(picture))
             {
                 user.Favorites.Add(picture);
+                await _repository.UpdateUserAsync(user);
+            }
+            return RedirectToAction("Index", new { id = pictureId });
+        }
+
+        public async Task<IActionResult> RemoveFromFavorites(Guid pictureId)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile user = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            Picture picture = await _repository.GetPictureAsync(pictureId);
+            if (user.Favorites.Contains(picture))
+            {
+                user.Favorites.Remove(picture);
                 await _repository.UpdateUserAsync(user);
             }
             return RedirectToAction("Index", new { id = pictureId });

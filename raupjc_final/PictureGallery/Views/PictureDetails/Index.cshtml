@@ -25,9 +25,19 @@
         <div class="col-sm-2">
             <a class="btn btn-primary" asp-action="AddNewComment" asp-route-pictureId="@Model.Id" style="margin:10px">Add Comment</a>
         </div>
-        <div class="col-sm-1">
-            <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
-        </div>
+        @if (Model.IsFollowing)
+        {
+            <div class="col-sm-1">
+                <a class="btn btn-primary" asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id" style="margin:10px; background-color:red">Remove From Favorites</a>
+            </div>
+        }
+        else
+        {
+            <div class="col-sm-1">
+                <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
+            </div>
+
+        }
     </div>
     @if (Model.CommentsVM.Count > 0)
     {

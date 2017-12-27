@@ -33,7 +33,9 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
-            UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile, userProfile.Albums);
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile.Followers.Any(u => u.Id == currentUserId), userProfile, userProfile.Albums);
             return View(userProfileDetailsVM);
         }
 
@@ -52,8 +54,6 @@ namespace PictureGallery.Controllers
             return View(albumDetailsVM);
         }
 
-
-        //TODO staviti model UserProfileVM i u RedirectAction metodu poslati parametar UserId
         public async Task<IActionResult> FollowUser(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
@@ -62,6 +62,19 @@ namespace PictureGallery.Controllers
             if (!currentUser.Following.Contains(user))
             {
                 currentUser.Following.Add(user);
+                await _repository.UpdateUserAsync(currentUser);
+            }
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public async Task<IActionResult> UnfollowUser(Guid id)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            UserProfile user = await _repository.GetUserByIdAsync(id);
+            if (currentUser.Following.Contains(user))
+            {
+                currentUser.Following.Remove(user);
                 await _repository.UpdateUserAsync(currentUser);
             }
             return RedirectToAction("Index", new { id = id });
