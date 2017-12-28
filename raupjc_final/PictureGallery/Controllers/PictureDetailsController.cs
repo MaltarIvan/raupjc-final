@@ -40,7 +40,7 @@ namespace PictureGallery.Controllers
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(id);
-            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), picture);
+            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId == picture.UserId, picture);
             return View(pictureDetailsVM);
         }
 
@@ -116,6 +116,14 @@ namespace PictureGallery.Controllers
                 await _repository.UpdateUserAsync(user);
             }
             return RedirectToAction("Index", new { id = pictureId });
+        }
+
+        public async Task<IActionResult> DeletePicture(Guid pictureId)
+        {
+            Picture picture = await _repository.GetPictureAsync(pictureId);
+            Guid albumId = picture.Album.Id;
+            await _repository.DeletePictureAsync(picture);
+            return RedirectToAction("Index", "ManageAlbum", new { id = albumId });
         }
     }
 }

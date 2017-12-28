@@ -18,8 +18,9 @@ namespace PictureGallery.Models.PictureDetails
         public string Description { get; set; }
         public List<CommentVM> CommentsVM { get; set; }
         public bool IsFollowing { get; set; }
+        public bool IsUsersPicture { get; set; }
 
-        public PictureDetailsVM(bool isFollowing, Picture picture)
+        public PictureDetailsVM(bool isFollowing, bool isUsersPicture, Picture picture)
         {
             Id = picture.Id;
             User = picture.User;
@@ -35,6 +36,7 @@ namespace PictureGallery.Models.PictureDetails
                 CommentsVM.Add(new CommentVM(com));
             }
             IsFollowing = isFollowing;
+            IsUsersPicture = isUsersPicture;
         }
     }
 }

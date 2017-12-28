@@ -115,5 +115,12 @@ namespace PictureGallery.Controllers
             }
             return View(model);
         }
+
+        public async Task<IActionResult> DeleteAlbum(Guid albumId)
+        {
+            Album album = await _repository.GetAlbumAsync(albumId);
+            await _repository.DeleteAlbumAsync(album);
+            return RedirectToAction("Index", "ManageProfile");
+        }
     }
 }

@@ -36,7 +36,12 @@
             <div class="col-sm-1">
                 <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
             </div>
-
+        }
+        @if (Model.IsUsersPicture)
+        {
+            <div class="col-sm-1">
+                <a class="btn btn-primary" asp-action="DeletePicture" asp-route-pictureId="@Model.Id" style="margin:10px; color:red;">Delete Picture</a>
+            </div>
         }
     </div>
     @if (Model.CommentsVM.Count > 0)

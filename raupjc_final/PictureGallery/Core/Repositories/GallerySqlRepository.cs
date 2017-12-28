@@ -87,6 +87,17 @@ namespace PictureGallery.Core
             return album;
         }
 
+        public async Task<Album> DeleteAlbumAsync(Album album)
+        {
+            foreach (var picture in album.Pictures.ToList())
+            {
+                _context.Pictures.Remove(picture);
+            }
+            _context.Albums.Remove(album);
+            await _context.SaveChangesAsync();
+            return album;
+        }
+
         public async Task<Picture> AddPictureAsync(Picture picture)
         {
             if (_context.Pictures.Any(p => p.Id == picture.Id))
@@ -103,7 +114,7 @@ namespace PictureGallery.Core
 
         public async Task<Picture> GetPictureAsync(Guid id)
         {
-            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).FirstAsync(p => p.Id == id);
+            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).FirstAsync(p => p.Id == id);
         }
 
         // nepotrebno ?
@@ -134,6 +145,13 @@ namespace PictureGallery.Core
             await _context.SaveChangesAsync();
             return pic;
             */
+        }
+
+        public async Task<Picture> DeletePictureAsync(Picture picture)
+        {
+            _context.Pictures.Remove(picture);
+            await _context.SaveChangesAsync();
+            return picture;
         }
 
         public async Task<Picture> LikePictureAsync(Guid id, Guid userId)

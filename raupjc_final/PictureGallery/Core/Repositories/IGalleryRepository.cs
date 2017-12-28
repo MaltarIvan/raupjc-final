@@ -24,9 +24,11 @@ namespace PictureGallery.Core.Repositories
         Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id);
         Task<Picture> AddPictureAsync(Picture picture);
         Task<Picture> AddPictureToAlbumAsync(Guid Id, Picture picture);
+        Task<Picture> DeletePictureAsync(Picture picture);
 
         Task<Album> GetAlbumAsync(Guid id);
         Task<Album> UpdateAlbumAsync(Album album);
+        Task<Album> DeleteAlbumAsync(Album album);
         
         Task<Comment> AddCommentAsync(Comment comment);
         Task<List<Comment>> GetCommentsAsync(Guid pictureId);
