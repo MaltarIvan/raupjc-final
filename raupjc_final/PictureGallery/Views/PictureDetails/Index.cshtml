@@ -9,8 +9,13 @@
 <h2>Index</h2>
 
 <div class="row">
-    <div class="col-sm-12">
-        <img src="data:image/png;base64, @Model.Data" width="400" height="400" style="margin:10px" />
+    <div class="row">
+        <div class="col-sm-5">
+            <img src="data:image/png;base64, @Model.Data" width="400" height="400" style="margin:10px" />
+        </div>
+        <div class="col-sm-7">
+            <p>@Model.Description</p>
+        </div>
     </div>
     <div style="margin:15px">
         <p>@Model.DateCreated</p>
@@ -33,14 +38,17 @@
         }
         else
         {
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
             </div>
         }
         @if (Model.IsUsersPicture)
         {
+            <div class="col-sm-2">
+                <a class="btn btn-primary" asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description" style="margin:10px;">Change Description</a>
+            </div>
             <div class="col-sm-1">
-                <a class="btn btn-primary" asp-action="DeletePicture" asp-route-pictureId="@Model.Id" style="margin:10px; color:red;">Delete Picture</a>
+                <a class="btn btn-primary" asp-action="DeletePicture" asp-route-pictureId="@Model.Id" style="margin:10px; background-color:red;">Delete Picture</a>
             </div>
         }
     </div>

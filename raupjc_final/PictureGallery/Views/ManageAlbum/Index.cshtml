@@ -13,10 +13,10 @@
             <h2>@Model.AlbumVM.Description</h2>
             <p>@Model.AlbumVM.DateCreated</p>
             <a class="btn btn-primary" asp-action="ChangeAlbumDescription" asp-route-id="@Model.AlbumVM.Id" asp-route-description="@Model.AlbumVM.Description" style="margin:10px">Change album description</a><br/>
-            <a class="btn btn-primary" asp-action="AddNewPicture" asp-route-id="@Model.AlbumVM.Id" style="margin:10px">Add New Picture</a>
+            <a class="btn btn-primary" asp-action="AddNewPicture" asp-route-id="@Model.AlbumVM.Id" style="margin:10px">Add New Picture</a><br />
             @if (Model.IsUsersAlbum)
             {
-                <a class="btn btn-primary" asp-action="DeleteAlbum" asp-route-albumId="@Model.AlbumVM.Id" style="margin:10px">Delete Album</a>
+                <a class="btn btn-primary" asp-action="DeleteAlbum" asp-route-albumId="@Model.AlbumVM.Id" style="margin:10px; background-color:red;">Delete Album</a>
             }
         </div>
         <div id="pictures_container" class="col-sm-8" style="padding:5px;">

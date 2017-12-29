@@ -125,5 +125,27 @@ namespace PictureGallery.Controllers
             await _repository.DeletePictureAsync(picture);
             return RedirectToAction("Index", "ManageAlbum", new { id = albumId });
         }
+
+        public IActionResult ChangePictureDescription(Guid pictureId, string description)
+        {
+            ChangePictureDescriptionVM changePictureDescriptionVM = new ChangePictureDescriptionVM
+            {
+                Id = pictureId
+            };
+            return View(changePictureDescriptionVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePictureDescription(ChangePictureDescriptionVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                Picture picture = await _repository.GetPictureAsync(model.Id);
+                picture.Description = model.Description;
+                await _repository.UpdatePictureAsync(picture);
+                return RedirectToAction("Index", new { id = model.Id });
+            }
+            return View(model);
+        }
     }
 }
