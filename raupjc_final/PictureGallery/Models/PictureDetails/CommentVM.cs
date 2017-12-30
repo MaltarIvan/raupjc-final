@@ -10,6 +10,7 @@ namespace PictureGallery.Models.PictureDetails
     {
         public Guid Id { get; set; }
         public string UserName { get; set; }
+        public Guid UserId { get; set; }
         public string UsersProfilePicture { get; set; }
         public DateTime DateCreated { get; set; }
         public string Text { get; set; }
@@ -17,6 +18,7 @@ namespace PictureGallery.Models.PictureDetails
         public CommentVM(Comment comment)
         {
             Id = comment.Id;
+            UserId = comment.User.Id;
             UserName = comment.User.UserName;
             UsersProfilePicture = Convert.ToBase64String(comment.User.ProfilePicture.Data);
             DateCreated = comment.DateCreated;

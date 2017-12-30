@@ -38,9 +38,11 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            List<string> roles = (List<string>)await _userManager.GetRolesAsync(applicationUser);
+            bool isAdmin = roles.Contains("Admin");
             Guid currentUserId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(id);
-            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId == picture.UserId, picture);
+            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId == picture.UserId, isAdmin, picture);
             return View(pictureDetailsVM);
         }
 
@@ -146,6 +148,15 @@ namespace PictureGallery.Controllers
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> HotPictureManage(Guid pictureId, bool isHot)
+        {
+            Picture picture = await _repository.GetPictureAsync(pictureId);
+            picture.IsHot = !isHot;
+            await _repository.UpdatePictureAsync(picture);
+            return RedirectToAction("Index", new { id = pictureId });
         }
     }
 }

@@ -19,8 +19,10 @@ namespace PictureGallery.Models.PictureDetails
         public List<CommentVM> CommentsVM { get; set; }
         public bool IsFollowing { get; set; }
         public bool IsUsersPicture { get; set; }
+        public bool IsAdmin { get; set; }
+        public bool IsHot { get; set; }
 
-        public PictureDetailsVM(bool isFollowing, bool isUsersPicture, Picture picture)
+        public PictureDetailsVM(bool isFollowing, bool isUsersPicture, bool isAdmin, Picture picture)
         {
             Id = picture.Id;
             User = picture.User;
@@ -37,6 +39,8 @@ namespace PictureGallery.Models.PictureDetails
             }
             IsFollowing = isFollowing;
             IsUsersPicture = isUsersPicture;
+            IsAdmin = isAdmin;
+            IsHot = picture.IsHot;
         }
     }
 }

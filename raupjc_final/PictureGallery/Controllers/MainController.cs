@@ -37,6 +37,7 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> Index()
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            List<string> roles = (List<string>) await _userManager.GetRolesAsync(applicationUser);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             if (currentUser == null)
             {
@@ -184,6 +185,32 @@ namespace PictureGallery.Controllers
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
             IndexViewModel indexViewModel = new IndexViewModel("Pictures You Follow", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+
+            return View("Index", indexViewModel);
+        }
+
+        public async Task<IActionResult> HotPictures()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            List<Picture> pictures = await _repository.GetHotPicturesAsync();
+
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            List<PictureVM> picturesToPresent = new List<PictureVM>();
+            foreach (var item in pictures)
+            {
+                string data = Convert.ToBase64String(item.Data);
+                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+            }
+
+            // get all users
+            List<UserProfileVM> userProfilesVM = await GetAllUsersVMAsync(currentUser.Id);
+
+            //get following users
+            List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
+
+            IndexViewModel indexViewModel = new IndexViewModel("Hot pictures", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }

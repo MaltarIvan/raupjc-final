@@ -35,6 +35,10 @@ namespace PictureGallery.Controllers
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
+            if (currentUserId == id)
+            {
+                return RedirectToAction("Index", "ManageProfile");
+            }
             UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile.Followers.Any(u => u.Id == currentUserId), userProfile, userProfile.Albums);
             return View(userProfileDetailsVM);
         }
