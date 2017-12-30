@@ -161,12 +161,17 @@ namespace PictureGallery.Core
 
         public async Task<Picture> LikePictureAsync(Guid id, Guid userId)
         {
-            Picture picture = await _context.Pictures.Include(p => p.UsersLiked).FirstAsync(u => u.Id == id);
+            Picture picture = await _context.Pictures.Include(p => p.UsersLiked).Include(p => p.UsersDisliked).FirstAsync(u => u.Id == id);
             if (!picture.UsersLiked.Any(u => u.Id == userId))
             {
                 UserProfile userProfile = await _context.UserProfiles.FirstAsync(u => u.Id == userId);
                 picture.NumberOfLikes++;
                 userProfile.PicturesLiked.Add(picture);
+                if (picture.UsersDisliked.Any(u => u.Id == userId))
+                {
+                    picture.NumberOfDislikes--;
+                    userProfile.PicturesDisliked.Remove(picture);
+                }
                 await _context.SaveChangesAsync();
             }
             return picture;
@@ -174,12 +179,17 @@ namespace PictureGallery.Core
 
         public async Task<Picture> DislikePictureAsync(Guid id, Guid userId)
         {
-            Picture picture = await _context.Pictures.Include(p => p.UsersDisliked).FirstAsync(u => u.Id == id);
+            Picture picture = await _context.Pictures.Include(p => p.UsersLiked).Include(p => p.UsersDisliked).FirstAsync(u => u.Id == id);
             if (!picture.UsersDisliked.Any(u => u.Id == userId))
             {
                 UserProfile userProfile = await _context.UserProfiles.FirstAsync(u => u.Id == userId);
                 picture.NumberOfDislikes++;
                 userProfile.PicturesDisliked.Add(picture);
+                if (picture.UsersLiked.Any(u => u.Id == userId))
+                {
+                    picture.NumberOfLikes--;
+                    userProfile.PicturesLiked.Remove(picture);
+                }
                 await _context.SaveChangesAsync();
             }
             return picture;
