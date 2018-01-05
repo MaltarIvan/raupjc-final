@@ -67,7 +67,7 @@ namespace PictureGallery.Controllers
                 data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
 
                 profilePicture.Data = data;
-                await _repository.UpdatePictureAsync(profilePicture);
+                await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);
                 return RedirectToAction("Index");
             }
             else

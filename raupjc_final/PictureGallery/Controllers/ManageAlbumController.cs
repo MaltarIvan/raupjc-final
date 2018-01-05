@@ -83,11 +83,12 @@ namespace PictureGallery.Controllers
                 else
                 {
                     ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+                    Guid userId = new Guid(applicationUser.Id);
                     BinaryReader reader = new BinaryReader(model.Picture.OpenReadStream());
                     byte[] data = reader.ReadBytes((int)model.Picture.Length);
                     Album album = await _repository.GetAlbumAsync(model.AlbumId);
-                    Picture picture = new Picture(new Guid(applicationUser.Id), model.Description, album, data);
-                    await _repository.AddPictureAsync(picture);
+                    Picture picture = new Picture(userId, model.Description, album, data);
+                    await _repository.AddPictureAsync(picture, userId);
                     return RedirectToAction("Index", album.Id);
                 }
             }
@@ -109,9 +110,11 @@ namespace PictureGallery.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+                Guid userId = new Guid(applicationUser.Id);
                 Album album = await _repository.GetAlbumAsync(model.Id);
                 album.Description = model.Description;
-                await _repository.UpdateAlbumAsync(album);
+                await _repository.UpdateAlbumAsync(album, userId);
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -119,8 +122,10 @@ namespace PictureGallery.Controllers
 
         public async Task<IActionResult> DeleteAlbum(Guid albumId)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid userId = new Guid(applicationUser.Id);
             Album album = await _repository.GetAlbumAsync(albumId);
-            await _repository.DeleteAlbumAsync(album);
+            await _repository.DeleteAlbumAsync(album, userId);
             return RedirectToAction("Index", "ManageProfile");
         }
     }

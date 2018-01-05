@@ -79,35 +79,44 @@ namespace PictureGallery.Core
             return await _context.Albums.Include(a => a.Pictures).FirstAsync(a => a.Id == id);
         }
 
-        public async Task<Album> UpdateAlbumAsync(Album album)
+        public async Task<Album> UpdateAlbumAsync(Album album, Guid userId)
         {
-            _context.Albums.Attach(album);
-            _context.Entry(album).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return album;
-        }
-
-        public async Task<Album> DeleteAlbumAsync(Album album)
-        {
-            foreach (var picture in album.Pictures.ToList())
+            if (album.UserId == userId)
             {
-                _context.Pictures.Remove(picture);
-            }
-            _context.Albums.Remove(album);
-            await _context.SaveChangesAsync();
-            return album;
-        }
-
-        public async Task<Picture> AddPictureAsync(Picture picture)
-        {
-            if (_context.Pictures.Any(p => p.Id == picture.Id))
-            {
-                throw new DuplicateItemException();
-            }
-            else
-            {
-                _context.Pictures.Add(picture);
+                _context.Albums.Attach(album);
+                _context.Entry(album).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+            }
+            return album;
+        }
+
+        public async Task<Album> DeleteAlbumAsync(Album album, Guid userId)
+        {
+            if (album.UserId == userId)
+            {
+                foreach (var picture in album.Pictures.ToList())
+                {
+                    _context.Pictures.Remove(picture);
+                }
+                _context.Albums.Remove(album);
+                await _context.SaveChangesAsync();
+            }
+            return album;
+        }
+
+        public async Task<Picture> AddPictureAsync(Picture picture, Guid userId)
+        {
+            if (picture.UserId == userId)
+            {
+                if (_context.Pictures.Any(p => p.Id == picture.Id))
+                {
+                    throw new DuplicateItemException();
+                }
+                else
+                {
+                    _context.Pictures.Add(picture);
+                    await _context.SaveChangesAsync();
+                }
             }
             return picture;
         }
@@ -115,15 +124,6 @@ namespace PictureGallery.Core
         public async Task<Picture> GetPictureAsync(Guid id)
         {
             return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).FirstAsync(p => p.Id == id);
-        }
-
-        // nepotrebno ?
-        public async Task<Picture> AddPictureToAlbumAsync(Guid id, Picture picture)
-        {
-            Album album = await _context.Albums.FirstAsync(a => a.Id == id);
-            album.Pictures.Add(picture);
-            await _context.SaveChangesAsync();
-            return picture;
         }
 
         public async Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id)
@@ -136,26 +136,24 @@ namespace PictureGallery.Core
             return await _context.Pictures.Where(p => p.IsHot).ToListAsync();
         }
 
-        public async Task<Picture> UpdatePictureAsync(Picture picture)
+        public async Task<Picture> UpdatePictureAsync(Picture picture, Guid userId)
         {
-            _context.Pictures.Attach(picture);
-            _context.Entry(picture).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            if (picture.UserId == userId)
+            {
+                _context.Pictures.Attach(picture);
+                _context.Entry(picture).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
             return picture;
-
-            /*
-            var pic = _context.Pictures.First(p => p.Id == picture.Id);
-            pic.Data = picture.Data;
-            pic.Description = picture.Description;
-            await _context.SaveChangesAsync();
-            return pic;
-            */
         }
 
-        public async Task<Picture> DeletePictureAsync(Picture picture)
+        public async Task<Picture> DeletePictureAsync(Picture picture, Guid userId)
         {
-            _context.Pictures.Remove(picture);
-            await _context.SaveChangesAsync();
+            if (picture.UserId == userId)
+            {
+                _context.Pictures.Remove(picture);
+                await _context.SaveChangesAsync();
+            }
             return picture;
         }
 
@@ -210,11 +208,6 @@ namespace PictureGallery.Core
         public async Task<List<Comment>> GetCommentsAsync(Guid pictureId)
         {
             return  await _context.Comments.Include(c => c.User).Include(c => c.User.ProfilePicture).Where(c => c.Picture.Id == pictureId).OrderBy(c => c.DateCreated).ToListAsync();
-        }
-
-        public Task<List<Picture>> GetUsersFavoritePicturesAsync(UserProfile user)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<List<Picture>> GetAllPicturesFromUserAsync(Guid id)

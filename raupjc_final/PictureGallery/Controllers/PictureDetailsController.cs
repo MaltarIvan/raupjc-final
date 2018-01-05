@@ -122,9 +122,11 @@ namespace PictureGallery.Controllers
 
         public async Task<IActionResult> DeletePicture(Guid pictureId)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid userId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(pictureId);
             Guid albumId = picture.Album.Id;
-            await _repository.DeletePictureAsync(picture);
+            await _repository.DeletePictureAsync(picture, userId);
             return RedirectToAction("Index", "ManageAlbum", new { id = albumId });
         }
 
@@ -142,9 +144,11 @@ namespace PictureGallery.Controllers
         {
             if (ModelState.IsValid)
             {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+                Guid userId = new Guid(applicationUser.Id);
                 Picture picture = await _repository.GetPictureAsync(model.Id);
                 picture.Description = model.Description;
-                await _repository.UpdatePictureAsync(picture);
+                await _repository.UpdatePictureAsync(picture, userId);
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -155,7 +159,7 @@ namespace PictureGallery.Controllers
         {
             Picture picture = await _repository.GetPictureAsync(pictureId);
             picture.IsHot = !isHot;
-            await _repository.UpdatePictureAsync(picture);
+            await _repository.UpdatePictureAsync(picture, picture.UserId);
             return RedirectToAction("Index", new { id = pictureId });
         }
     }
