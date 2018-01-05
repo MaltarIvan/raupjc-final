@@ -10,8 +10,18 @@
 <h2>MakeNewProfile</h2>
 
 <form asp-action="MakeNewProfile" method="post" enctype="multipart/form-data">
-    
-    Profile Picture: <input asp-for="ProfilePictureUpload" type="file"/><span asp-validation-for="UserName" style="color:red"></span> <br />
+    @if (ViewContext.ViewData.ModelState.IsValid == false)
+    {
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                There were some input errors.
+            </div>
+            <div class="panel-body">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        </div>
+    }
+    Profile Picture: <input asp-for="ProfilePictureUpload" type="file"/><span asp-validation-for="ProfilePictureUpload" style="color:red"></span> <br />
     User Name: <input asp-for="UserName" /><span asp-validation-for="UserName" style="color:red"></span><br />
     <input type="submit" />
 </form>

@@ -12,7 +12,7 @@ namespace PictureGallery.Models
 {
     public class AddUserProfileVM
     {
-        [Required]
+        [Required, MinLength(3)]
         public string UserName { get; set; }
         public IFormFile ProfilePictureUpload { get; set; }
     }

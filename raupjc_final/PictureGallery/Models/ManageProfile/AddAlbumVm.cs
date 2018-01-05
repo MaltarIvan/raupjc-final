@@ -9,7 +9,7 @@ namespace PictureGallery.Models.ManageProfile
 {
     public class AddAlbumVM
     {
-        [Required]
+        [Required, MinLength(3)]
         public string Description { get; set; }
     }
 }

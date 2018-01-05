@@ -78,7 +78,9 @@ namespace PictureGallery.Controllers
             {
                 if (!validImageTypes.Contains(model.Picture.ContentType))
                 {
-                    return View();
+                    ModelState.AddModelError("CustomError", "Please choose either a GIF, JPG or PNG image.");
+                    model.Picture = null;
+                    return View(model);
                 }
                 else
                 {

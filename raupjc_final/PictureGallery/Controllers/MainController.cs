@@ -42,8 +42,9 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             if (currentUser == null)
             {
-                currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
-                await _repository.AddUserAsync(currentUser);
+                
+                //currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
+                //await _repository.AddUserAsync(currentUser);
                 return RedirectToAction("MakeNewProfile");
             }
             return RedirectToAction("All");
@@ -68,8 +69,9 @@ namespace PictureGallery.Controllers
             {
                 if (!validImageTypes.Contains(model.ProfilePictureUpload.ContentType))
                 {
-                    //ModelState.AddModelError("CustomError", "Please choose either a GIF, JPG or PNG image.");
-                    return View();
+                    ModelState.AddModelError("CustomError", "Please choose either a GIF, JPG or PNG image.");
+                    model.ProfilePictureUpload = null;
+                    return View(model);
                 }
             }
             if (ModelState.IsValid)
@@ -92,7 +94,8 @@ namespace PictureGallery.Controllers
                     profilePicture = new Picture(new Guid(applicationUser.Id), data);
                 }
 
-                UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+                //UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+                UserProfile currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
 
                 if (profilePicture != null)
                 {
@@ -101,7 +104,7 @@ namespace PictureGallery.Controllers
                 }
 
                 currentUser.UserName = model.UserName;
-                await _repository.UpdateUserAsync(currentUser);
+                await _repository.AddUserAsync(currentUser);
                 
                 return RedirectToAction("Index");
             }

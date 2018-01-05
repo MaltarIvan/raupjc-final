@@ -10,7 +10,7 @@ namespace PictureGallery.Models.PictureDetails
     {
         public Guid PictureId { get; set; }
 
-        [Required]
+        [Required, MinLength(3)]
         public string Text { get; set; }
     }
 }

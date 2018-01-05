@@ -8,7 +8,7 @@ namespace PictureGallery.Models.PictureDetails
 {
     public class ChangePictureDescriptionVM
     {
-        [Required]
+        [Required, MinLength(3)]
         public string Description { get; set; }
         public Guid Id { get; set; }
     }

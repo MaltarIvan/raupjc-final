@@ -11,7 +11,7 @@ namespace PictureGallery.Models.ManageAlbum
     {
         public Guid AlbumId { get; set; }
 
-        [Required]
+        [Required, MinLength(3)]
         public string Description { get; set; }
         [Required]
         public IFormFile Picture { get; set; }

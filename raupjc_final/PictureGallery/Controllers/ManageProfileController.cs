@@ -56,6 +56,21 @@ namespace PictureGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> ChangeProfilePicture(ChangeProfilePictureVM model)
         {
+            var validImageTypes = new string[]
+            {
+                    "image/gif",
+                    "image/jpeg",
+                    "image/pjpeg",
+                    "image/png"
+            };
+            if (model.ProfilePictureUpload != null)
+            {
+                if (!validImageTypes.Contains(model.ProfilePictureUpload.ContentType))
+                {
+                    ModelState.AddModelError("CustomError", "Please choose either a GIF, JPG or PNG image.");
+                    return View();
+                }
+            }
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);

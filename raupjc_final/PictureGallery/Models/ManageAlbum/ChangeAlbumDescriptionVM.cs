@@ -9,7 +9,7 @@ namespace PictureGallery.Models.ManageAlbum
     public class ChangeAlbumDescriptionVM
     {
         public Guid Id { get; set; }
-        [Required]
+        [Required, MinLength(3)]
         public string Description { get; set; }
     }
 }

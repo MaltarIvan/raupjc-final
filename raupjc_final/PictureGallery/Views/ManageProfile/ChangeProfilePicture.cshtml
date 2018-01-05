@@ -9,6 +9,17 @@
 <h2>Change Profile Picture</h2>
 
 <form asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
+    @if (ViewContext.ViewData.ModelState.IsValid == false)
+    {
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                There were some input errors.
+            </div>
+            <div class="panel-body">
+                <div asp-validation-summary="All" class="text-danger"></div>
+            </div>
+        </div>
+    }
     Profile Picture: <input asp-for="ProfilePictureUpload" type="file" /><br />
     <input type="submit" />
 </form>
