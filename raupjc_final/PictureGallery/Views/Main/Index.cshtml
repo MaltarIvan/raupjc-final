@@ -6,7 +6,11 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Hello @Model.UserProfile.UserName</h2>
+<head>
+    <link rel="stylesheet" href="~/css/index.css" asp-append-version="true" />
+</head>
+
+<h2 id="header">Hello @Model.UserProfile.UserName</h2>
 <div class="container">
     <div class="row">
         <div class="col-sm-2" style="padding:5px">
@@ -19,21 +23,21 @@
             <a asp-action="FollowingPictures" class="btn btn-primary" style="margin:10px">Pictures You Follow!</a>
             <a asp-action="HotPictures" class="btn btn-primary" style="margin:10px">Hot!</a>
         </div>
-        <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+        <div id="pictures_container" class="col-sm-8 cont" style="padding:5px;">
             <h3>@Model.PictureGroup</h3>
         @foreach (var item in Model.PicturesToPresent)
          {
             @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
          }
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1 cont">
             <h5>All Users</h5>
             @foreach (var item in Model.UsersVM)
             {
                 @Html.Partial("PartialPresentUser", item)
             }
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-1 cont">
             <h5>Following</h5>
             @foreach (var item in Model.FollowingUsersVM)
             {
@@ -42,3 +46,9 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+    {
+        <script src="~/js/jquery.nicescroll.js"></script>
+        <script src="~/js/index.js"></script>
+    }

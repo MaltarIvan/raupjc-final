@@ -86,12 +86,6 @@ namespace PictureGallery
             }
 
             app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(
-                Path.Combine(Directory.GetCurrentDirectory(), @"Content")),
-                RequestPath = new PathString("/StaticFiles")
-            });
 
             app.UseAuthentication();
 

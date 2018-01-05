@@ -17,7 +17,7 @@
     </environment>
 </head>
 <body style="background:#bababa">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav id="navigation_bar" class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -32,14 +32,14 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-page="/Index">Home</a></li>
                 </ul>
-                @await Html.PartialAsync("_LoginPartial")
+                @await Html.PartialAsync("~/Pages/_LoginPartial.cshtml")
             </div>
         </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
+        <footer id="footer">
             <a asp-page="/About">About</a>  <a asp-page="/Contact">Contact</a>
             <p>Made by <a href="https://github.com/MaltarIvan">Ivan Maltar</a>. &copy; 2017 - PictureGallery</p>
         </footer>
