@@ -1,11 +1,12 @@
-﻿using System;
+﻿using PictureGallery.Models.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PictureGallery.Models.Main
 {
-    public class IndexViewModel
+    public class MainVM
     {
         public string PictureGroup { get; set; }
         public UserProfileVM UserProfile { get; set; }
@@ -13,7 +14,7 @@ namespace PictureGallery.Models.Main
         public List<UserProfileVM> UsersVM { get; set; }
         public List<UserProfileVM> FollowingUsersVM { get; set; }
 
-        public IndexViewModel(string pictureGroup, UserProfileVM userProfile, List<PictureVM> picturesToPresent, List<UserProfileVM> usersVM, List<UserProfileVM> followingUsersVM)
+        public MainVM(string pictureGroup, UserProfileVM userProfile, List<PictureVM> picturesToPresent, List<UserProfileVM> usersVM, List<UserProfileVM> followingUsersVM)
         {
             PictureGroup = pictureGroup;
             UserProfile = userProfile;

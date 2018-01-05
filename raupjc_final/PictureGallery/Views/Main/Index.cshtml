@@ -1,6 +1,6 @@
 ﻿@using PictureGallery.Models.Main;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model IndexViewModel
+@model MainVM
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,7 +23,7 @@
             <h3>@Model.PictureGroup</h3>
         @foreach (var item in Model.PicturesToPresent)
          {
-            @Html.Partial("~/Views/ManageAlbum/PicturePartial.cshtml", item)
+            @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
          }
         </div>
         <div class="col-sm-1">

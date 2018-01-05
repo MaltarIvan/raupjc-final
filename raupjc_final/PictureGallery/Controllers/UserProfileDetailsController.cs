@@ -12,6 +12,7 @@ using PictureGallery.Core;
 using PictureGallery.Models.Main;
 using PictureGallery.Models.UserProfileDetails;
 using PictureGallery.Models.ManageProfile;
+using PictureGallery.Models.Shared;
 
 namespace PictureGallery.Controllers
 {
@@ -29,7 +30,7 @@ namespace PictureGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("Profile/{id}")]
+        [HttpGet("Profile/Index/{id}")]
         public async Task<IActionResult> Index(Guid id)
         {
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
@@ -39,7 +40,7 @@ namespace PictureGallery.Controllers
             {
                 return RedirectToAction("Index", "ManageProfile");
             }
-            UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile.Followers.Any(u => u.Id == currentUserId), userProfile, userProfile.Albums);
+            UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile.Followers.Any(u => u.Id == currentUserId), userProfile);
             return View(userProfileDetailsVM);
         }
 

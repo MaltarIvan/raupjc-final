@@ -1,4 +1,5 @@
 ﻿using PictureGallery.Models.Main;
+using PictureGallery.Models.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

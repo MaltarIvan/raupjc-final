@@ -34,7 +34,7 @@ namespace PictureGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("Picture/{id}")]
+        [HttpGet("Picture/Index/{id}")]
         public async Task<IActionResult> Index(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);

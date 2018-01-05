@@ -16,6 +16,7 @@ using PictureGallery.Models.Main;
 using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.ManageAlbum;
+using PictureGallery.Models.Shared;
 
 namespace PictureGallery.Controllers
 {
@@ -33,7 +34,7 @@ namespace PictureGallery.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("Index/{id}")]
+        [HttpGet("ManageAlbum/Index/{id}")]
         public async Task<IActionResult> Index(Guid id)
         {
             Album album = await _repository.GetAlbumAsync(id);
@@ -45,11 +46,11 @@ namespace PictureGallery.Controllers
             foreach (var picture in album.Pictures)
             {
                 string data = Convert.ToBase64String(picture.Data);
-                picturesVM.Add(new PictureVM(picture.Id, currentUser.Id, data, picture.DateCreted, picture.Description, picture.NumberOfLikes, picture.NumberOfDislikes));
+                picturesVM.Add(new PictureVM(picture));
             }
 
             AlbumVM albumVM = new AlbumVM(album.Id, currentUser.Id, album.DateCreated, album.Description);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             ManageAlbumVM manageAlbumVM = new ManageAlbumVM(userProfileVM, albumVM, picturesVM);
             return View(manageAlbumVM);
         }

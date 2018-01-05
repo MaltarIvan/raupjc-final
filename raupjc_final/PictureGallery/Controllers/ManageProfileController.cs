@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using PictureGallery.Models.Main;
 using PictureGallery.Models.ManageProfile;
+using PictureGallery.Models.Shared;
 
 namespace PictureGallery.Controllers
 {
@@ -34,8 +35,8 @@ namespace PictureGallery.Controllers
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<Album> albums = currentUser.Albums;
             List<AlbumVM> albumsVM = new List<AlbumVM>();
             foreach (var album in albums)

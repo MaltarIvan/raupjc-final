@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using PictureGallery.Models.Main;
 using Microsoft.AspNetCore.Hosting;
+using PictureGallery.Models.Shared;
 
 namespace PictureGallery.Controllers
 {
@@ -113,13 +114,12 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             List<Picture> pictures = await _repository.GetAllPicturesAsync();
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
             foreach (var item in pictures)
             {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+                picturesToPresent.Add(new PictureVM(item));
             }
 
             // get all users
@@ -128,7 +128,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -140,13 +140,12 @@ namespace PictureGallery.Controllers
             List<Picture> pictures = await _repository.GetAllPicturesAsync();
             pictures = pictures.OrderByDescending(p => p.NumberOfLikes).ToList();
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
             foreach (var item in pictures)
             {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+                picturesToPresent.Add(new PictureVM(item));
             }
 
             // get all users
@@ -155,7 +154,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -166,13 +165,12 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             List<Picture> pictures = currentUser.Favorites;
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
             foreach (var item in pictures)
             {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+                picturesToPresent.Add(new PictureVM(item));
             }
 
             // get all users
@@ -181,7 +179,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
             
             return View("Index", indexViewModel);
         }
@@ -196,13 +194,12 @@ namespace PictureGallery.Controllers
                 pictures.AddRange(await _repository.GetAllPicturesFromUserAsync(user.Id));
             }
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
             foreach (var item in pictures)
             {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+                picturesToPresent.Add(new PictureVM(item));
             }
 
             // get all users
@@ -211,7 +208,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Pictures You Follow", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Pictures You Follow", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -222,13 +219,12 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             List<Picture> pictures = await _repository.GetHotPicturesAsync();
 
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture.Id, currentUser.Id, currentUser.ProfilePicture.Data);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser.Id, currentUser.UserName, currentUser.DateCreated, profilePictureVM);
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<PictureVM> picturesToPresent = new List<PictureVM>();
             foreach (var item in pictures)
             {
-                string data = Convert.ToBase64String(item.Data);
-                picturesToPresent.Add(new PictureVM(item.Id, item.UserId, data, item.DateCreted, item.Description, item.NumberOfLikes, item.NumberOfDislikes));
+                picturesToPresent.Add(new PictureVM(item));
             }
 
             // get all users
@@ -237,7 +233,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            IndexViewModel indexViewModel = new IndexViewModel("Hot pictures", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Hot pictures", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -248,8 +244,8 @@ namespace PictureGallery.Controllers
             List<UserProfileVM> userProfilesVM = new List<UserProfileVM>();
             foreach (var userProfile in userProfiles)
             {
-                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.Id, userProfile.ProfilePicture.Id, Convert.ToBase64String(userProfile.ProfilePicture.Data));
-                userProfilesVM.Add(new UserProfileVM(userProfile.Id, userProfile.UserName, userProfile.DateCreated, usersProfilePictureVM));
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(userProfile.ProfilePicture);
+                userProfilesVM.Add(new UserProfileVM(userProfile));
             }
             return userProfilesVM;
         }
@@ -260,8 +256,8 @@ namespace PictureGallery.Controllers
             List<UserProfileVM> followingUserProfilesVM = new List<UserProfileVM>();
             foreach (var followingUserProfile in followingUserProfiles)
             {
-                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(followingUserProfile.Id, followingUserProfile.ProfilePicture.Id, Convert.ToBase64String(followingUserProfile.ProfilePicture.Data));
-                followingUserProfilesVM.Add(new UserProfileVM(followingUserProfile.Id, followingUserProfile.UserName, followingUserProfile.DateCreated, usersProfilePictureVM));
+                ProfilePictureVM usersProfilePictureVM = new ProfilePictureVM(followingUserProfile.ProfilePicture);
+                followingUserProfilesVM.Add(new UserProfileVM(followingUserProfile));
             }
             return followingUserProfilesVM;
         }
