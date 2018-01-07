@@ -4,30 +4,36 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
+<head>
+    <link rel="stylesheet" href="~/css/register.css" asp-append-version="true" />
+</head>
+
+<h2 class="Register-title">@ViewData["Title"]</h2>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-12">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
+            <h4 class="Create-new-acc">Create a new account.</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+            <div class="form-group InputDiv">
+                <label asp-for="Input.Email" class="Input-label"></label>
+                <input asp-for="Input.Email" class="form-control Rectangle-input" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
+            <div class="form-group InputDiv">
+                <label asp-for="Input.Password" class="Input-label"></label>
+                <input asp-for="Input.Password" class="form-control Rectangle-input" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
+            <div class="form-group InputDiv">
+                <label asp-for="Input.ConfirmPassword" class="Input-label"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control Rectangle-input" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-default">Register</button>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-register">Register</button>
+            </div>
         </form>
     </div>
 </div>

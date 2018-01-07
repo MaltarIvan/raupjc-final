@@ -5,7 +5,63 @@
     ViewData["Title"] = "Log in";
 }
 
-<h2>@ViewData["Title"]</h2>
+<head>
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+</head>
+
+<h2 class="Login-title">@ViewData["Title"]</h2>
+<p class="Please-enter-your-cr">Please enter your credential</p>
+<section>
+    <form method="post">
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group InputDiv">
+            <label asp-for="Input.Email" style="width:80px"></label>
+            <input asp-for="Input.Email" class="Rectangle-input" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-group InputDiv">
+            <label asp-for="Input.Password" style="width:80px"></label>
+            <input asp-for="Input.Password" class="Rectangle-input" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <div class="form-group Button-div">
+            <div class="checkbox">
+                <label asp-for="Input.RememberMe" >
+                    <input asp-for="Input.RememberMe" />
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+        </div>
+        <div class="form-group Button-div">
+            <button type="submit" class="Rectangle-login">Log in</button>
+        </div>
+    </form>
+    <form asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+        <div  class="Button-div">
+            <p>
+                @foreach (var provider in Model.ExternalLogins)
+                {
+                    <button type="submit" class="Rectangle-login-external" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                }
+            </p>
+        </div>
+    </form>
+    <div class="form-group Forg-Pass-New-Us">
+        <p>
+            <a asp-page="./ForgotPassword">Forgot your password?</a>
+        </p>
+        <p>
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+        </p>
+    </div>
+</section>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+
+<!--
 <div class="row">
     <div class="col-md-4">
         <section>
@@ -34,6 +90,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-default">Log in</button>
                 </div>
+    ---------------------------------------------------------------------------------------------
                 <div class="form-group">
                     <p>
                         <a asp-page="./ForgotPassword">Forgot your password?</a>
@@ -77,6 +134,4 @@
     </div>
 </div>
 
-@section Scripts {
-    @await  Html.PartialAsync("_ValidationScriptsPartial")
-}
+    -->

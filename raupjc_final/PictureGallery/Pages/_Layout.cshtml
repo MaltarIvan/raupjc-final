@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - PictureGallery</title>
 
     <environment include="Development">
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
@@ -16,8 +17,8 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body style="background:#bababa">
-    <nav id="navigation_bar" class="navbar navbar-inverse navbar-fixed-top">
+<body>
+    <nav id="navigation_bar" class="navbar navbar-inverse navbar-fixed-top" style="background-color:#f5a623;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,11 +27,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-page="/Index" class="navbar-brand">PictureGallery</a>
+                <a asp-page="/Index" class="navbar-brand" style="color:black">PictureGallery</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-controller="Main" asp-action="Index">Home</a></li>
+                    <li><a asp-controller="Main" asp-action="Index" style="color:black">Home</a></li>
                 </ul>
                 @await Html.PartialAsync("~/Pages/_LoginPartial.cshtml")
             </div>
@@ -40,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer id="footer">
-            <a asp-page="/About">About</a>  <a asp-page="/Contact">Contact</a>
+            <a asp-page="/About">About</a> | <a asp-page="/Contact">Contact</a>
             <p>Made by <a href="https://github.com/MaltarIvan">Ivan Maltar</a>. &copy; 2017 - PictureGallery</p>
         </footer>
     </div>
