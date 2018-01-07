@@ -30,6 +30,8 @@ namespace PictureGallery.Core.Repositories
         Task<Album> DeleteAlbumAsync(Album album, Guid userId);
         
         Task<Comment> AddCommentAsync(Comment comment);
-        Task<List<Comment>> GetCommentsAsync(Guid pictureId);
+        Task<List<Comment>> GetCommentsAsync(Guid commentId);
+        Task<Comment> GetCommentByIdAsync(Guid commentId);
+        Task<Comment> DeleteCommentAsync(Comment comment, Guid userId);
     }
 }

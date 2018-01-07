@@ -14,8 +14,9 @@ namespace PictureGallery.Models.PictureDetails
         public string UsersProfilePicture { get; set; }
         public DateTime DateCreated { get; set; }
         public string Text { get; set; }
+        public bool IsUsersComment { get; set; }
 
-        public CommentVM(Comment comment)
+        public CommentVM(bool isUsersComment, Comment comment)
         {
             Id = comment.Id;
             UserId = comment.User.Id;
@@ -23,6 +24,7 @@ namespace PictureGallery.Models.PictureDetails
             UsersProfilePicture = Convert.ToBase64String(comment.User.ProfilePicture.Data);
             DateCreated = comment.DateCreated;
             Text = comment.Text;
+            IsUsersComment = isUsersComment;
         }
     }
 }

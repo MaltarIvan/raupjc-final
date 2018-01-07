@@ -22,7 +22,7 @@ namespace PictureGallery.Models.PictureDetails
         public bool IsAdmin { get; set; }
         public bool IsHot { get; set; }
 
-        public PictureDetailsVM(bool isFollowing, bool isUsersPicture, bool isAdmin, Picture picture)
+        public PictureDetailsVM(bool isFollowing, Guid currentUserId, bool isAdmin, Picture picture)
         {
             Id = picture.Id;
             User = picture.User;
@@ -35,10 +35,10 @@ namespace PictureGallery.Models.PictureDetails
             CommentsVM = new List<CommentVM>();
             foreach (var com in picture.Comments)
             {
-                CommentsVM.Add(new CommentVM(com));
+                CommentsVM.Add(new CommentVM(currentUserId == com.User.Id, com));
             }
             IsFollowing = isFollowing;
-            IsUsersPicture = isUsersPicture;
+            IsUsersPicture = currentUserId == picture.UserId;
             IsAdmin = isAdmin;
             IsHot = picture.IsHot;
         }

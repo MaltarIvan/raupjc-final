@@ -210,9 +210,25 @@ namespace PictureGallery.Core
             return  await _context.Comments.Include(c => c.User).Include(c => c.User.ProfilePicture).Where(c => c.Picture.Id == pictureId).OrderBy(c => c.DateCreated).ToListAsync();
         }
 
+        public async Task<Comment> GetCommentByIdAsync(Guid commentId)
+        {
+            return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstAsync(c => c.Id == commentId);
+        }
+
+        public async Task<Comment> DeleteCommentAsync(Comment comment, Guid userId)
+        {
+            if (comment.User.Id == userId)
+            {
+                _context.Comments.Remove(comment);
+                await _context.SaveChangesAsync();
+            }
+            return comment;
+        }
+
         public async Task<List<Picture>> GetAllPicturesFromUserAsync(Guid id)
         {
             return await _context.Pictures.Where(p => p.UserId == id && p.User == null).ToListAsync();
         }
+
     }
 }

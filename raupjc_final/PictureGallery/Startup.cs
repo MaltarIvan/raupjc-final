@@ -93,7 +93,7 @@ namespace PictureGallery
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                    template: "{controller=Main}/{action=Index}/{id?}");
             });
         }
 

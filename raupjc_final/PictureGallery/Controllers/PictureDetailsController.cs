@@ -42,7 +42,7 @@ namespace PictureGallery.Controllers
             bool isAdmin = roles.Contains("Admin");
             Guid currentUserId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(id);
-            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId == picture.UserId, isAdmin, picture);
+            PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId, isAdmin, picture);
             return View(pictureDetailsVM);
         }
 
@@ -152,6 +152,16 @@ namespace PictureGallery.Controllers
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
+        }
+
+        public async Task<IActionResult> DeleteComment(Guid commentId)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid userId = new Guid(applicationUser.Id);
+            Comment comment = await _repository.GetCommentByIdAsync(commentId);
+            Guid currentPictureId = comment.Picture.Id;
+            await _repository.DeleteCommentAsync(comment, userId);
+            return RedirectToAction("Index", new { id = currentPictureId});
         }
 
         [Authorize(Roles = "Admin")]
