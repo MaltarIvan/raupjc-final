@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="~/css/Shared/picturePartial.css" asp-append-version="true" />
 </head>
 
-<div style="padding:10px;">
+<div class="main-div">
     <a class="Rectangle" asp-controller="PictureDetails" asp-action="Index" asp-route-id="@Model.Id">
         <div class="row Image-div">
             <div class="col-sm-6">
                 <img class="Image" src="data:image/png;base64, @Model.Data" />
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="margin:0px; padding:0px;">
                 <p>@Model.Description</p>
             </div>
             <div class="col-sm-2">
@@ -23,6 +23,18 @@
             </div>
         </div>
     </a>
+    <div class="row like-section">
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-controller="PictureDetails" asp-action="LikePictureMain" asp-route-id="@Model.Id">
+                <button class="like"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</button>
+            </form>
+        </div>
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-controller="PictureDetails" asp-action="DislikePictureMain" asp-route-id="@Model.Id">
+                <button class="dislike"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</button>
+            </form>
+        </div>
+    </div>
 </div>
 
 

@@ -60,6 +60,20 @@ namespace PictureGallery.Controllers
             return RedirectToAction("Index", new { id = id });
         }
 
+        public async Task<IActionResult> LikePictureMain(Guid id)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            await _repository.LikePictureAsync(id, new Guid(applicationUser.Id));
+            return RedirectToAction("Index", "Main");
+        }
+
+        public async Task<IActionResult> DislikePictureMain(Guid id)
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            await _repository.DislikePictureAsync(id, new Guid(applicationUser.Id));
+            return RedirectToAction("Index", "Main");
+        }
+
         public IActionResult AddNewComment(Guid pictureId)
         {
             AddNewCommentVM addNewCommentVM = new AddNewCommentVM

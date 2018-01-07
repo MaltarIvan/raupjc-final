@@ -1,4 +1,17 @@
-﻿.Rectangle {
+﻿.main-div {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    background-color: #FFCC80;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.Rectangle {
     width: 90%;
     height: 189px;
     background-color: #ffffff;
@@ -11,11 +24,39 @@
 }
 
 .Image-div {
-    background-color: #FFCC80;
-    padding-right: 50px;
+    padding-right: 10px;
     margin-right: 10px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
-    border-bottom-left-radius: 15px;
-    border-top-left-radius: 15px;
+    border-bottom: solid;
+    border-color: #FF9800;
+}
+
+.like-section {
+    height: 100%;
+    margin: 5px;
+    margin-left: 25px;
+    margin-right: 50px;
+    padding: 0px;
+}
+
+.like {
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+    height: 34px;
+    background-color: #2196F3;
+    border-radius: 50px;
+}
+
+.dislike {
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+    height: 34px;
+    background-color: #F44336;
+    border-radius: 50px;
+}
+
+.like-text {
+    margin-left: 10px;
+    margin-top: 3px;
 }
