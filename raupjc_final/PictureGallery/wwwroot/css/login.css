@@ -43,13 +43,23 @@
     background-color: #f5a623;
 }
 
-.Rectangle-login-external {
+.Rectangle-login-external-facebook {
     margin: 5px auto;
     width: 301px;
     /*width: 301px;*/
     height: 44px;
     border-radius: 50px;
     background-color: #4a90e2;
+    border: solid 1px #4a90e2;
+}
+
+.Rectangle-login-external-google {
+    margin: 5px auto;
+    width: 301px;
+    /*width: 301px;*/
+    height: 44px;
+    border-radius: 50px;
+    background-color: #d50f25;
     border: solid 1px #4a90e2;
 }
 

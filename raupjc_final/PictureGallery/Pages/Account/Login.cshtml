@@ -42,7 +42,17 @@
             <p>
                 @foreach (var provider in Model.ExternalLogins)
                 {
-                    <button type="submit" class="Rectangle-login-external" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    switch (provider.Name)
+                    {
+                        case "Facebook":
+                            <button type="submit" class="Rectangle-login-external-facebook" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            break;
+                        case "Google":
+                            <button type="submit" class="Rectangle-login-external-google" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            break;
+
+                    }
+
                 }
             </p>
         </div>
@@ -58,7 +68,7 @@
 </section>
 
 @section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+                            @await Html.PartialAsync("_ValidationScriptsPartial")
 }
 
 <!--
@@ -122,9 +132,9 @@
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins)
-                                {
+                    {
                                     <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                }
                             </p>
                         </div>
                     </form>
