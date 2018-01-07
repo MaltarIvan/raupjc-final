@@ -7,7 +7,7 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 <head>
-    <link rel="stylesheet" href="~/css/main/makeNewProfile.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Main/makeNewProfile.css" asp-append-version="true" />
 </head>
 
 <h2 class="Make-title">Make New Profile</h2>
@@ -59,24 +59,5 @@
 </div>
 
 @section Scripts {
-<script>
-    function ShowPreview(input) {
-        var fileName = $("#file-upload").val();
-        if (!fileName.trim()) {
-            fileName = "No file chosen."
-        }
-        $("#file-name").html(fileName);
-        if (input.files && input.files[0]) {
-            var ImageDir = new FileReader();
-            ImageDir.onload = function (e) {
-                $('#imgPrev').attr('src', e.target.result);
-            }
-            ImageDir.readAsDataURL(input.files[0]);
-        } else {
-            $('#imgPrev').attr('src', src = "/Content/default-profile-picture.png");
-
-        }
-    }
-        
-</script>
+    <script src="~/js/Main/makeNewProfile.js"></script>     
 }

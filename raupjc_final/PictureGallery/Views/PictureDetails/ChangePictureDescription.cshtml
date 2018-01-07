@@ -6,10 +6,24 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>ChangeDescription</h2>
+<head>
+    <link rel="stylesheet" href="~/css/ManageAlbum/addNewPicture.css" asp-append-version="true" />
+</head>
 
-<form asp-action="ChangePictureDescription" method="post">
-    Picture description: <input asp-for="Description" /><span asp-validation-for="Description" style="color:red"></span><br />
-    <input asp-for="Id" type="hidden" />
-    <input type="submit" />
-</form>
+<div class="row">
+    <div class="col-sm-12">
+        <h2 class="Add-new-title">Change Picture Description</h2>
+        <form asp-action="ChangePictureDescription" method="post">
+            <div class="form-group InputDiv">
+                <label>Picture Description: </label>
+                <input asp-for="Description" class="Rectangle-input"/>
+                <span asp-validation-for="Description" style="color:red"></span><br />
+                <input asp-for="Id" type="hidden" />
+            </div>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+

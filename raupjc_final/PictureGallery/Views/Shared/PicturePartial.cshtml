@@ -5,20 +5,24 @@
     ViewData["Title"] = "PicturePartial";
 }
 
-<div style="padding:10px; border-style:solid; border-color:black;">
-    <div class="row">
-        <div class="col-sm-5">
-            <a asp-controller="PictureDetails" asp-action="Index" asp-route-id="@Model.Id"><img src="data:image/png;base64, @Model.Data" width="300" height="300" style="margin:10px" /></a>
-        </div>
-        <div class="col-sm-7">
-            <p style="font-size:24px; margin:25px">@Model.Description</p>
-        </div>
-    </div>
+<head>
+    <link rel="stylesheet" href="~/css/Shared/picturePartial.css" asp-append-version="true" />
+</head>
 
-   
-    
-    <p>@Model.DateCreated</p>
-    <a>@Model.NumberOfLikes</a>  <a>@Model.NumberOfDislikes</a> <br />
+<div style="padding:10px;">
+    <a class="Rectangle" asp-controller="PictureDetails" asp-action="Index" asp-route-id="@Model.Id">
+        <div class="row Image-div">
+            <div class="col-sm-6">
+                <img class="Image" src="data:image/png;base64, @Model.Data" />
+            </div>
+            <div class="col-sm-4">
+                <p>@Model.Description</p>
+            </div>
+            <div class="col-sm-2">
+                <p>@Model.DateCreated</p>
+            </div>
+        </div>
+    </a>
 </div>
 
 

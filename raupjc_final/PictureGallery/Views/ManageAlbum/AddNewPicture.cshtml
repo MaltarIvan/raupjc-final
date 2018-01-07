@@ -6,21 +6,53 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>AddNewPicture</h2>
-<form asp-action="AddNewPicture" method="post" enctype="multipart/form-data">
-    @if (ViewContext.ViewData.ModelState.IsValid == false)
-    {
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                There were some input errors.
+<head>
+    <link rel="stylesheet" href="~/css/ManageAlbum/addNewPicture.css" asp-append-version="true" />
+</head>
+
+<h2 class="Add-new-title">Add New Picture</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="AddNewPicture" method="post" enctype="multipart/form-data">
+            @if (ViewContext.ViewData.ModelState.IsValid == false)
+            {
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        There were some input errors.
+                    </div>
+                    <div class="panel-body">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                </div>
+            }
+            <div class="Label-div">
+                <label class="Input-label">Add Picture </label> <br />
             </div>
-            <div class="panel-body">
-                <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="FileDiv">
+                <label for="file-upload" class="custom-file-upload">
+                    <img src="~/Content/add.svg" style="margin-left:10px" /><br />
+                    <input asp-for="Picture" id="file-upload" type="file" onchange="ShowPreview(this)" /><span asp-validation-for="Picture" style="color:red"></span> <br />
+                </label>
             </div>
-        </div>
-    }
-    Picture: <input asp-for="Picture" type="file" /><span asp-validation-for="Picture" style="color:red"></span> <br />
-    Description: <input asp-for="Description" /><span asp-validation-for="Description" style="color:red"></span><br />
-    <input asp-for="AlbumId" type="hidden"/>
-    <input type="submit" />
-</form>
+            <div class="Img-prev-div">
+                <img id="imgPrev" src="~/Content/default-picture.svg" class="Img-prev" />
+            </div>
+            <div class="File-label-div">
+                <label id="file-name" class="File-label">No file chosen.</label>
+            </div>
+            <div class="form-group InputDiv">
+                <label>Picture description: </label>
+                <input asp-for="Description" class="Rectangle-input"/>
+                <span asp-validation-for="Description" style="color:red"></span><br />
+                <input asp-for="AlbumId" type="hidden" />
+            </div>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/ManageAlbum/addNewPicture.js"></script>
+}

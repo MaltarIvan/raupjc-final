@@ -6,21 +6,52 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Change Profile Picture</h2>
 
-<form asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
-    @if (ViewContext.ViewData.ModelState.IsValid == false)
-    {
-        <div class="panel panel-danger">
-            <div class="panel-heading">
-                There were some input errors.
-            </div>
-            <div class="panel-body">
-                <div asp-validation-summary="All" class="text-danger"></div>
-            </div>
-        </div>
-    }
-    Profile Picture: <input asp-for="ProfilePictureUpload" type="file" /><br />
-    <input type="submit" />
-</form>
+<head>
+    <link rel="stylesheet" href="~/css/ManageProfile/changeProfilePicture.css" asp-append-version="true" />
+</head>
 
+<h2 class="Change-title">Change Profile Picture</h2>
+<hr />
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+        <form asp-action="ChangeProfilePicture" method="post" enctype="multipart/form-data">
+            @if (ViewContext.ViewData.ModelState.IsValid == false)
+            {
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        There were some input errors.
+                    </div>
+                    <div class="panel-body">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                    </div>
+                </div>
+            }
+
+            <label class="Label-div">Add New Profile Picture </label> <br />
+            <div class="FileDiv">
+                <label for="file-upload" class="custom-file-upload">
+                    <img src="~/Content/add.svg" style="width:50px" /><br />
+                    <input asp-for="ProfilePictureUpload" id="file-upload" type="file" onchange="ShowPreview(this)" />
+                    <!--<span asp-validation-for="ProfilePictureUpload" style="color:red"></span> <br />-->
+                </label>
+            </div>
+            <div class="Img-prev-div">
+                <img id="imgPrev" class="Img-prev" />
+            </div>
+            <div class="File-label-div">
+                <label id="file-name" class="File-label">No file chosen.</label>
+            </div>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-submit">Submit</button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+<script src="~/js/ManageProfile/changeProfilePicture.js"></script>

@@ -27,7 +27,7 @@ namespace PictureGallery.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToPage("/Index");
+            return RedirectToAction("Index", "Main");
         }
     }
 }

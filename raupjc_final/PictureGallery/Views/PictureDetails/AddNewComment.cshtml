@@ -5,11 +5,27 @@
     ViewData["Title"] = "AddNewComment";
     Layout = "~/Pages/_Layout.cshtml";
 }
+<head>
+    <link rel="stylesheet" href="~/css/ManageAlbum/addNewPicture.css" asp-append-version="true" />
+</head>
 
-<h2>Add New Comment</h2>
+<div class="row">
+    <div class="col-sm-12">
+        <h2 class="Add-new-title">Add New Comment</h2>
+        <form asp-action="AddNewComment" method="post">
+            <div class="form-group InputDiv">
+                <label>Comment: </label>
+                <input asp-for="Text" class="Rectangle-input" />
+                <span asp-validation-for="Text" style="color:red"></span> <br />
+                <input asp-for="PictureId" type="hidden" />
+            </div>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-<form asp-action="AddNewComment" method="post">
-    Comment: <input asp-for="Text" /><span asp-validation-for="Text" style="color:red"></span> <br />
-    <input asp-for="PictureId" type="hidden" />
-    <input type="submit" />
-</form>
+
+
+

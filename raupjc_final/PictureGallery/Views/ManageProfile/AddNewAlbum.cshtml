@@ -6,9 +6,25 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>AddNewAlbumView</h2>
+<head>
+    <link rel="stylesheet" href="~/css/ManageProfile/addNewAlbum.css" asp-append-version="true" />
+</head>
 
-<form asp-action="AddNewAlbum" method="post">
-    Album description: <input asp-for="Description" /><span asp-validation-for="Description" style="color:red"></span><br />
-    <input type="submit" />
-</form>
+<h2 class="Add-new-title">Add New Album</h2>
+
+<div class="row">
+    <div class="col-sm-12">
+        <form asp-action="AddNewAlbum" method="post">
+            <div class="form-group InputDiv">
+                <label>Album description: </label>
+                <input asp-for="Description" class="Rectangle-input" />
+                <span asp-validation-for="Description" style="color:red"></span><br />
+            </div>
+            <div class="Button-div">
+                <button type="submit" class="Rectangle-submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
