@@ -15,26 +15,22 @@
             <div class="col-sm-6">
                 <img class="Image" src="data:image/png;base64, @Model.Data" />
             </div>
-            <div class="col-sm-4" style="margin:0px; padding:0px;">
-                <p>@Model.Description</p>
+            <div class="col-sm-4" style="margin-left:0px; padding:0px;">
+                <p style="margin-left:10px;">@Model.Description</p>
             </div>
             <div class="col-sm-2">
                 <p>@Model.DateCreated</p>
             </div>
         </div>
+        <div class="row like-section">
+            <div class="col-sm-2 like-div">
+                <p class="like-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
+            </div>
+            <div class="col-sm-2 dislike-div">
+                <p class="dislike-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
+            </div>
+        </div>
     </a>
-    <div class="row like-section">
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-controller="PictureDetails" asp-action="LikePictureMain" asp-route-id="@Model.Id">
-                <button class="like"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</button>
-            </form>
-        </div>
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-controller="PictureDetails" asp-action="DislikePictureMain" asp-route-id="@Model.Id">
-                <button class="dislike"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</button>
-            </form>
-        </div>
-    </div>
 </div>
 
 

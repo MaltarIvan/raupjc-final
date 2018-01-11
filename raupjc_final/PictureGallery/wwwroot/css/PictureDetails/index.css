@@ -1,0 +1,84 @@
+﻿.image-row {
+    margin: 25px;
+    padding: 10px;
+    background-color: #FFCC80;
+    border-radius: 10px;
+}
+
+.image {
+    width : 400px;
+    height: 400px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.description-div {
+    padding: 10px;
+    margin: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+}
+
+.date-div {
+    padding: 10px;
+    margin: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+}
+
+.button {
+    width: 90%;
+    height: 40px;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 10px;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    border-radius: 50px;
+    background-color: #f5a623;
+}
+
+.like-button {
+    width: 90%;
+    height: 40px;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 10px;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    border-radius: 50px;
+    background-color: #2196F3;
+}
+
+.dislike-button {
+    width: 90%;
+    height: 40px;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    margin-right: 10px;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    border-radius: 50px;
+    background-color: #F44336;
+}

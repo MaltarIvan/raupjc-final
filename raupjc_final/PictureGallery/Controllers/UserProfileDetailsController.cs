@@ -47,7 +47,13 @@ namespace PictureGallery.Controllers
         [HttpGet("Album/{id}")]
         public async Task<IActionResult> AlbumDetails(Guid id)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
             Album album = await _repository.GetAlbumAsync(id);
+            if (album.UserId == currentUserId)
+            {
+                return RedirectToAction("Index", "ManageAlbum");
+            }
             AlbumVM albumVM = new AlbumVM(album);
             List<Picture> pictures = await _repository.GetPicturesFromAlbumAsync(id);
             List<PictureVM> picturesVM = new List<PictureVM>();

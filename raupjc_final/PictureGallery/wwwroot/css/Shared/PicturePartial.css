@@ -1,7 +1,7 @@
 ﻿.main-div {
     padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    /*padding-right: 10px;*/
     padding-bottom: 5px;
     margin-bottom: 10px;
     background-color: #FFCC80;
@@ -21,6 +21,7 @@
 .Image {
     width: 100%;
     height: 100%;
+    border-radius: 5px;
 }
 
 .Image-div {
@@ -38,25 +39,31 @@
     padding: 0px;
 }
 
-.like {
-    width: 100%;
-    margin: 0px;
-    padding: 10px;
-    height: 34px;
+.like-div {
+    margin-right: 5px;
+    padding: 0px;
     background-color: #2196F3;
-    border-radius: 50px;
+    border-radius: 10px;
 }
 
-.dislike {
-    width: 100%;
+.dislike-div {
     margin: 0px;
-    padding: 10px;
-    height: 34px;
+    padding: 0px;
     background-color: #F44336;
-    border-radius: 50px;
+    border-radius: 10px;
 }
 
-.like-text {
-    margin-left: 10px;
-    margin-top: 3px;
+.like-par {
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
 }
+
+.dislike-par {
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+

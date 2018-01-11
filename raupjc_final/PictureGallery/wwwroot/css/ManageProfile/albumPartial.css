@@ -1,0 +1,26 @@
+﻿.album-div {
+    margin: 15px;
+    padding: 10px;
+    background-color: #f5a623;
+    border-radius: 10px;
+}
+
+.album-img {
+    width: 97%;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.description-par {
+    padding: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+    color: black;
+}
+
+.date-div {
+    padding: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+    color: black;
+}

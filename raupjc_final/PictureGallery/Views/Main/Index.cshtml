@@ -14,36 +14,48 @@
     <div class="row">
         <div class="col-sm-3" style="padding:5px">
             <p class="My-profile">My profile</p>
-            <hr />
+            <hr  />
             <div class="row" style="margin-bottom:10px;">
                 <div class="col-sm-4">
-                    <img class="My-profile-picture" src="data:image/png;base64, @Model.UserProfile.ProfilePicture.Data" /> <br />
+                    <img class="My-profile-picture" src="data:image/png;base64, @Model.UserProfile.ProfilePictureVM.Data" /> <br />
                 </div>
                 <div class="col-sm-8">
                     <p class="My-user-name">@Model.UserProfile.UserName</p>
                 </div>
             </div>
-            <hr />
+            <hr  />
             <div class="row">
                 <div class="col-sm-12">
-                    <form asp-controller="ManageProfile" asp-action="Index">
-                        <button class="Manage-your-picture-button"><span class="glyphicon glyphicon-plus-sign" style="margin-right:5px"></span>Manage Your Pictures!</button>
-                    </form>
-                    <form asp-action="All">
-                        <button class="Navigate-button">Newest!</button>
-                    </form>
-                    <form asp-action="Top">
-                        <button class="Navigate-button">Top!</button>
-                    </form>
-                    <form asp-action="Favorites">
-                        <button class="Navigate-button">Favorites!</button>
-                    </form>
-                    <form asp-action="FollowingPictures">
-                        <button class="Navigate-button">Pictures You Follow!</button>
-                    </form>
-                    <form asp-action="HotPictures">
-                        <button class="Navigate-button">Hot!</button>
-                    </form>
+                    <a asp-controller="ManageProfile" asp-action="Index">
+                        <div class="button-div">
+                            <p class="button-par"><span class="glyphicon glyphicon-plus-sign" style="margin-right:5px"></span>Manage Your Pictures!</p>
+                        </div>
+                    </a><br/>
+                    <a asp-action="All">
+                        <div class="button-div">
+                            <p class="button-par">Newest!</p>
+                        </div>
+                    </a><br />
+                    <a asp-action="Top">
+                        <div class="button-div">
+                            <p class="button-par">Top!</p>
+                        </div>
+                    </a><br />
+                    <a asp-action="Favorites">
+                        <div class="button-div">
+                            <p class="button-par">Favorites!</p>
+                        </div>
+                    </a><br />
+                    <a asp-action="FollowingPictures">
+                        <div class="button-div">
+                            <p class="button-par">Pictures You Follow!</p>
+                        </div>
+                    </a><br />
+                    <a asp-action="HotPictures">
+                        <div class="button-div">
+                            <p class="button-par">Hot!</p>
+                        </div>
+                    </a><br />
                 </div>
             </div>
         </div>

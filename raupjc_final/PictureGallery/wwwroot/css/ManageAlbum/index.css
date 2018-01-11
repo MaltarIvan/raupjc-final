@@ -1,0 +1,29 @@
+﻿.album-img {
+    width: 100px;
+    height:100px;
+    margin:10px;
+}
+
+.button-div {
+    width: 90%;
+    height: 40px;
+    padding: 10px;
+    font-family: Arial;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    border-radius: 50px;
+    background-color: #f5a623;
+    color: black;
+    border-bottom: solid;
+    border-bottom-color: black;
+}
+
+.button-par {
+    text-decoration: none;
+    font-size: 16px;
+}

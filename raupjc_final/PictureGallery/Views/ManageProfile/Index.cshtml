@@ -5,18 +5,44 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/_Layout.cshtml";
 }
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4" style="padding:5px">
-            @Html.Partial("YourProfilePicturePartial", Model.UserProfile.ProfilePicture)
-            <a class="btn btn-primary" asp-action="ChangeProfilePicture" style="margin:10px">Change Profile Picture</a><br/>
-            <a class="btn btn-primary" asp-action="AddNewAlbum" style="margin:10px">Add New Album</a>
+<head>
+    <link rel="stylesheet" href="~/css/ManageProfile/index.css" asp-append-version="true" />
+</head>
+
+<div class="row">
+    <div class="col-sm-3" style="padding:5px">
+        <p class="my-profile">My profile</p>
+        <hr />
+        <div class="row" style="margin-bottom:10px;">
+            <div class="col-sm-4">
+                <img class="my-profile-picture" src="data:image/png;base64, @Model.UserProfileVM.ProfilePictureVM.Data" /> <br />
+            </div>
+            <div class="col-sm-8">
+                <p class="my-user-name">@Model.UserProfileVM.UserName</p>
+            </div>
         </div>
-        <div class="col-sm-8" style="padding:5px">
-            @foreach (var item in Model.Albums)
+        <hr/>
+        <a class="button-href" asp-action="ChangeProfilePicture"> 
+            <div class="button-div">
+                <p class="button-par">Change Profile Picture</p>
+            </div>
+        </a><br/>
+        <a class="button-href" asp-action="AddNewAlbum">
+            <div class="button-div">
+                <p class="button-par">Add New Album</p>
+            </div>
+        </a><br />
+    </div>
+    <div class="col-sm-5 album-section">
+        @foreach (var item in Model.Albums)
             {
-                @Html.Partial("AlbumPartial", item)
-            }
-        </div>
+            @Html.Partial("AlbumPartial", item)
+        }
     </div>
 </div>
+
+@section Scripts
+    {
+    <script src="~/js/jquery.nicescroll.js"></script>
+    <script src="~/js/ManageProfile/index.js"></script>
+}

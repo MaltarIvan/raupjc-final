@@ -4,11 +4,21 @@
 @{
     ViewData["Title"] = "AlbumPartial";
 }
+<head>
+    <link rel="stylesheet" href="~/css/ManageProfile/albumPartial.css" asp-append-version="true" />
+</head>
 
-<div style="margin:25px">
-    <img src="~/Content/album.jpg" width="100" height="100" /><br />
-    <a asp-controller="ManageAlbum" asp-action="Index" asp-route-id="@Model.Id" style="font-size:20px">@Model.Description</a><br />
-    <p>@Model.DateCreated</p>
+<div class="album-div">
+    <a asp-controller="ManageAlbum" asp-action="Index" asp-route-id="@Model.Id">
+        <div>
+            <img class="album-img" src="~/Content/album.jpg" /><br />
+            <p class="description-par">@Model.Description</p>
+            <div class="date-div">
+                <label>Date created</label>
+                <p>@Model.DateCreated</p>
+            </div>
+        </div>
+    </a>
 </div>
 
 

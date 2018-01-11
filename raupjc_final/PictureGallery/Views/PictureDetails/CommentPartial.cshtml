@@ -9,10 +9,33 @@
 
 <html>
 <head>
+    <link rel="stylesheet" href="~/css/PictureDetails/commentPartial.css" asp-append-version="true" />
     <meta name="viewport" content="width=device-width" />
     <title>CommentPartial</title>
 </head>
 <body>
+    <div class="row comment-row">
+        <div class="col-sm-1">
+            <img class="user-img" src="data:image/png;base64, @Model.UsersProfilePicture"/>
+        </div>
+        <div class="col-sm-8">
+            <h4 style="text-decoration:underline"><a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.UserId">@Model.UserName</a></h4>
+            <div class="date-div">
+                <label>Date posted: </label>
+                <p>@Model.DateCreated</p>
+            </div>
+            <hr />
+            <div class="comment-div">
+                <p>@Model.Text</p>
+            </div>
+            @if (Model.IsUsersComment)
+            {
+                <a asp-controller="PictureDetails" asp-action="DeleteComment" asp-route-commentId="@Model.Id">Delete comment</a>
+            }
+        </div>
+    </div>
+
+    <!--
     <div class="row" style="border-style:solid; border-color:black;">
         <div class="col-sm-1">
             <img src="data:image/png;base64, @Model.UsersProfilePicture" width="50" height="50" style="margin:10px" />
@@ -27,5 +50,6 @@
             }
         </div>
     </div>
+        -->
 </body>
 </html>

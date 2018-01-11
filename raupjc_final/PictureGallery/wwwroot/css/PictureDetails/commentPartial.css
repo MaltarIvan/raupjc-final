@@ -1,0 +1,24 @@
+﻿.comment-row {
+    margin: 10px;
+    padding: 10px;
+    background-color: #FFCC80;
+    border-radius: 10px;
+}
+
+.user-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+
+.date-div {
+    padding: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+}
+
+.comment-div {
+    padding: 10px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+}

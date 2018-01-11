@@ -42,6 +42,7 @@ namespace PictureGallery.Controllers
             bool isAdmin = roles.Contains("Admin");
             Guid currentUserId = new Guid(applicationUser.Id);
             Picture picture = await _repository.GetPictureAsync(id);
+            picture.User = await _repository.GetUserByIdAsync(picture.UserId);
             PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId, isAdmin, picture);
             return View(pictureDetailsVM);
         }
@@ -58,20 +59,6 @@ namespace PictureGallery.Controllers
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             await _repository.DislikePictureAsync(id, new Guid(applicationUser.Id));
             return RedirectToAction("Index", new { id = id });
-        }
-
-        public async Task<IActionResult> LikePictureMain(Guid id)
-        {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            await _repository.LikePictureAsync(id, new Guid(applicationUser.Id));
-            return RedirectToAction("Index", "Main");
-        }
-
-        public async Task<IActionResult> DislikePictureMain(Guid id)
-        {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            await _repository.DislikePictureAsync(id, new Guid(applicationUser.Id));
-            return RedirectToAction("Index", "Main");
         }
 
         public IActionResult AddNewComment(Guid pictureId)

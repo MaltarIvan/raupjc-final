@@ -6,74 +6,105 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<head>
+    <link rel="stylesheet" href="~/css/PictureDetails/index.css" asp-append-version="true" />
+</head>
 
-<div class="row">
+<div class="row image-row">
     <div class="row">
         <div class="col-sm-5">
-            <img src="data:image/png;base64, @Model.Data" width="400" height="400" style="margin:10px" />
+            <img class="image" src="data:image/png;base64, @Model.Data" />
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-4 description-div">
             <p>@Model.Description</p>
         </div>
+        <div class="col-sm-2 date-div">
+            <label class="date-created-label">Date created</label>
+            <p>@Model.DateCreated</p>
+            <label>Album: </label>
+            <a asp-controller="UserProfileDetails" asp-action="AlbumDetails" asp-route-id="@Model.Album.Id">@Model.Album.Description</a><br />
+            <label>User: </label>
+            <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.User.Id">@Model.User.UserName</a>
+        </div>
     </div>
-    <div style="margin:15px">
-        <p>@Model.DateCreated</p>
+    <div class="row" style="margin-left: 25px">
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-action="LikePicture" asp-route-id="@Model.Id">
+                <button class="like-button"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</button>
+            </form>
+        </div>
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-action="DislikePicture" asp-route-id="@Model.Id">
+                <button class="dislike-button"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</button>
+            </form>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-sm-1">
-            <a class="btn btn-primary" asp-action="LikePicture" asp-route-id="@Model.Id" style="margin:10px">@Model.NumberOfLikes</a>
+</div>
+<div class="row">
+    <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+        <form asp-action="AddNewComment" asp-route-pictureId="@Model.Id">
+            <button class="button"><span class="glyphicon glyphicon-comment"></span>Add Comment</button>
+        </form>
+    </div>
+    @if (Model.IsFollowing)
+    {
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
+                <button class="button" style="background-color:red;"><span class="glyphicon glyphicon-star-empty"></span>Remove From Favorites</button>
+            </form>
         </div>
-        <div class="col-sm-1">
-            <a class="btn btn-primary" asp-action="DislikePicture" asp-route-id="@Model.Id" style="margin:10px">@Model.NumberOfDislikes</a>
+    }
+    else
+    {
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
+                <button class="button"><span class="glyphicon glyphicon-star"></span>Add To Favorites</button>
+            </form>
         </div>
-        <div class="col-sm-2">
-            <a class="btn btn-primary" asp-action="AddNewComment" asp-route-pictureId="@Model.Id" style="margin:10px">Add Comment</a>
+    }
+    @if (Model.IsUsersPicture)
+    {
+        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+            <form asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
+                <button class="button">Change Description</button>
+            </form>
         </div>
-        @if (Model.IsFollowing)
+            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+                <form asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
+                    <button class="button" style="background-color:red;">Delete Picture</button>
+                </form>
+            </div>
+    }
+    @if (Model.IsAdmin)
+    {
+        if (Model.IsHot)
         {
-            <div class="col-sm-2">
-                <a class="btn btn-primary" asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id" style="margin:10px; background-color:red">Remove From Favorites</a>
+            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+                <form asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot">
+                    <button class="button" style="background-color:red;">Remove From Hot</button>
+                </form>
             </div>
         }
         else
         {
-            <div class="col-sm-2">
-                <a class="btn btn-primary" asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" style="margin:10px">Add To Favorites</a>
+            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+                <form asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot">
+                    <button class="button">Add To Hot</button>
+                </form>
             </div>
         }
-        @if (Model.IsUsersPicture)
+    }
+</div>
+<div class="row">
+    <div>
+        @if (Model.CommentsVM.Count > 0)
         {
-            <div class="col-sm-2">
-                <a class="btn btn-primary" asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description" style="margin:10px;">Change Description</a>
-            </div>
-            <div class="col-sm-1">
-                <a class="btn btn-primary" asp-action="DeletePicture" asp-route-pictureId="@Model.Id" style="margin:10px; background-color:red;">Delete Picture</a>
-            </div>
+            <hr />
+            <h2>Comments:</h2>
         }
-        @if (Model.IsAdmin)
+        @foreach (var item in Model.CommentsVM)
         {
-            if (Model.IsHot)
-            {
-                <div class="col-sm-2">
-                    <a class="btn btn-primary" asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot" style="margin:10px;">Remove from hot</a>
-                </div>
-            }
-            else
-            {
-                <div class="col-sm-2">
-                    <a class="btn btn-primary" asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot" style="margin:10px;">Add to hot</a>
-                </div>
-            }
+            @Html.Partial("CommentPartial", item)
         }
-
     </div>
-    @if (Model.CommentsVM.Count > 0)
-    {
-        <h1>Comments:</h1>
-    }
-    @foreach (var item in Model.CommentsVM)
-    {
-        @Html.Partial("CommentPartial", item)
-    }
 </div>
