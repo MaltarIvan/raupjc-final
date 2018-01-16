@@ -30,6 +30,7 @@ namespace PictureGallery.Controllers
             _userManager = userManager;
             _repository = repository;
             _hostingEnvironment = hostingEnvironment;
+
         }
 
         public object GallerySqlRepository { get; private set; }
@@ -42,12 +43,27 @@ namespace PictureGallery.Controllers
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
             if (currentUser == null)
             {
-                
-                //currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
-                //await _repository.AddUserAsync(currentUser);
                 return RedirectToAction("MakeNewProfile");
             }
-            return RedirectToAction("All");
+            List<Picture> pictures = await _repository.GetAllPicturesAsync();
+
+            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
+            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
+            List<PictureVM> picturesToPresent = new List<PictureVM>();
+            foreach (var item in pictures)
+            {
+                picturesToPresent.Add(new PictureVM(item));
+            }
+
+            // get all users
+            List<UserProfileVM> userProfilesVM = await GetAllUsersVMAsync(currentUser.Id);
+
+            //get following users
+            List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
+
+            MainVM indexViewModel = new MainVM("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+
+            return View("Index", indexViewModel);
         }
 
         public ActionResult MakeNewProfile()
@@ -104,13 +120,15 @@ namespace PictureGallery.Controllers
                 }
 
                 currentUser.UserName = model.UserName;
+                //await _repository.UpdateUserAsync(currentUser);
                 await _repository.AddUserAsync(currentUser);
-                
+                // možda treba promjeniti ('blank' UserProfile se trenutno kreira u Register.cshtml.cs)
+
                 return RedirectToAction("Index");
             }
             return View();
         }
-
+        /*
         public async Task<IActionResult> All()
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
@@ -135,6 +153,7 @@ namespace PictureGallery.Controllers
 
             return View("Index", indexViewModel);
         }
+        */
 
         public async Task<IActionResult> Top()
         {

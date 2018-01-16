@@ -1,0 +1,19 @@
+﻿.album-img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
+.button-href {
+    display: block;
+    width: 200px;
+    height: 44px;
+    border-radius: 22px;
+    border-bottom: solid;
+    border-bottom-color: black;
+    background-color: #FFE0B2;
+}
+
+.button-div {
+    padding: 10px;
+}

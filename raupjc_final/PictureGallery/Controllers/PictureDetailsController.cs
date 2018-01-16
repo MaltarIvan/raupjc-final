@@ -166,10 +166,10 @@ namespace PictureGallery.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> HotPictureManage(Guid pictureId, bool isHot)
+        public async Task<IActionResult> HotPictureManage(Guid pictureId)
         {
             Picture picture = await _repository.GetPictureAsync(pictureId);
-            picture.IsHot = !isHot;
+            picture.IsHot = !picture.IsHot;
             await _repository.UpdatePictureAsync(picture, picture.UserId);
             return RedirectToAction("Index", new { id = pictureId });
         }

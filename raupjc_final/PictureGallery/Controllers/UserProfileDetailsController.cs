@@ -50,6 +50,7 @@ namespace PictureGallery.Controllers
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
             Album album = await _repository.GetAlbumAsync(id);
+            album.User = await _repository.GetUserByIdAsync(album.UserId);
             if (album.UserId == currentUserId)
             {
                 return RedirectToAction("Index", "ManageAlbum");
@@ -61,7 +62,7 @@ namespace PictureGallery.Controllers
             {
                 picturesVM.Add(new PictureVM(picture));
             }
-            AlbumDetailsVM albumDetailsVM = new AlbumDetailsVM(album.UserId, albumVM, picturesVM);
+            AlbumDetailsVM albumDetailsVM = new AlbumDetailsVM(album.UserId, album.User.UserName, albumVM, picturesVM);
             return View(albumDetailsVM);
         }
 

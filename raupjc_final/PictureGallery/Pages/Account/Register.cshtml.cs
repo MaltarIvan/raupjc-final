@@ -9,6 +9,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PictureGallery.Data;
 using PictureGallery.Services;
+using PictureGallery.Core;
+using PictureGallery.Core.Repositories;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace PictureGallery.Pages.Account
 {
@@ -18,17 +22,23 @@ namespace PictureGallery.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IGalleryRepository _repository;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IGalleryRepository repository,
+            IHostingEnvironment hostingEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _repository = repository;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [BindProperty]
@@ -76,7 +86,20 @@ namespace PictureGallery.Pages.Account
                     await _emailSender.SendEmailConfirmationAsync(Input.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    //možda bude trebalo vratiti na staro u sluèaju da æe aplikacija provjeravati da li postoji UserProfile prilikom poziva svake akcije
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
+                    /*
+                    var webRoot = _hostingEnvironment.WebRootPath;
+                    var file = Path.Combine(webRoot, "Content\\default-profile-picture.png");
+                    byte[] data = System.IO.File.ReadAllBytes(file);
+                    Picture profilePicture = new Picture(new Guid(user.Id), data);
+                    UserProfile currentUser = new UserProfile(new Guid(user.Id));
+                    currentUser.UserName = user.Email;
+                    currentUser.ProfilePicture = profilePicture;
+                    await _repository.AddUserAsync(currentUser);
+
+                    return RedirectToAction("MakeNewProfile", "Main");
+                    */
                 }
                 foreach (var error in result.Errors)
                 {

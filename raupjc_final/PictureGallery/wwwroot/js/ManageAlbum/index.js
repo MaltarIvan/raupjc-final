@@ -1,2 +1,1 @@
-﻿function changeAlbumDescription(albumId, description) {
-}
+﻿

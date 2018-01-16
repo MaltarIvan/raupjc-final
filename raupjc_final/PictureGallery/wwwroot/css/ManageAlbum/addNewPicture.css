@@ -61,6 +61,22 @@
     width: 301px;
 }
 
+.cancle-button {
+    display: block;
+    margin: 5px auto;
+    width: 301px;
+    height: 44px;
+    padding: 10px;
+    border-radius: 50px;
+    background-color: red;
+    color: black;
+    border-bottom: solid;
+    border-bottom-color: black;
+    text-align: center;
+    font-family: Arial;
+    font-size: 16px;
+}
+
 .Choose-file {
     background-color: black;
 }

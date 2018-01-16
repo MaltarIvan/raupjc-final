@@ -29,68 +29,86 @@
     </div>
     <div class="row" style="margin-left: 25px">
         <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-action="LikePicture" asp-route-id="@Model.Id">
-                <button class="like-button"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</button>
-            </form>
+            <a asp-action="LikePicture" asp-route-id="@Model.Id">
+                <div class="button-div" style="background-color: #2196F3;">
+                    <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
+                </div>
+            </a>
         </div>
         <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-action="DislikePicture" asp-route-id="@Model.Id">
-                <button class="dislike-button"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</button>
-            </form>
+            <a asp-action="DislikePicture" asp-route-id="@Model.Id">
+                <div class="button-div" style="background-color: #F44336;">
+                    <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
+                </div>
+            </a>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-        <form asp-action="AddNewComment" asp-route-pictureId="@Model.Id">
-            <button class="button"><span class="glyphicon glyphicon-comment"></span>Add Comment</button>
-        </form>
+    <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+        <a asp-action="AddNewComment" asp-route-pictureId="@Model.Id">
+            <div class="button-div">
+                <p class="button-par"><span class="glyphicon glyphicon-comment"></span>Add Comment</p>
+            </div>
+        </a>
     </div>
     @if (Model.IsFollowing)
     {
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
-                <button class="button" style="background-color:red;"><span class="glyphicon glyphicon-star-empty"></span>Remove From Favorites</button>
-            </form>
+        <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+            <a asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
+                <div class="button-div" style="background-color: red;">
+                    <p class="button-par"><span class="glyphicon glyphicon-star-empty"></span>Remove From Favorites</p>
+                </div>
+            </a>
         </div>
     }
     else
     {
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
-                <button class="button"><span class="glyphicon glyphicon-star"></span>Add To Favorites</button>
-            </form>
+        <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+            <a asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
+                <div class="button-div">
+                    <p class="button-par"><span class="glyphicon glyphicon-star"></span>Add To Favorites</p>
+                </div>
+            </a>
         </div>
     }
     @if (Model.IsUsersPicture)
     {
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-            <form asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
-                <button class="button">Change Description</button>
-            </form>
+        <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+            <a asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
+                <div class="button-div">
+                    <p class="button-par">Change Description</p>
+                </div>
+            </a>
         </div>
-            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-                <form asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
-                    <button class="button" style="background-color:red;">Delete Picture</button>
-                </form>
+            <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+                <a asp-action="DeletePicture" asp-route-pictureId="@Model.Id">
+                    <div class="button-div" style="background-color: red;">
+                        <p class="button-par">Delete Picture</p>
+                    </div>
+                </a>
             </div>
     }
     @if (Model.IsAdmin)
     {
         if (Model.IsHot)
         {
-            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-                <form asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot">
-                    <button class="button" style="background-color:red;">Remove From Hot</button>
-                </form>
+            <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id">
+                    <div class="button-div" style="background-color: red;">
+                        <p class="button-par">Remove From Hot</p>
+                    </div>
+                </a>
             </div>
         }
         else
         {
-            <div class="col-sm-2" style="margin: 0px; padding: 0px;">
-                <form asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" asp-route-isHot="@Model.IsHot">
-                    <button class="button">Add To Hot</button>
-                </form>
+            <div class="col-sm-3" style="margin: 0px; padding: 0px;">
+                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id">
+                    <div class="button-div">
+                        <p class="button-par">Add To Hot</p>
+                    </div>
+                </a>
             </div>
         }
     }

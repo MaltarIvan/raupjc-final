@@ -36,7 +36,7 @@
     <div class="col-sm-5 album-section">
         @foreach (var item in Model.Albums)
             {
-            @Html.Partial("AlbumPartial", item)
+            @Html.Partial("~/Views/ManageProfile/AlbumPartial.cshtml", item)
         }
     </div>
 </div>

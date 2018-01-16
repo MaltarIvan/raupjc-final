@@ -5,20 +5,25 @@
     ViewData["Title"] = "AlbumDetails";
     Layout = "~/Pages/_Layout.cshtml";
 }
+<head>
+    <link rel="stylesheet" href="~/css/UserProfileDetails/albumDetails.css" asp-append-version="true" />
+</head>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-4" style="padding:5px">
-            <img src="~/Content/album.jpg" width="100" height="100" style="margin:10px" />
-            <h2>@Model.AlbumVM.Description</h2>
-            <p>@Model.AlbumVM.DateCreated</p>
-        </div>
-        <div id="pictures_container" class="col-sm-8" style="padding:5px;">
-            @foreach (var item in Model.PicturesVM)
+<div class="row">
+    <div class="col-sm-4" style="padding:5px">
+        <img src="~/Content/album.jpg" width="100" height="100" style="margin:10px" />
+        <h2>@Model.AlbumVM.Description</h2>
+        <p>@Model.AlbumVM.DateCreated</p>
+        <a class="button-href" id="user-name-href" asp-action="Index" asp-route-id="@Model.UserId">
+            <div class="button-div">
+                <p id="user-name-par"><span class="glyphicon glyphicon-arrow-left" style="padding-right: 5px;"></span>@Model.UserName's profile</p>
+            </div>
+        </a><br />
+    </div>
+    <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+        @foreach (var item in Model.PicturesVM)
             {
-                @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
-            }
-        </div>
+            @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
+        }
     </div>
 </div>
-

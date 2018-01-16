@@ -11,12 +11,14 @@ namespace PictureGallery.Models.UserProfileDetails
     public class AlbumDetailsVM
     {
         public Guid UserId { get; set; }
+        public String UserName { get; set; }
         public AlbumVM AlbumVM { get; set; }
         public List<PictureVM> PicturesVM { get; set; }
 
-        public AlbumDetailsVM(Guid userId, AlbumVM albumVM, List<PictureVM> picturesVM)
+        public AlbumDetailsVM(Guid userId, String userName, AlbumVM albumVM, List<PictureVM> picturesVM)
         {
             UserId = userId;
+            UserName = userName;
             AlbumVM = albumVM;
             PicturesVM = picturesVM;
         }

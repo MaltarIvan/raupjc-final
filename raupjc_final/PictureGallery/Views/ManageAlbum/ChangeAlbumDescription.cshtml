@@ -7,24 +7,25 @@
 }
 
 <head>
-    <link rel="stylesheet" href="~/css/ManageProfile/addNewAlbum.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/ManageAlbum/changeAlbumDescription.css" asp-append-version="true" />
 </head>
 
-<h2 class="Add-new-title">Change Album Description</h2>
+<h2 class="change-title">Change Album Description</h2>
 
 <div class="row">
     <div class="col-sm-12">
         <form asp-action="ChangeAlbumDescription" method="post">
-            <div class="form-group InputDiv">
+            <div class="form-group input-div">
                 <label>Album description: </label>
-                <input asp-for="Description" class="Rectangle-input" />
+                <input asp-for="Description" class="rectangle-input" />
                 <span asp-validation-for="Description" style="color:red"></span><br />
                 <input asp-for="Id" type="hidden" />
             </div>
-            <div class="Button-div">
-                <button type="submit" class="Rectangle-submit">Submit</button>
+            <div class="button-div">
+                <button type="submit" class="rectangle-submit">Submit</button>
             </div>
         </form>
+        <a class="cancle-button" asp-action="Index" asp-route-id="@Model.Id">Cancle</a>
     </div>
 </div>
 
