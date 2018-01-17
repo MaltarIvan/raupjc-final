@@ -20,10 +20,15 @@
             </div>
         </a><br />
     </div>
-    <div id="pictures_container" class="col-sm-8" style="padding:5px;">
+    <div class="col-sm-7 pictures-section" style="padding:5px;">
         @foreach (var item in Model.PicturesVM)
             {
             @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/jquery.nicescroll.js"></script>
+    <script src="~/js/UserProfileDetails/albumDetails.js"></script>
+}

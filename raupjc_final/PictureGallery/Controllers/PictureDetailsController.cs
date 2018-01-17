@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.ManageAlbum;
 using PictureGallery.Models.PictureDetails;
+using PictureGallery.CustomeExceptions;
 
 namespace PictureGallery.Controllers
 {
@@ -50,8 +51,7 @@ namespace PictureGallery.Controllers
             Picture picture = await _repository.GetPictureAsync(id);
             if (picture == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             picture.User = await _repository.GetUserByIdAsync(picture.UserId);
             PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId, isAdmin, picture);
@@ -92,8 +92,7 @@ namespace PictureGallery.Controllers
             }
             if (!await _repository.ContainsPictureAsync(pictureId))
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             AddNewCommentVM addNewCommentVM = new AddNewCommentVM
             {
@@ -142,8 +141,7 @@ namespace PictureGallery.Controllers
             Picture picture = await _repository.GetPictureAsync(pictureId);
             if (picture == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             if (!user.Favorites.Contains(picture))
             {
@@ -164,8 +162,7 @@ namespace PictureGallery.Controllers
             Picture picture = await _repository.GetPictureAsync(pictureId);
             if (picture == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             if (user.Favorites.Contains(picture))
             {
@@ -186,11 +183,17 @@ namespace PictureGallery.Controllers
             Picture picture = await _repository.GetPictureAsync(pictureId);
             if (picture == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             Guid albumId = picture.Album.Id;
-            await _repository.DeletePictureAsync(picture, currentUserId);
+            try
+            {
+                await _repository.DeletePictureAsync(picture, currentUserId);
+            }
+            catch (UnauthorizedAttemptException uae)
+            {
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
+            }
             return RedirectToAction("Index", "ManageAlbum", new { id = albumId });
         }
 
@@ -203,8 +206,7 @@ namespace PictureGallery.Controllers
             }
             if (!await _repository.ContainsPictureAsync(pictureId))
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             ChangePictureDescriptionVM changePictureDescriptionVM = new ChangePictureDescriptionVM
             {
@@ -226,7 +228,14 @@ namespace PictureGallery.Controllers
                 }
                 Picture picture = await _repository.GetPictureAsync(model.Id);
                 picture.Description = model.Description;
-                await _repository.UpdatePictureAsync(picture, currentUserId);
+                try
+                {
+                    await _repository.UpdatePictureAsync(picture, currentUserId);
+                }
+                catch (UnauthorizedAttemptException uae)
+                {
+                    return View("~/Views/Shared/InvalidAttempt.cshtml");
+                }
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -243,11 +252,17 @@ namespace PictureGallery.Controllers
             Comment comment = await _repository.GetCommentByIdAsync(commentId);
             if (comment == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             Guid currentPictureId = comment.Picture.Id;
-            await _repository.DeleteCommentAsync(comment, currentUserId);
+            try
+            {
+                await _repository.DeleteCommentAsync(comment, currentUserId);
+            }
+            catch (UnauthorizedAttemptException uae)
+            {
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
+            }
             return RedirectToAction("Index", new { id = currentPictureId});
         }
 
@@ -257,11 +272,17 @@ namespace PictureGallery.Controllers
             Picture picture = await _repository.GetPictureAsync(pictureId);
             if (picture == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             picture.IsHot = !picture.IsHot;
-            await _repository.UpdatePictureAsync(picture, picture.UserId);
+            try
+            {
+                await _repository.UpdatePictureAsync(picture, picture.UserId);
+            }
+            catch (UnauthorizedAttemptException uae)
+            {
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
+            }
             return RedirectToAction("Index", new { id = pictureId });
         }
     }

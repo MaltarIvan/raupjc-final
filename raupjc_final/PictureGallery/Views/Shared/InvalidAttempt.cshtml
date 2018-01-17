@@ -1,0 +1,18 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "InvalidAttempt";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/Shared/invalidAttempt.css" asp-append-version="true" />
+</head>
+
+<h4>Invalid Attempt</h4>
+<p>You have no rights to make the action you intended or the content you have requested is invalid.</p>
+<a class="button-href" asp-action="Index" asp-controller="Main">
+    <div class="button-div">
+        <p class="button-par"><span class="glyphicon glyphicon-arrow-left" style="margin-right: 5px;"></span>Return to Home page</p>
+    </div>
+</a>
+

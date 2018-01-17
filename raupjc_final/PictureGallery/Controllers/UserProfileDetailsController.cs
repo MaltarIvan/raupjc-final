@@ -36,8 +36,7 @@ namespace PictureGallery.Controllers
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
             if (userProfile == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
@@ -61,8 +60,7 @@ namespace PictureGallery.Controllers
             Album album = await _repository.GetAlbumAsync(id);
             if (album == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             album.User = await _repository.GetUserByIdAsync(album.UserId);
             if (album.UserId == currentUserId)
@@ -91,8 +89,7 @@ namespace PictureGallery.Controllers
             UserProfile user = await _repository.GetUserByIdAsync(id);
             if (user == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             if (!currentUser.Following.Contains(user))
             {
@@ -114,8 +111,7 @@ namespace PictureGallery.Controllers
             UserProfile user = await _repository.GetUserByIdAsync(id);
             if (user == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "Main");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             if (currentUser.Following.Contains(user))
             {

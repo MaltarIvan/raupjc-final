@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.ManageAlbum;
 using PictureGallery.Models.Shared;
+using PictureGallery.CustomeExceptions;
 
 namespace PictureGallery.Controllers
 {
@@ -47,11 +48,10 @@ namespace PictureGallery.Controllers
             Album album = await _repository.GetAlbumAsync(id);
             if (album == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "ManageProfile");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
 
-            if (currentUser.Id != album.Id)
+            if (currentUser.Id != album.UserId)
             {
                 return RedirectToAction("AlbumDetails", "UserProfileDetails", new { id = id });
             }
@@ -83,13 +83,11 @@ namespace PictureGallery.Controllers
 
             if (album == null)
             {
-                // TODO: 404 ERROR
-                return RedirectToAction("Index", "ManageProfile");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             else if (album.UserId != currentUserId)
             {
-                //TODO: Validation ERROR
-                return RedirectToAction("Index", "ManageProfile");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             AddNewPictureVM addNewPictureVM = new AddNewPictureVM
             {
@@ -120,7 +118,7 @@ namespace PictureGallery.Controllers
                 {
                     ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
                     Guid currentUserId = new Guid(applicationUser.Id);
-                    if (await _repository.ContainsUserAsync(currentUserId))
+                    if (!await _repository.ContainsUserAsync(currentUserId))
                     {
                         return RedirectToAction("MakeNewProfile", "Main");
                     }
@@ -145,8 +143,7 @@ namespace PictureGallery.Controllers
             }
             else if (!await _repository.ContainsAlbumAsync(id))
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "ManageProfile");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
             ChangeAlbumDescriptionVM changeAlbumDescriptionVM = new ChangeAlbumDescriptionVM
             {
@@ -169,7 +166,14 @@ namespace PictureGallery.Controllers
                 }
                 Album album = await _repository.GetAlbumAsync(model.Id);
                 album.Description = model.Description;
-                await _repository.UpdateAlbumAsync(album, currentUserId);
+                try
+                {
+                    await _repository.UpdateAlbumAsync(album, currentUserId);
+                }
+                catch (UnauthorizedAttemptException uae)
+                {
+                    return View("~/Views/Shared/InvalidAttempt.cshtml");
+                }
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -186,10 +190,16 @@ namespace PictureGallery.Controllers
             Album album = await _repository.GetAlbumAsync(albumId);
             if (album == null)
             {
-                //TODO: 404 ERROR
-                return RedirectToAction("Index", "ManageProfile");
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
-            await _repository.DeleteAlbumAsync(album, currentUserId);
+            try
+            {
+                await _repository.DeleteAlbumAsync(album, currentUserId);
+            }
+            catch (UnauthorizedAttemptException uae)
+            {
+                return View("~/Views/Shared/InvalidAttempt.cshtml");
+            }
             return RedirectToAction("Index", "ManageProfile");
         }
     }

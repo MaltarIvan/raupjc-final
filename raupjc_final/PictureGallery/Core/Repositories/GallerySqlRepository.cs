@@ -91,6 +91,9 @@ namespace PictureGallery.Core
                 _context.Albums.Attach(album);
                 _context.Entry(album).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
+            } else
+            {
+                throw new UnauthorizedAttemptException();
             }
             return album;
         }
@@ -105,6 +108,10 @@ namespace PictureGallery.Core
                 }
                 _context.Albums.Remove(album);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new UnauthorizedAttemptException();
             }
             return album;
         }
@@ -154,6 +161,10 @@ namespace PictureGallery.Core
                 _context.Entry(picture).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
+            else
+            {
+                throw new UnauthorizedAttemptException();
+            }
             return picture;
         }
 
@@ -163,6 +174,10 @@ namespace PictureGallery.Core
             {
                 _context.Pictures.Remove(picture);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new UnauthorizedAttemptException();
             }
             return picture;
         }
@@ -210,7 +225,7 @@ namespace PictureGallery.Core
 
         public async Task<bool> ContainsPictureAsync(Guid id)
         {
-            return await _context.Pictures.AllAsync(p => p.Id == id);
+            return await _context.Pictures.AnyAsync(p => p.Id == id);
         }
 
         public async Task<Comment> AddCommentAsync(Comment comment)
@@ -236,6 +251,10 @@ namespace PictureGallery.Core
             {
                 _context.Comments.Remove(comment);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new UnauthorizedAttemptException();
             }
             return comment;
         }

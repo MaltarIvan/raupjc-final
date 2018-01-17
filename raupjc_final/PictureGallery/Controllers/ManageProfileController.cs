@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Identity;
 using PictureGallery.Core;
 using Microsoft.AspNetCore.Authorization;
 using PictureGallery.Core.Repositories;
-using PictureGallery.Models;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using PictureGallery.Models.Main;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.Shared;
+using PictureGallery.CustomeExceptions;
 
 namespace PictureGallery.Controllers
 {
@@ -94,7 +94,14 @@ namespace PictureGallery.Controllers
                 data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
 
                 profilePicture.Data = data;
-                await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);
+                try
+                {
+                    await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);
+                }
+                catch (UnauthorizedAttemptException uae)
+                {
+                    return View("~/Views/Shared/InvalidAttempt.cshtml");
+                }
                 return RedirectToAction("Index");
             }
             else

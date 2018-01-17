@@ -1,7 +1,6 @@
-﻿.album-img {
-    width: 100px;
-    height:100px;
-    margin:10px;
+﻿.button-href {
+    display: block;
+    width: 250px;
 }
 
 .button-div {
@@ -21,15 +20,10 @@
     color: black;
     border-bottom: solid;
     border-bottom-color: black;
+    margin-bottom: 5px;
 }
 
 .button-par {
     text-decoration: none;
     font-size: 16px;
-}
-
-.pictures-section {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    margin: 20px;
 }
