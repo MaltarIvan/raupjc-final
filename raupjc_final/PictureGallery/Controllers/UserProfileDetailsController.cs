@@ -34,6 +34,11 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             UserProfile userProfile = await _repository.GetUserByIdAsync(id);
+            if (userProfile == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
             if (currentUserId == id)
@@ -49,7 +54,16 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             Album album = await _repository.GetAlbumAsync(id);
+            if (album == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             album.User = await _repository.GetUserByIdAsync(album.UserId);
             if (album.UserId == currentUserId)
             {
@@ -70,7 +84,16 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             UserProfile user = await _repository.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             if (!currentUser.Following.Contains(user))
             {
                 currentUser.Following.Add(user);
@@ -83,7 +106,17 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+
             UserProfile user = await _repository.GetUserByIdAsync(id);
+            if (user == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             if (currentUser.Following.Contains(user))
             {
                 currentUser.Following.Remove(user);

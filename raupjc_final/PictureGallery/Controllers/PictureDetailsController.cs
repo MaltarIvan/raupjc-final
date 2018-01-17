@@ -38,10 +38,21 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> Index(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+
             List<string> roles = (List<string>)await _userManager.GetRolesAsync(applicationUser);
             bool isAdmin = roles.Contains("Admin");
-            Guid currentUserId = new Guid(applicationUser.Id);
+            
             Picture picture = await _repository.GetPictureAsync(id);
+            if (picture == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             picture.User = await _repository.GetUserByIdAsync(picture.UserId);
             PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId, isAdmin, picture);
             return View(pictureDetailsVM);
@@ -50,19 +61,40 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> LikePicture(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            await _repository.LikePictureAsync(id, new Guid(applicationUser.Id));
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+
+            await _repository.LikePictureAsync(id, currentUserId);
             return RedirectToAction("Index", new { id = id });
         }
 
         public async Task<IActionResult> DislikePicture(Guid id)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            await _repository.DislikePictureAsync(id, new Guid(applicationUser.Id));
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+            await _repository.DislikePictureAsync(id, currentUserId);
             return RedirectToAction("Index", new { id = id });
         }
 
-        public IActionResult AddNewComment(Guid pictureId)
+        public async Task<IActionResult> AddNewComment(Guid pictureId)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!await _repository.ContainsUserAsync(new Guid(applicationUser.Id)))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+            if (!await _repository.ContainsPictureAsync(pictureId))
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             AddNewCommentVM addNewCommentVM = new AddNewCommentVM
             {
                 PictureId = pictureId
@@ -77,6 +109,10 @@ namespace PictureGallery.Controllers
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
                 UserProfile user = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+                if (user == null)
+                {
+                    return RedirectToAction("MakeNewProfile", "Main");
+                }
                 Picture picture = await _repository.GetPictureAsync(model.PictureId);
                 Comment comment = new Comment
                 {
@@ -99,7 +135,16 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile user = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (user == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             Picture picture = await _repository.GetPictureAsync(pictureId);
+            if (picture == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             if (!user.Favorites.Contains(picture))
             {
                 user.Favorites.Add(picture);
@@ -112,7 +157,16 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile user = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (user == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             Picture picture = await _repository.GetPictureAsync(pictureId);
+            if (picture == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             if (user.Favorites.Contains(picture))
             {
                 user.Favorites.Remove(picture);
@@ -124,15 +178,34 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> DeletePicture(Guid pictureId)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            Guid userId = new Guid(applicationUser.Id);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("Index", "Main");
+            }
             Picture picture = await _repository.GetPictureAsync(pictureId);
+            if (picture == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             Guid albumId = picture.Album.Id;
-            await _repository.DeletePictureAsync(picture, userId);
+            await _repository.DeletePictureAsync(picture, currentUserId);
             return RedirectToAction("Index", "ManageAlbum", new { id = albumId });
         }
 
-        public IActionResult ChangePictureDescription(Guid pictureId, string description)
+        public async Task<IActionResult> ChangePictureDescription(Guid pictureId, string description)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!await _repository.ContainsUserAsync(new Guid(applicationUser.Id)))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+            if (!await _repository.ContainsPictureAsync(pictureId))
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             ChangePictureDescriptionVM changePictureDescriptionVM = new ChangePictureDescriptionVM
             {
                 Id = pictureId
@@ -146,10 +219,14 @@ namespace PictureGallery.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-                Guid userId = new Guid(applicationUser.Id);
+                Guid currentUserId = new Guid(applicationUser.Id);
+                if (!await _repository.ContainsUserAsync(currentUserId))
+                {
+                    return RedirectToAction("MakeNewProfile", "Main");
+                }
                 Picture picture = await _repository.GetPictureAsync(model.Id);
                 picture.Description = model.Description;
-                await _repository.UpdatePictureAsync(picture, userId);
+                await _repository.UpdatePictureAsync(picture, currentUserId);
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -158,10 +235,19 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> DeleteComment(Guid commentId)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            Guid userId = new Guid(applicationUser.Id);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             Comment comment = await _repository.GetCommentByIdAsync(commentId);
+            if (comment == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             Guid currentPictureId = comment.Picture.Id;
-            await _repository.DeleteCommentAsync(comment, userId);
+            await _repository.DeleteCommentAsync(comment, currentUserId);
             return RedirectToAction("Index", new { id = currentPictureId});
         }
 
@@ -169,6 +255,11 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> HotPictureManage(Guid pictureId)
         {
             Picture picture = await _repository.GetPictureAsync(pictureId);
+            if (picture == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "Main");
+            }
             picture.IsHot = !picture.IsHot;
             await _repository.UpdatePictureAsync(picture, picture.UserId);
             return RedirectToAction("Index", new { id = pictureId });

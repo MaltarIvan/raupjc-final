@@ -34,7 +34,10 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
-
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
             UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<Album> albums = currentUser.Albums;
@@ -48,8 +51,13 @@ namespace PictureGallery.Controllers
             return View(manageProfileVM);
         }
 
-        public ActionResult ChangeProfilePicture()
+        public async Task<ActionResult> ChangeProfilePicture()
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!await _repository.ContainsUserAsync(new Guid(applicationUser.Id)))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             return View();
         }
 
@@ -75,6 +83,10 @@ namespace PictureGallery.Controllers
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
                 UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+                if (currentUser == null)
+                {
+                    return RedirectToAction("MakeNewProfile", "Main");
+                }
                 Picture profilePicture = currentUser.ProfilePicture;
 
                 byte[] data = null;
@@ -91,8 +103,13 @@ namespace PictureGallery.Controllers
             }
         }
 
-        public IActionResult AddNewAlbum()
+        public async Task<IActionResult> AddNewAlbum()
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (!await _repository.ContainsUserAsync(new Guid(applicationUser.Id)))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             return View();
         }
         
@@ -102,8 +119,13 @@ namespace PictureGallery.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+                Guid currentUserId = new Guid(applicationUser.Id);
+                if (!await _repository.ContainsUserAsync(currentUserId))
+                {
+                    return RedirectToAction("MakeNewProfile", "Main");
+                }
                 Album album = new Album(new Guid(applicationUser.Id), model.Description);
-                UserProfile userProfile = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+                UserProfile userProfile = await _repository.GetUserByIdAsync(currentUserId);
                 userProfile.Albums.Add(album);
                 await _repository.UpdateUserAsync(userProfile);
                 return RedirectToAction("Index");

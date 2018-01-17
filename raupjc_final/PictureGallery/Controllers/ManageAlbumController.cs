@@ -37,10 +37,24 @@ namespace PictureGallery.Controllers
         [HttpGet("ManageAlbum/Index/{id}")]
         public async Task<IActionResult> Index(Guid id)
         {
-            Album album = await _repository.GetAlbumAsync(id);
-
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+
+            Album album = await _repository.GetAlbumAsync(id);
+            if (album == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "ManageProfile");
+            }
+
+            if (currentUser.Id != album.Id)
+            {
+                return RedirectToAction("AlbumDetails", "UserProfileDetails", new { id = id });
+            }
 
             List<PictureVM> picturesVM = new List<PictureVM>();
             foreach (var picture in album.Pictures)
@@ -55,8 +69,28 @@ namespace PictureGallery.Controllers
             return View(manageAlbumVM);
         }
 
-        public IActionResult AddNewPicture(Guid id)
+        public async Task<IActionResult> AddNewPicture(Guid id)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
+
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+
+            Album album = await _repository.GetAlbumAsync(id);
+
+            if (album == null)
+            {
+                // TODO: 404 ERROR
+                return RedirectToAction("Index", "ManageProfile");
+            }
+            else if (album.UserId != currentUserId)
+            {
+                //TODO: Validation ERROR
+                return RedirectToAction("Index", "ManageProfile");
+            }
             AddNewPictureVM addNewPictureVM = new AddNewPictureVM
             {
                 AlbumId = id
@@ -85,20 +119,35 @@ namespace PictureGallery.Controllers
                 else
                 {
                     ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-                    Guid userId = new Guid(applicationUser.Id);
+                    Guid currentUserId = new Guid(applicationUser.Id);
+                    if (await _repository.ContainsUserAsync(currentUserId))
+                    {
+                        return RedirectToAction("MakeNewProfile", "Main");
+                    }
                     BinaryReader reader = new BinaryReader(model.Picture.OpenReadStream());
                     byte[] data = reader.ReadBytes((int)model.Picture.Length);
                     Album album = await _repository.GetAlbumAsync(model.AlbumId);
-                    Picture picture = new Picture(userId, model.Description, album, data);
-                    await _repository.AddPictureAsync(picture, userId);
+                    Picture picture = new Picture(currentUserId, model.Description, album, data);
+                    await _repository.AddPictureAsync(picture, currentUserId);
                     return RedirectToAction("Index", album.Id);
                 }
             }
             return View(model);
         }
 
-        public IActionResult ChangeAlbumDescription(Guid id, string description)
+        public async Task<IActionResult> ChangeAlbumDescription(Guid id, string description)
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
+            else if (!await _repository.ContainsAlbumAsync(id))
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "ManageProfile");
+            }
             ChangeAlbumDescriptionVM changeAlbumDescriptionVM = new ChangeAlbumDescriptionVM
             {
                 Id = id,
@@ -113,10 +162,14 @@ namespace PictureGallery.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-                Guid userId = new Guid(applicationUser.Id);
+                Guid currentUserId = new Guid(applicationUser.Id);
+                if (!await _repository.ContainsUserAsync(currentUserId))
+                {
+                    return RedirectToAction("MakeNewProfile", "Main");
+                }
                 Album album = await _repository.GetAlbumAsync(model.Id);
                 album.Description = model.Description;
-                await _repository.UpdateAlbumAsync(album, userId);
+                await _repository.UpdateAlbumAsync(album, currentUserId);
                 return RedirectToAction("Index", new { id = model.Id });
             }
             return View(model);
@@ -125,9 +178,18 @@ namespace PictureGallery.Controllers
         public async Task<IActionResult> DeleteAlbum(Guid albumId)
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            Guid userId = new Guid(applicationUser.Id);
+            Guid currentUserId = new Guid(applicationUser.Id);
+            if (!await _repository.ContainsUserAsync(currentUserId))
+            {
+                return RedirectToAction("MakeNewProfile", "Main");
+            }
             Album album = await _repository.GetAlbumAsync(albumId);
-            await _repository.DeleteAlbumAsync(album, userId);
+            if (album == null)
+            {
+                //TODO: 404 ERROR
+                return RedirectToAction("Index", "ManageProfile");
+            }
+            await _repository.DeleteAlbumAsync(album, currentUserId);
             return RedirectToAction("Index", "ManageProfile");
         }
     }

@@ -66,8 +66,14 @@ namespace PictureGallery.Controllers
             return View("Index", indexViewModel);
         }
 
-        public ActionResult MakeNewProfile()
+        public async Task<ActionResult> MakeNewProfile()
         {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            Guid curretUserId = new Guid(applicationUser.Id);
+            if (await _repository.ContainsUserAsync(curretUserId))
+            {
+                return RedirectToAction("Index");
+            }
             return View(new AddUserProfileVM());
         }
 
@@ -93,6 +99,11 @@ namespace PictureGallery.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+                Guid curretUserId = new Guid(applicationUser.Id);
+                if (await _repository.ContainsUserAsync(curretUserId))
+                {
+                    return RedirectToAction("Index");
+                }
                 Picture profilePicture = null;
                 byte[] data = null;
 
@@ -100,18 +111,17 @@ namespace PictureGallery.Controllers
                 {
                     BinaryReader reader = new BinaryReader(model.ProfilePictureUpload.OpenReadStream());
                     data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
-                    profilePicture = new Picture(new Guid(applicationUser.Id), data);
+                    profilePicture = new Picture(curretUserId, data);
                 }
                 else
                 {
                     var webRoot = _hostingEnvironment.WebRootPath;
                     var file = Path.Combine(webRoot, "Content\\default-profile-picture.png");
                     data = System.IO.File.ReadAllBytes(file);
-                    profilePicture = new Picture(new Guid(applicationUser.Id), data);
+                    profilePicture = new Picture(curretUserId, data);
                 }
-
-                //UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
-                UserProfile currentUser = CreateNewUserProfile(new Guid(applicationUser.Id));
+                
+                UserProfile currentUser = CreateNewUserProfile(curretUserId);
 
                 if (profilePicture != null)
                 {
@@ -120,45 +130,21 @@ namespace PictureGallery.Controllers
                 }
 
                 currentUser.UserName = model.UserName;
-                //await _repository.UpdateUserAsync(currentUser);
                 await _repository.AddUserAsync(currentUser);
-                // možda treba promjeniti ('blank' UserProfile se trenutno kreira u Register.cshtml.cs)
 
                 return RedirectToAction("Index");
             }
             return View();
         }
-        /*
-        public async Task<IActionResult> All()
-        {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-            UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
-            List<Picture> pictures = await _repository.GetAllPicturesAsync();
-
-            ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
-            List<PictureVM> picturesToPresent = new List<PictureVM>();
-            foreach (var item in pictures)
-            {
-                picturesToPresent.Add(new PictureVM(item));
-            }
-
-            // get all users
-            List<UserProfileVM> userProfilesVM = await GetAllUsersVMAsync(currentUser.Id);
-
-            //get following users
-            List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
-
-            MainVM indexViewModel = new MainVM("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
-
-            return View("Index", indexViewModel);
-        }
-        */
 
         public async Task<IActionResult> Top()
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile");
+            }
             List<Picture> pictures = await _repository.GetAllPicturesAsync();
             pictures = pictures.OrderByDescending(p => p.NumberOfLikes).ToList();
 
@@ -185,6 +171,10 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile");
+            }
             List<Picture> pictures = currentUser.Favorites;
 
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
@@ -210,6 +200,10 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile");
+            }
             List<Picture> pictures = new List<Picture>();
             foreach (var user in currentUser.Following)
             {
@@ -239,6 +233,10 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             UserProfile currentUser = await _repository.GetUserByIdAsync(new Guid(applicationUser.Id));
+            if (currentUser == null)
+            {
+                return RedirectToAction("MakeNewProfile");
+            }
             List<Picture> pictures = await _repository.GetHotPicturesAsync();
 
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);

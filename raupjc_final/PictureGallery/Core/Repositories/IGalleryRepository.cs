@@ -8,6 +8,7 @@ namespace PictureGallery.Core.Repositories
     public interface IGalleryRepository
     {
         Task<UserProfile> AddUserAsync(UserProfile user);
+        Task<bool> ContainsUserAsync(Guid id);
         Task<UserProfile> GetUserByIdAsync(Guid id);
         Task<UserProfile> UpdateUserAsync(UserProfile user);
         Task<List<UserProfile>> GetAllUsersAsync();
@@ -24,8 +25,10 @@ namespace PictureGallery.Core.Repositories
         Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id);
         Task<Picture> AddPictureAsync(Picture picture, Guid userId);
         Task<Picture> DeletePictureAsync(Picture picture, Guid userId);
+        Task<bool> ContainsPictureAsync(Guid id);
 
         Task<Album> GetAlbumAsync(Guid id);
+        Task<bool> ContainsAlbumAsync(Guid id);
         Task<Album> UpdateAlbumAsync(Album album, Guid userId);
         Task<Album> DeleteAlbumAsync(Album album, Guid userId);
         

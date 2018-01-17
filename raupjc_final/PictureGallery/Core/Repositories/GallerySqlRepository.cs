@@ -39,6 +39,11 @@ namespace PictureGallery.Core
             return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers).SingleOrDefaultAsync(u => u.Id == id);
         }
 
+        public async Task<bool> ContainsUserAsync(Guid id)
+        {
+            return await _context.UserProfiles.AnyAsync(u => u.Id == id);
+        }
+
         public async Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId)
         {
             return await _context.UserProfiles.Where(u => u.Id != currentUserId).Include(u => u.ProfilePicture).ToListAsync();
@@ -76,7 +81,7 @@ namespace PictureGallery.Core
 
         public async Task<Album> GetAlbumAsync(Guid id)
         {
-            return await _context.Albums.Include(a => a.Pictures).FirstAsync(a => a.Id == id);
+            return await _context.Albums.Include(a => a.Pictures).FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Album> UpdateAlbumAsync(Album album, Guid userId)
@@ -104,6 +109,11 @@ namespace PictureGallery.Core
             return album;
         }
 
+        public async Task<bool> ContainsAlbumAsync(Guid id)
+        {
+            return await _context.Albums.AnyAsync(a => a.Id == id);
+        }
+
         public async Task<Picture> AddPictureAsync(Picture picture, Guid userId)
         {
             if (picture.UserId == userId)
@@ -123,7 +133,7 @@ namespace PictureGallery.Core
 
         public async Task<Picture> GetPictureAsync(Guid id)
         {
-            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).FirstAsync(p => p.Id == id);
+            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id)
@@ -198,6 +208,11 @@ namespace PictureGallery.Core
             return await _context.Pictures.Where(p => p.Album != null).OrderByDescending(p => p.DateCreted).ToListAsync();
         }
 
+        public async Task<bool> ContainsPictureAsync(Guid id)
+        {
+            return await _context.Pictures.AllAsync(p => p.Id == id);
+        }
+
         public async Task<Comment> AddCommentAsync(Comment comment)
         {
             _context.Comments.Add(comment);
@@ -212,7 +227,7 @@ namespace PictureGallery.Core
 
         public async Task<Comment> GetCommentByIdAsync(Guid commentId)
         {
-            return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstAsync(c => c.Id == commentId);
+            return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstOrDefaultAsync(c => c.Id == commentId);
         }
 
         public async Task<Comment> DeleteCommentAsync(Comment comment, Guid userId)
