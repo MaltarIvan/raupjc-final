@@ -170,7 +170,7 @@ namespace PictureGallery.Controllers
                 {
                     await _repository.UpdateAlbumAsync(album, currentUserId);
                 }
-                catch (UnauthorizedAttemptException uae)
+                catch (UnauthorizedAttemptException)
                 {
                     return View("~/Views/Shared/InvalidAttempt.cshtml");
                 }
@@ -196,7 +196,7 @@ namespace PictureGallery.Controllers
             {
                 await _repository.DeleteAlbumAsync(album, currentUserId);
             }
-            catch (UnauthorizedAttemptException uae)
+            catch (UnauthorizedAttemptException)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }

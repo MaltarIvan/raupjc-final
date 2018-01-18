@@ -98,7 +98,7 @@ namespace PictureGallery.Controllers
                 {
                     await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);
                 }
-                catch (UnauthorizedAttemptException uae)
+                catch (UnauthorizedAttemptException)
                 {
                     return View("~/Views/Shared/InvalidAttempt.cshtml");
                 }

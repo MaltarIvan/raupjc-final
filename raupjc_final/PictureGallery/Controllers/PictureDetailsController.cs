@@ -190,7 +190,7 @@ namespace PictureGallery.Controllers
             {
                 await _repository.DeletePictureAsync(picture, currentUserId);
             }
-            catch (UnauthorizedAttemptException uae)
+            catch (UnauthorizedAttemptException)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
@@ -232,7 +232,7 @@ namespace PictureGallery.Controllers
                 {
                     await _repository.UpdatePictureAsync(picture, currentUserId);
                 }
-                catch (UnauthorizedAttemptException uae)
+                catch (UnauthorizedAttemptException)
                 {
                     return View("~/Views/Shared/InvalidAttempt.cshtml");
                 }
@@ -259,7 +259,7 @@ namespace PictureGallery.Controllers
             {
                 await _repository.DeleteCommentAsync(comment, currentUserId);
             }
-            catch (UnauthorizedAttemptException uae)
+            catch (UnauthorizedAttemptException)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
@@ -279,7 +279,7 @@ namespace PictureGallery.Controllers
             {
                 await _repository.UpdatePictureAsync(picture, picture.UserId);
             }
-            catch (UnauthorizedAttemptException uae)
+            catch (UnauthorizedAttemptException)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
