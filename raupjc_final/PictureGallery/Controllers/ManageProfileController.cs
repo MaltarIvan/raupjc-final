@@ -40,7 +40,7 @@ namespace PictureGallery.Controllers
             }
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
             UserProfileVM userProfileVM = new UserProfileVM(currentUser);
-            List<Album> albums = currentUser.Albums;
+            List<Album> albums = await _repository.GetUsersAlbumsAsync(currentUser.Id);
             List<AlbumVM> albumsVM = new List<AlbumVM>();
             foreach (var album in albums)
             {

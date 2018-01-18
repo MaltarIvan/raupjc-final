@@ -263,7 +263,7 @@ namespace PictureGallery.Controllers
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
-            return RedirectToAction("Index", new { id = currentPictureId});
+            return RedirectToAction("Index", new { id = currentPictureId });
         }
 
         [Authorize(Roles = "Admin")]

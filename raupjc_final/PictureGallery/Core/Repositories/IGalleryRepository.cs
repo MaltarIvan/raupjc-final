@@ -13,7 +13,6 @@ namespace PictureGallery.Core.Repositories
         Task<UserProfile> UpdateUserAsync(UserProfile user);
         Task<List<UserProfile>> GetAllUsersAsync();
         Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId);
-        Task<List<UserProfile>> GetFollowingUserProfiles(Guid currentUserId);
 
         Task<Picture> GetPictureAsync(Guid id);
         Task<List<Picture>> GetAllPicturesAsync();
@@ -31,9 +30,9 @@ namespace PictureGallery.Core.Repositories
         Task<bool> ContainsAlbumAsync(Guid id);
         Task<Album> UpdateAlbumAsync(Album album, Guid userId);
         Task<Album> DeleteAlbumAsync(Album album, Guid userId);
+        Task<List<Album>> GetUsersAlbumsAsync(Guid userId);
         
         Task<Comment> AddCommentAsync(Comment comment);
-        Task<List<Comment>> GetCommentsAsync(Guid commentId);
         Task<Comment> GetCommentByIdAsync(Guid commentId);
         Task<Comment> DeleteCommentAsync(Comment comment, Guid userId);
     }

@@ -36,7 +36,7 @@ namespace PictureGallery.Core
 
         public Task<UserProfile> GetUserByIdAsync(Guid id)
         {
-            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.Albums).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers).SingleOrDefaultAsync(u => u.Id == id);
+            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers).SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<bool> ContainsUserAsync(Guid id)
@@ -47,11 +47,6 @@ namespace PictureGallery.Core
         public async Task<List<UserProfile>> GetUserProfilesAsync(Guid currentUserId)
         {
             return await _context.UserProfiles.Where(u => u.Id != currentUserId).Include(u => u.ProfilePicture).ToListAsync();
-        }
-
-        public Task<List<UserProfile>> GetFollowingUserProfiles(Guid currentUserId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<UserProfile> UpdateUserAsync(UserProfile user)
@@ -114,6 +109,11 @@ namespace PictureGallery.Core
                 throw new UnauthorizedAttemptException();
             }
             return album;
+        }
+
+        public async Task<List<Album>> GetUsersAlbumsAsync(Guid userId)
+        {
+            return await _context.Albums.Where(a => a.UserId == userId).OrderByDescending(a => a.DateCreated).ToListAsync();
         }
 
         public async Task<bool> ContainsAlbumAsync(Guid id)
@@ -235,16 +235,6 @@ namespace PictureGallery.Core
             return comment;
         }
 
-        public async Task<List<Comment>> GetCommentsAsync(Guid pictureId)
-        {
-            return  await _context.Comments.Include(c => c.User).Include(c => c.User.ProfilePicture).Where(c => c.Picture.Id == pictureId).OrderBy(c => c.DateCreated).ToListAsync();
-        }
-
-        public async Task<Comment> GetCommentByIdAsync(Guid commentId)
-        {
-            return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstOrDefaultAsync(c => c.Id == commentId);
-        }
-
         public async Task<Comment> DeleteCommentAsync(Comment comment, Guid userId)
         {
             if (comment.User.Id == userId)
@@ -263,6 +253,9 @@ namespace PictureGallery.Core
         {
             return await _context.Pictures.Where(p => p.UserId == id && p.User == null).ToListAsync();
         }
-
+        public async Task<Comment> GetCommentByIdAsync(Guid commentId)
+        {
+            return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstOrDefaultAsync(c => c.Id == commentId);
+        }
     }
 }

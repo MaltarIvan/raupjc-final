@@ -44,6 +44,7 @@ namespace PictureGallery.Controllers
             {
                 return RedirectToAction("Index", "ManageProfile");
             }
+            userProfile.Albums = await _repository.GetUsersAlbumsAsync(userProfile.Id);
             UserProfileDetailsVM userProfileDetailsVM = new UserProfileDetailsVM(userProfile.Followers.Any(u => u.Id == currentUserId), userProfile);
             return View(userProfileDetailsVM);
         }
