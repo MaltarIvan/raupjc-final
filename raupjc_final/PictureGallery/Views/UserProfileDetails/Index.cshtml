@@ -14,7 +14,7 @@
         <div class="row" style="margin-bottom: 10px;">
             <hr />
             <div class="col-sm-4">
-                <img class="profile-picture" src="data:image/png;base64, @Model.UserProfileVM.ProfilePictureVM.Data" /> <br />
+                <img class="profile-picture" src="@Model.UserProfileVM.ProfilePictureVM.Url" /> <br />
             </div>
             <div class="col-sm-8">
                 <p class="user-name">@Model.UserProfileVM.UserName</p>
@@ -40,9 +40,17 @@
         }
     </div>
     <div class="col-sm-5 album-section">
-        @foreach (var item in Model.Albums)
+        @if (!Model.Albums.Any())
+        {
+            <h4>No albums to present!</h4>
+            <p>User has no albums</p>
+        }
+        else
+        {
+            foreach (var item in Model.Albums)
             {
-            @Html.Partial("~/Views/UserProfileDetails/AlbumPartial.cshtml", item)
+                @Html.Partial("~/Views/UserProfileDetails/AlbumPartial.cshtml", item)
+            }
         }
     </div>
 </div>

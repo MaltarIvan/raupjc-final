@@ -115,14 +115,19 @@
 </div>
 <div class="row">
     <div>
-        @if (Model.CommentsVM.Count > 0)
+        <hr />
+        <h2>Comments:</h2>
+        @if (!Model.CommentsVM.Any())
         {
-            <hr />
-            <h2>Comments:</h2>
+            <h4>No comments to present!</h4>
+            <p>Be the first one to comment</p>
         }
-        @foreach (var item in Model.CommentsVM)
+        else
         {
-            @Html.Partial("CommentPartial", item)
+            foreach (var item in Model.CommentsVM)
+            {
+                @Html.Partial("CommentPartial", item)
+            }
         }
     </div>
 </div>

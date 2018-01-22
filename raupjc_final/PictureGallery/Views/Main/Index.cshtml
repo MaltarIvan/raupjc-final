@@ -63,9 +63,17 @@
         <div class="col-sm-7">
             <h3 class="Picture-group">@Model.PictureGroup</h3>
             <div class="cont">
-                @foreach (var item in Model.PicturesToPresent)
+                @if (!Model.PicturesToPresent.Any())
                 {
-                    @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
+                    <hr />
+                    <h4>No pictures to present!</h4>
+                }
+                else
+                {
+                    foreach (var item in Model.PicturesToPresent)
+                {
+                        @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
+                    }
                 }
             </div>
         </div>
@@ -73,18 +81,32 @@
         <div class="col-sm-1" style="margin:0px; padding:0px;">
             <p class="User-group">All Users</p>
             <div class="cont">
-                @foreach (var item in Model.UsersVM)
+                @if (!Model.UsersVM.Any())
                 {
-                    @Html.Partial("PartialPresentUser", item)
+                    <h4>No users</h4>
+                }
+                else
+                {
+                    foreach (var item in Model.UsersVM)
+                    {
+                        @Html.Partial("PartialPresentUser", item)
+                    }
                 }
             </div>
         </div>
         <div class="col-sm-1" style="margin:0px; padding:0px;">
             <p class="User-group">Following</p>
             <div class="cont">
-                @foreach (var item in Model.FollowingUsersVM)
+                @if (!Model.FollowingUsersVM.Any())
                 {
-                    @Html.Partial("PartialPresentUser", item)
+                    <h4>No users following</h4>
+                }
+                else
+                {
+                    foreach (var item in Model.FollowingUsersVM)
+                    {
+                        @Html.Partial("PartialPresentUser", item)
+                    }
                 }
             </div>
         </div>

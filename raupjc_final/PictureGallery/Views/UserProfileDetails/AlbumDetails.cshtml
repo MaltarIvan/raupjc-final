@@ -21,9 +21,17 @@
         </a><br />
     </div>
     <div class="col-sm-7 pictures-section" style="padding:5px;">
-        @foreach (var item in Model.PicturesVM)
+        @if (!Model.PicturesVM.Any())
+        {
+            <h4>No pictures to present!</h4>
+            <p>User has no pictures in this album</p>
+        }
+        else
+        {
+            foreach (var item in Model.PicturesVM)
             {
-            @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
+                @Html.Partial("~/Views/Shared/PicturePartial.cshtml", item)
+            }
         }
     </div>
 </div>

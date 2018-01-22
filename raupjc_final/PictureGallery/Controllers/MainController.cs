@@ -69,7 +69,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            MainVM indexViewModel = new MainVM("Newest", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Newest Pictures", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -178,7 +178,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            MainVM indexViewModel = new MainVM("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Top Pictures", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
 
             return View("Index", indexViewModel);
         }
@@ -207,7 +207,7 @@ namespace PictureGallery.Controllers
             //get following users
             List<UserProfileVM> followingUserProfilesVM = GetFollowingUsersVM(currentUser);
 
-            MainVM indexViewModel = new MainVM("Your favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
+            MainVM indexViewModel = new MainVM("Your Favorites", userProfileVM, picturesToPresent, userProfilesVM, followingUserProfilesVM);
             
             return View("Index", indexViewModel);
         }

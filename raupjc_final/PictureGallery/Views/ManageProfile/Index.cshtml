@@ -34,10 +34,19 @@
         </a><br />
     </div>
     <div class="col-sm-5 album-section">
-        @foreach (var item in Model.Albums)
-            {
-            @Html.Partial("~/Views/ManageProfile/AlbumPartial.cshtml", item)
+        @if (!Model.Albums.Any())
+        {
+            <h4>No albums to present!</h4>
+            <p>Add albums to your profile</p>
         }
+        else
+        {
+            foreach (var item in Model.Albums)
+            {
+                @Html.Partial("~/Views/ManageProfile/AlbumPartial.cshtml", item)
+            }
+        }
+
     </div>
 </div>
 
