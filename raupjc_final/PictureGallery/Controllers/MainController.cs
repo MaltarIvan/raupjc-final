@@ -15,6 +15,8 @@ using System.IO;
 using PictureGallery.Models.Main;
 using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Models.Shared;
+using Microsoft.Extensions.Configuration;
+using PictureGallery.Utilities;
 
 namespace PictureGallery.Controllers
 {
@@ -24,12 +26,18 @@ namespace PictureGallery.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGalleryRepository _repository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly string _storageAccountName;
+        private readonly string _storageAccountKey;
+        private readonly string _storageContainerName;
 
-        public MainController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
+        public MainController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _userManager = userManager;
             _repository = repository;
             _hostingEnvironment = hostingEnvironment;
+            _storageAccountName = configuration["StorageAccountSettings:StorageAccountName"];
+            _storageAccountKey = configuration["StorageAccountSettings:StorageAccountKey1"];
+            _storageContainerName = configuration["StorageAccountSettings:ResourceGroup"];
 
         }
 
@@ -111,14 +119,22 @@ namespace PictureGallery.Controllers
                 {
                     BinaryReader reader = new BinaryReader(model.ProfilePictureUpload.OpenReadStream());
                     data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
-                    profilePicture = new Picture(curretUserId, data);
+
+                    var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                    var url = await uploader.Upload(_storageContainerName, data);
+
+                    profilePicture = new Picture(curretUserId, url);
                 }
                 else
                 {
                     var webRoot = _hostingEnvironment.WebRootPath;
                     var file = Path.Combine(webRoot, "Content\\default-profile-picture.png");
                     data = System.IO.File.ReadAllBytes(file);
-                    profilePicture = new Picture(curretUserId, data);
+
+                    var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                    var url = await uploader.Upload(_storageContainerName, data);
+
+                    profilePicture = new Picture(curretUserId, url);
                 }
                 
                 UserProfile currentUser = CreateNewUserProfile(curretUserId);

@@ -43,12 +43,11 @@ namespace PictureGallery.Core.Database
             modelBuilder.Entity<Picture>().Property(p => p.Description).IsOptional();
             modelBuilder.Entity<Picture>().Property(p => p.DateCreted).IsRequired();
             modelBuilder.Entity<Picture>().HasOptional(p => p.Album).WithMany(a => a.Pictures);
-            modelBuilder.Entity<Picture>().Property(p => p.Data).IsRequired();
+            modelBuilder.Entity<Picture>().Property(p => p.Url).IsRequired();
             modelBuilder.Entity<Picture>().Property(p => p.NumberOfLikes).IsRequired();
             modelBuilder.Entity<Picture>().Property(p => p.NumberOfDislikes).IsRequired();
             modelBuilder.Entity<Picture>().HasMany(p => p.Comments).WithRequired(c => c.Picture);
             modelBuilder.Entity<Picture>().Property(p => p.IsHot).IsRequired();
-            //modelBuilder.Entity<Picture>().HasRequired(p => p.User).WithOptional(u => u.ProfilePicture);
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Text).IsRequired();

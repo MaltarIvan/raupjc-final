@@ -124,11 +124,11 @@ namespace PictureGallery
             //creating a super user who could maintain the web app
             var poweruser = new ApplicationUser
             {
-                UserName = Configuration.GetSection("UserSettings")["UserEmail"],
-                Email = Configuration.GetSection("UserSettings")["UserEmail"]
-            };
+                UserName = Configuration["AdminSettings:AdminEmail"],
+                Email = Configuration["AdminSettings:AdminEmail"]
 
-            string UserPassword = Configuration.GetSection("UserSettings")["UserPassword"];
+            };
+            string UserPassword = Configuration["AdminSettings:AdminPassword"];
             var _user = await UserManager.FindByEmailAsync(Configuration.GetSection("UserSettings")["UserEmail"]);
 
             if (_user == null)

@@ -10,13 +10,13 @@ namespace PictureGallery.Models.Shared
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public string Data { get; set; }
+        public string Url { get; set; }
 
         public ProfilePictureVM(Picture profilePicture)
         {
             Id = profilePicture.Id;
             UserId = profilePicture.UserId;
-            Data = Convert.ToBase64String(profilePicture.Data);
+            Url = profilePicture.Url;
         }
     }
 }

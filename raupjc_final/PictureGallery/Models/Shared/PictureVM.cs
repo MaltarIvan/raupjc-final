@@ -10,7 +10,7 @@ namespace PictureGallery.Models.Shared
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public string Data { get; set; }
+        public string Url { get; set; }
         public string DateCreated { get; set; }
         public string Description { get; set; }
         public int NumberOfLikes { get; set; }
@@ -20,7 +20,7 @@ namespace PictureGallery.Models.Shared
         {
             Id = picture.Id;
             UserId = picture.UserId;
-            Data = Convert.ToBase64String(picture.Data);
+            Url = picture.Url;
             DateCreated = picture.DateCreted.ToShortDateString();
             Description = picture.Description;
             NumberOfLikes = picture.NumberOfLikes;

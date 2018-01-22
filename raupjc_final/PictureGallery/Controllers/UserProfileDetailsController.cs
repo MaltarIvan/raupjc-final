@@ -13,6 +13,7 @@ using PictureGallery.Models.Main;
 using PictureGallery.Models.UserProfileDetails;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.Shared;
+using Microsoft.Extensions.Configuration;
 
 namespace PictureGallery.Controllers
 {
@@ -22,12 +23,18 @@ namespace PictureGallery.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGalleryRepository _repository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly string _storageAccountName;
+        private readonly string _storageAccountKey;
+        private readonly string _storageContainerName;
 
-        public UserProfileDetailsController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
+        public UserProfileDetailsController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _userManager = userManager;
             _repository = repository;
             _hostingEnvironment = hostingEnvironment;
+            _storageAccountName = configuration["StorageAccountSettings:StorageAccountName"];
+            _storageAccountKey = configuration["StorageAccountSettings:StorageAccountKey1"];
+            _storageContainerName = configuration["StorageAccountSettings:ResourceGroup"];
         }
 
         [HttpGet("Profile/Index/{id}")]

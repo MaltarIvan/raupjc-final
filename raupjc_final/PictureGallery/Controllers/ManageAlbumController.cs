@@ -18,6 +18,8 @@ using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.ManageAlbum;
 using PictureGallery.Models.Shared;
 using PictureGallery.CustomeExceptions;
+using Microsoft.Extensions.Configuration;
+using PictureGallery.Utilities;
 
 namespace PictureGallery.Controllers
 {
@@ -27,12 +29,18 @@ namespace PictureGallery.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGalleryRepository _repository;
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly string _storageAccountName;
+        private readonly string _storageAccountKey;
+        private readonly string _storageContainerName;
 
-        public ManageAlbumController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment)
+        public ManageAlbumController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IHostingEnvironment hostingEnvironment, IConfiguration configuration)
         {
             _userManager = userManager;
             _repository = repository;
             _hostingEnvironment = hostingEnvironment;
+            _storageAccountName = configuration["StorageAccountSettings:StorageAccountName"];
+            _storageAccountKey = configuration["StorageAccountSettings:StorageAccountKey1"];
+            _storageContainerName = configuration["StorageAccountSettings:ResourceGroup"];
         }
 
         [HttpGet("ManageAlbum/Index/{id}")]
@@ -59,7 +67,6 @@ namespace PictureGallery.Controllers
             List<PictureVM> picturesVM = new List<PictureVM>();
             foreach (var picture in album.Pictures)
             {
-                string data = Convert.ToBase64String(picture.Data);
                 picturesVM.Add(new PictureVM(picture));
             }
 
@@ -125,7 +132,11 @@ namespace PictureGallery.Controllers
                     BinaryReader reader = new BinaryReader(model.Picture.OpenReadStream());
                     byte[] data = reader.ReadBytes((int)model.Picture.Length);
                     Album album = await _repository.GetAlbumAsync(model.AlbumId);
-                    Picture picture = new Picture(currentUserId, model.Description, album, data);
+
+                    var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                    var url = await uploader.Upload(_storageContainerName, data);
+
+                    Picture picture = new Picture(currentUserId, model.Description, album, url);
                     await _repository.AddPictureAsync(picture, currentUserId);
                     return RedirectToAction("Index", album.Id);
                 }

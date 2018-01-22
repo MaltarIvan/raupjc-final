@@ -14,7 +14,7 @@ namespace PictureGallery.Core
         public string Description { get; set; }
         public DateTime DateCreted { get; set; }
         public Album Album { get; set; }
-        public byte[] Data { get; set; }
+        public string Url { get; set; }
         public bool IsHot { get; set; }
         public UserProfile User { get; set; }
         public List<UserProfile> UsersFavorite { get; set; }
@@ -24,14 +24,14 @@ namespace PictureGallery.Core
         public List<UserProfile> UsersDisliked { get; set; }
         public List<Comment> Comments { get; set; } 
         
-        public Picture(Guid userId, string description, Album album, byte[] data)
+        public Picture(Guid userId, string description, Album album, string url)
         {
             Id = Guid.NewGuid();
             UserId = userId;
             Description = description;
             DateCreted = DateTime.Now;
             Album = album;
-            Data = data;
+            Url = url;
             UsersFavorite = new List<UserProfile>();
             NumberOfLikes = 0;
             NumberOfDislikes = 0;
@@ -41,11 +41,11 @@ namespace PictureGallery.Core
             IsHot = false;
         }
 
-        public Picture(Guid userId, byte[] data)
+        public Picture(Guid userId, string url)
         {
             Id = Guid.NewGuid();
             UserId = userId;
-            Data = data;
+            Url = url;
             DateCreted = DateTime.Now;
             NumberOfLikes = 0;
             NumberOfDislikes = 0;

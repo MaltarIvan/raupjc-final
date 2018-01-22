@@ -11,7 +11,7 @@ namespace PictureGallery.Models.PictureDetails
         public Guid Id { get; set; }
         public UserProfile User { get; set; }
         public Album Album { get; set; }
-        public string Data { get; set; }
+        public string Url { get; set; }
         public int NumberOfLikes { get; set; }
         public int NumberOfDislikes { get; set; }
         public string DateCreated { get; set; }
@@ -27,7 +27,7 @@ namespace PictureGallery.Models.PictureDetails
             Id = picture.Id;
             User = picture.User;
             Album = picture.Album;
-            Data = Convert.ToBase64String(picture.Data);
+            Url = picture.Url;
             NumberOfLikes = picture.NumberOfLikes;
             NumberOfDislikes = picture.NumberOfDislikes;
             DateCreated = picture.DateCreted.ToShortDateString();

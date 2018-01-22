@@ -15,6 +15,8 @@ using PictureGallery.Models.Main;
 using PictureGallery.Models.ManageProfile;
 using PictureGallery.Models.Shared;
 using PictureGallery.CustomeExceptions;
+using Microsoft.Extensions.Configuration;
+using PictureGallery.Utilities;
 
 namespace PictureGallery.Controllers
 {
@@ -23,11 +25,17 @@ namespace PictureGallery.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGalleryRepository _repository;
+        private readonly string _storageAccountName;
+        private readonly string _storageAccountKey;
+        private readonly string _storageContainerName;
 
-        public ManageProfileController(IGalleryRepository repository, UserManager<ApplicationUser> userManager)
+        public ManageProfileController(IGalleryRepository repository, UserManager<ApplicationUser> userManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _repository = repository;
+            _storageAccountName = configuration["StorageAccountSettings:StorageAccountName"];
+            _storageAccountKey = configuration["StorageAccountSettings:StorageAccountKey1"];
+            _storageContainerName = configuration["StorageAccountSettings:ResourceGroup"];
         }
 
         public async Task<IActionResult> Index()
@@ -93,7 +101,10 @@ namespace PictureGallery.Controllers
                 BinaryReader reader = new BinaryReader(model.ProfilePictureUpload.OpenReadStream());
                 data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
 
-                profilePicture.Data = data;
+                var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                var url = await uploader.Upload(_storageContainerName, data);
+
+                profilePicture.Url = url;
                 try
                 {
                     await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);

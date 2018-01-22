@@ -11,7 +11,7 @@ namespace PictureGallery.Models.PictureDetails
         public Guid Id { get; set; }
         public string UserName { get; set; }
         public Guid UserId { get; set; }
-        public string UsersProfilePicture { get; set; }
+        public string UsersProfilePictureUrl { get; set; }
         public DateTime DateCreated { get; set; }
         public string Text { get; set; }
         public bool IsUsersComment { get; set; }
@@ -21,7 +21,7 @@ namespace PictureGallery.Models.PictureDetails
             Id = comment.Id;
             UserId = comment.User.Id;
             UserName = comment.User.UserName;
-            UsersProfilePicture = Convert.ToBase64String(comment.User.ProfilePicture.Data);
+            UsersProfilePictureUrl = comment.User.ProfilePicture.Url;
             DateCreated = comment.DateCreated;
             Text = comment.Text;
             IsUsersComment = isUsersComment;

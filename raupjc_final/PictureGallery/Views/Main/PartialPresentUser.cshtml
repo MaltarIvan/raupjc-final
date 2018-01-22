@@ -11,7 +11,7 @@
 <div class="User-div">
     <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.Id">
         <div>
-            <img class="User-img" src="data:image/png;base64, @Model.ProfilePictureVM.Data"/>
+            <img class="User-img" src="@Model.ProfilePictureVM.Url"/>
             <p class="User-name">@Model.UserName</p>
         </div>
     </a>

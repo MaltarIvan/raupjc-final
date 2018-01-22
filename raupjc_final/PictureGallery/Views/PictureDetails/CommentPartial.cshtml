@@ -16,7 +16,7 @@
 <body>
     <div class="row comment-row">
         <div class="col-sm-1">
-            <img class="user-img" src="data:image/png;base64, @Model.UsersProfilePicture"/>
+            <img class="user-img" src="@Model.UsersProfilePictureUrl"/>
         </div>
         <div class="col-sm-8">
             <h4 style="text-decoration:underline"><a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.UserId">@Model.UserName</a></h4>
@@ -38,7 +38,7 @@
     <!--
     <div class="row" style="border-style:solid; border-color:black;">
         <div class="col-sm-1">
-            <img src="data:image/png;base64, @Model.UsersProfilePicture" width="50" height="50" style="margin:10px" />
+            <img src="data:image/png;base64, @Model.UsersProfilePictureUrl" width="50" height="50" style="margin:10px" />
         </div>
         <div class="col-sm-8">
             <h4 style="text-decoration:underline"><a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.UserId">@Model.UserName</a></h4>
