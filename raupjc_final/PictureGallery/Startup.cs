@@ -129,7 +129,7 @@ namespace PictureGallery
 
             };
             string UserPassword = Configuration["AdminSettings:AdminPassword"];
-            var _user = await UserManager.FindByEmailAsync(Configuration.GetSection("UserSettings")["UserEmail"]);
+            var _user = await UserManager.FindByEmailAsync(Configuration["AdminSettings:AdminEmail"]);
 
             if (_user == null)
             {
