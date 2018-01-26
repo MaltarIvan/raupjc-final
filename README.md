@@ -26,7 +26,7 @@ Za uspješno korištenje ove web aplikacije potreban je jedan od novijih pregled
 
 To successfully use this web application, one of the newer browsers is needed (IE 9, Chrome, Firefox, Edge ...)
 
-## Korištenje aplikacije
+## Korištenje aplikacije / Application use
 
 ### Ulazak u aplikaciju
 
