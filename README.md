@@ -10,13 +10,13 @@ It is a web application that is use as a social media for sharing images between
 
 ## Osnovni podatci
 
-URL link do web aplikacije je: [https://picturesgallery.azurewebsites.net/]
-Aplikaciju je izradio Ivan Maltar [ivan.maltar@fer.hr] [maltar.ivan@gmail.com]
+URL link do web aplikacije je: https://picturesgallery.azurewebsites.net/
+Aplikaciju je izradio Ivan Maltar (ivan.maltar@fer.hr)
 
 ## Basic data
 
-URL link to the web application is: [https://picturesgallery.azurewebsites.net/]
-The application was developed by Ivan Maltar [ivan.maltar@fer.hr] [maltar.ivan@gmail.com]
+URL link to the web application is: https://picturesgallery.azurewebsites.net/
+The application was developed by Ivan Maltar (ivan.maltar@fer.hr)
 
 ## Zahtjevi za korištenje aplikacije
 
@@ -48,9 +48,9 @@ ili "dislike-ati" te komentirati. Slike se mogu oznaèiti sa "Favorite".
 
 ## Korištene tehnologije
 
-- [Asp.Net Core] (https://docs.microsoft.com/en-us/aspnet/core/) -Web framework
-- [Bootstrap] (https://getbootstrap.com/) - Dizajn
+- [Asp.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) -Web framework
+- [Bootstrap](https://getbootstrap.com/) - Dizajn
 
 ## Autor
 
-- Ivan Maltar - [https://github.com/MaltarIvan]
+- Ivan Maltar - (MaltarIvan)[https://github.com/MaltarIvan]
