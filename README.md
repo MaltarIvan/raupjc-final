@@ -48,9 +48,9 @@ ili "dislike-ati" te komentirati. Slike se mogu oznaèiti sa "Favorite".
 
 ## Korištene tehnologije
 
-- [Asp.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) -Web framework
+- [Asp.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) - Web framework
 - [Bootstrap](https://getbootstrap.com/) - Dizajn
 
 ## Autor
 
-- Ivan Maltar - (MaltarIvan)[https://github.com/MaltarIvan]
+- Ivan Maltar - [MaltarIvan](https://github.com/MaltarIvan)
