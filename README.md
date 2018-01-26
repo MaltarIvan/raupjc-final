@@ -1,7 +1,7 @@
 # PictureGallery
 
-Ovo je projekt rağen za vještinu "Razvoj aplikacija u programskom jeziku C#" odrane u zimskom semestru akademske godine 2017./2018. na Fakultetu elektrtehnike i raèunarstva u Zagrebu.
-Radi se o web aplikaciji koja se upotrebljava kao društvena mrea za razmjenu slika izmeğu korisnika. Korisnici mogu kreirati svoj profil te pregledavati slike drugih korisnika kao i objavljivati
+Ovo je projekt raÄ‘en za vjeÅ¡tinu "Razvoj aplikacija u programskom jeziku C#" odrÅ¾ane u zimskom semestru akademske godine 2017./2018. na Fakultetu elektrtehnike i raÄunarstva u Zagrebu.
+Radi se o web aplikaciji koja se upotrebljava kao druÅ¡tvena mreÅ¾a za razmjenu slika izmeÄ‘u korisnika. Korisnici mogu kreirati svoj profil te pregledavati slike drugih korisnika kao i objavljivati
 svoje vlastite slike.
 
 This is a project developed for the "Application development in C# programming language" course held in the winter semester of the academic year 2017./2018. at the Faculty of Electrical Engineering and Computing in Zagreb.
@@ -18,35 +18,32 @@ Aplikaciju je izradio Ivan Maltar (ivan.maltar@fer.hr)
 URL link to the web application is: https://picturesgallery.azurewebsites.net/
 The application was developed by Ivan Maltar (ivan.maltar@fer.hr)
 
-## Zahtjevi za korištenje aplikacije
+## Zahtjevi za koriÅ¡tenje aplikacije
 
-Za uspješno korištenje ove web aplikacije potreban je jedan od novijih preglednika (IE 9, Chrome, Firefox, Edge ...)
+Za uspjeÅ¡no koriÅ¡tenje ove web aplikacije potreban je jedan od novijih preglednika (IE 9, Chrome, Firefox, Edge ...)
 
 ## Application Request
 
 To successfully use this web application, one of the newer browsers is needed (IE 9, Chrome, Firefox, Edge ...)
 
-## Korištenje aplikacije
+## KoriÅ¡tenje aplikacije
 
 ### Ulazak u aplikaciju
 
-Po ulasku u aplikaciju pojavljuje se forma za logiranje korisnika. Korisnik se prijavljue svojim Emailom, Facebook ili Google raèunom. U sluèaju da korisnik nije registriran on to moe napraviti
-klikom na 'Register' èime se otvara nova forma u kojoj korisnik moe stvoriti svoj novi korisnièki raèun.
-Ako se korisnik prvi puta logirao na aplikaciju on je duan stvoriti svoj novi korisnièki profil upisujuæi svoje korisnièko ime i stavljanjem slike profila (neobavezno).
-Nakon toga prelazi na poèetnu stranicu aplikacije. U sredini stranice se nalaze slike koje objavili korisnici aplikacije (ukljuèujuæi i trenutno logiranog korisnika). Prikaz slika koje æe
-se prikazati moguæe je kontrolirati gumbima na lijevoj strani naslovne stranice (ispod slike profina trenutno logiranog korisnika). S desne strane nalazi se lista ostalih korisnika koji su
+Po ulasku u aplikaciju pojavljuje se forma za logiranje korisnika. Korisnik se prijavljue svojim Emailom, Facebook ili Google raÄunom. U sluÄaju da korisnik nije registriran on to moÅ¾e napraviti klikom na 'Register' Äime se otvara nova forma u kojoj korisnik moÅ¾e stvoriti svoj novi korisniÄki raÄun.
+Ako se korisnik prvi puta logirao na aplikaciju on je duÅ¾an stvoriti svoj novi korisniÄki profil upisujuÄ‡i svoje korisniÄko ime i stavljanjem slike profila (neobavezno).
+Nakon toga prelazi na poÄetnu stranicu aplikacije. U sredini stranice se nalaze slike koje objavili korisnici aplikacije (ukljuÄujuÄ‡i i trenutno logiranog korisnika). Prikaz slika koje Ä‡e se prikazati moguÄ‡e je kontrolirati gumbima na lijevoj strani naslovne stranice (ispod slike profina trenutno logiranog korisnika). S desne strane nalazi se lista ostalih korisnika koji su
 registrirani te lista korinika koji se prate (Following users).
 
 ### Vlastiti profil
 
-Korinik moe ureğivati svoj profil mjenjajuæi svoju sliku profila te dodavanjem i brisanjem albuma. Unutar album korisnik moe pregledavati slike u tom albumu, dodavati druge slike ili ih brisati.
+Korinik moÅ¾e ureÄ‘ivati svoj profil mjenjajuÄ‡i svoju sliku profila te dodavanjem i brisanjem albuma. Unutar albuma korisnik moÅ¾e pregledavati slike u tom albumu, dodavati druge slike ili ih brisati.
 
 ### Pregledavanje slika drugih korisnika
 
-Korisnik vidi slike drugih korisnika na naslovnoj stranici aplikacije. Iste moe vidjeti i ulaskom na profil korisnika. Tamo moe pregledavati njegove albume i slike u njima. Slike moe "like-ati"
-ili "dislike-ati" te komentirati. Slike se mogu oznaèiti sa "Favorite".
+Korisnik vidi slike drugih korisnika na naslovnoj stranici aplikacije. Iste moÅ¾e vidjeti i ulaskom na profil korisnika. Tamo moÅ¾e pregledavati njegove albume i slike u njima. Slike moÅ¾e lajkati ili dislajkati te komentirati. Slike se mogu oznaÄiti sa "Favorite".
 
-## Korištene tehnologije
+## KoriÅ¡tene tehnologije
 
 - [Asp.Net Core](https://docs.microsoft.com/en-us/aspnet/core/) - Web framework
 - [Bootstrap](https://getbootstrap.com/) - Dizajn
