@@ -5,7 +5,7 @@ Radi se o web aplikaciji koja se upotrebljava kao društvena mreža za razmjenu 
 svoje vlastite slike.
 
 This is a project developed for the "Application development in C# programming language" course held in the winter semester of the academic year 2017./2018. at the Faculty of Electrical Engineering and Computing in Zagreb.
-It is a web application that is use as a social media for sharing images between users. User can create their own profile and view other user's pictures as well as publish his own pictures.
+It is a web application that is used as a social media for sharing images between users. User can create his own profile and view other user's pictures as well as publish his own pictures.
 
 
 ## Osnovni podatci
