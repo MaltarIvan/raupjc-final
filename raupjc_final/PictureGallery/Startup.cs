@@ -62,17 +62,6 @@ namespace PictureGallery
                 googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
-            Console.WriteLine("___________________________________________________");
-            Console.WriteLine("Authentication:Facebook:AppId : " + Configuration["Authentication:Facebook:AppId"]);
-            Console.WriteLine("Authentication:Facebook:AppSecret : " + Configuration["Authentication:Facebook:AppSecret"]);
-            Console.WriteLine("Authentication:Google:ClientId : " + Configuration["Authentication:Google:ClientId"]);
-            Console.WriteLine("Authentication:Google:ClientSecret : " + Configuration["Authentication:Google:ClientSecret"]);
-            Console.WriteLine("AdminSettings:AdminEmail : " + Configuration["AdminSettings:AdminEmail"]);
-            Console.WriteLine("AdminSettings:AdminPassword : " + Configuration["AdminSettings:AdminPassword"]);
-            Console.WriteLine("StorageAccountSettings:StorageAccountName : " + Configuration["StorageAccountSettings:StorageAccountName"]);
-            Console.WriteLine("StorageAccountSettings:StorageAccountKey1 : " + Configuration["StorageAccountSettings:StorageAccountKey1"]);
-            Console.WriteLine("StorageAccountSettings:ResourceGroup : " + Configuration["StorageAccountSettings:ResourceGroup"]);
-            Console.WriteLine("___________________________________________________");
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>

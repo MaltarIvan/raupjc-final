@@ -56,6 +56,18 @@ namespace PictureGallery.Core
             IsHot = false;
         }
 
+        public Picture(string url, Guid id)
+        {
+            Id = id;
+            Url = url;
+            DateCreted = DateTime.Now;
+            Comments = new List<Comment>();
+            UsersLiked = new List<UserProfile>();
+            UsersDisliked = new List<UserProfile>();
+            UsersFavorite = new List<UserProfile>();
+            IsHot = false;
+        }
+
         public Picture()
         {
             Comments = new List<Comment>();

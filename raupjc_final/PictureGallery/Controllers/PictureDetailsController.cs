@@ -19,6 +19,7 @@ using PictureGallery.Models.ManageAlbum;
 using PictureGallery.Models.PictureDetails;
 using PictureGallery.CustomeExceptions;
 using Microsoft.Extensions.Configuration;
+using PictureGallery.Utilities;
 
 namespace PictureGallery.Controllers
 {
@@ -195,6 +196,8 @@ namespace PictureGallery.Controllers
             Guid albumId = picture.Album.Id;
             try
             {
+                var azureUtility = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                await azureUtility.Delete(_storageContainerName, picture.Id);
                 await _repository.DeletePictureAsync(picture, currentUserId);
             }
             catch (UnauthorizedAttemptException)

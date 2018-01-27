@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using PictureGallery.Core;
 
 namespace PictureGallery.Utilities
 {
@@ -19,7 +20,7 @@ namespace PictureGallery.Utilities
             _accountKey = accountKey;
         }
 
-        public async Task<string> Upload(string containerName, byte[] data)
+        public async Task<Picture> Upload(string containerName, byte[] data)
         {
             StorageCredentials storageCredentials = new StorageCredentials(_accountName, _accountKey);
             // Create cloudstorage account by passing the storagecredentials
@@ -39,7 +40,20 @@ namespace PictureGallery.Utilities
             // Upload the file
             await blockBlob.UploadFromByteArrayAsync(data, 0, data.Length);
 
-            return blockBlob.Uri.ToString();
+            return new Picture(blockBlob.Uri.ToString(), new Guid(fileName));
+        }
+
+        public async Task<bool> Delete(string containerName, Guid pictureId)
+        {
+            StorageCredentials storageCredentials = new StorageCredentials(_accountName, _accountKey);
+            CloudStorageAccount storageAccount = new CloudStorageAccount(storageCredentials, true);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+            await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
+            string fileName = pictureId.ToString();
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+            await blockBlob.DeleteAsync();
+            return true;
         }
     }
 }

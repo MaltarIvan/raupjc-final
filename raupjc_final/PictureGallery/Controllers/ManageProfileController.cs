@@ -101,13 +101,16 @@ namespace PictureGallery.Controllers
                 BinaryReader reader = new BinaryReader(model.ProfilePictureUpload.OpenReadStream());
                 data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
 
-                var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
-                var url = await uploader.Upload(_storageContainerName, data);
-
-                profilePicture.Url = url;
+                var azureStorageUtility = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
+                Picture oldProfilepicture = profilePicture;
+                profilePicture = await azureStorageUtility.Upload(_storageContainerName, data);
+                profilePicture.UserId = currentUser.Id;
                 try
                 {
-                    await _repository.UpdatePictureAsync(profilePicture, currentUser.Id);
+                    await _repository.DeletePictureAsync(oldProfilepicture, currentUser.Id);
+                    currentUser.ProfilePicture = profilePicture;
+                    await _repository.UpdateUserAsync(currentUser);
+                    await azureStorageUtility.Delete(_storageContainerName, oldProfilepicture.Id);
                 }
                 catch (UnauthorizedAttemptException)
                 {

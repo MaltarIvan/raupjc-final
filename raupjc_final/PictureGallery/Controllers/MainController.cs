@@ -121,9 +121,9 @@ namespace PictureGallery.Controllers
                     data = reader.ReadBytes((int)model.ProfilePictureUpload.Length);
 
                     var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
-                    var url = await uploader.Upload(_storageContainerName, data);
+                    profilePicture = await uploader.Upload(_storageContainerName, data);
 
-                    profilePicture = new Picture(curretUserId, url);
+                    profilePicture.UserId = curretUserId;
                 }
                 else
                 {
@@ -132,9 +132,9 @@ namespace PictureGallery.Controllers
                     data = System.IO.File.ReadAllBytes(file);
 
                     var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
-                    var url = await uploader.Upload(_storageContainerName, data);
+                    profilePicture = await uploader.Upload(_storageContainerName, data);
 
-                    profilePicture = new Picture(curretUserId, url);
+                    profilePicture.UserId = curretUserId;
                 }
                 
                 UserProfile currentUser = CreateNewUserProfile(curretUserId);

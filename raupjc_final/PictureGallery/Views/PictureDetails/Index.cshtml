@@ -72,7 +72,7 @@
             </a>
         </div>
     }
-    @if (Model.IsUsersPicture)
+    @if (Model.IsUsersPicture || Model.IsAdmin)
     {
         <div class="col-sm-3" style="margin: 0px; padding: 0px;">
             <a asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">

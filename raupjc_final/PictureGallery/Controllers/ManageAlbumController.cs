@@ -134,9 +134,12 @@ namespace PictureGallery.Controllers
                     Album album = await _repository.GetAlbumAsync(model.AlbumId);
 
                     var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
-                    var url = await uploader.Upload(_storageContainerName, data);
+                    Picture picture = await uploader.Upload(_storageContainerName, data);
 
-                    Picture picture = new Picture(currentUserId, model.Description, album, url);
+                    picture.UserId = currentUserId;
+                    picture.Description = model.Description;
+                    picture.Album = album;
+                    
                     await _repository.AddPictureAsync(picture, currentUserId);
                     return RedirectToAction("Index", album.Id);
                 }
