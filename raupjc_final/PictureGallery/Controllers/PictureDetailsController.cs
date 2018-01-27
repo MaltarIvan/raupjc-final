@@ -196,9 +196,9 @@ namespace PictureGallery.Controllers
             Guid albumId = picture.Album.Id;
             try
             {
+                await _repository.DeletePictureAsync(picture, currentUserId);
                 var azureUtility = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
                 await azureUtility.Delete(_storageContainerName, picture.Id);
-                await _repository.DeletePictureAsync(picture, currentUserId);
             }
             catch (UnauthorizedAttemptException)
             {
