@@ -184,16 +184,29 @@ namespace PictureGallery.Controllers
         {
             ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
             Guid currentUserId = new Guid(applicationUser.Id);
+            
             if (!await _repository.ContainsUserAsync(currentUserId))
             {
-                return RedirectToAction("Index", "Main");
+                return RedirectToAction("MakeNewProfile", "Main");
             }
+
             Picture picture = await _repository.GetPictureAsync(pictureId);
+
             if (picture == null)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
+
             Guid albumId = picture.Album.Id;
+
+            List<string> roles = (List<string>)await _userManager.GetRolesAsync(applicationUser);
+            bool isAdmin = roles.Contains("Admin");
+
+            if (isAdmin)
+            {
+                currentUserId = picture.UserId;
+            }
+
             try
             {
                 await _repository.DeletePictureAsync(picture, currentUserId);
