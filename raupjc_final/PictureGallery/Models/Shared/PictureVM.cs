@@ -15,6 +15,7 @@ namespace PictureGallery.Models.Shared
         public string Description { get; set; }
         public int NumberOfLikes { get; set; }
         public int NumberOfDislikes { get; set; }
+        public int NumberOfComments { get; set; }
 
         public PictureVM(Picture picture)
         {
@@ -25,6 +26,7 @@ namespace PictureGallery.Models.Shared
             Description = picture.Description;
             NumberOfLikes = picture.NumberOfLikes;
             NumberOfDislikes = picture.NumberOfDislikes;
+            NumberOfComments = picture.Comments.Count();
         }
     }
 }

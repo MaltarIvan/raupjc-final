@@ -15,7 +15,7 @@
         <form asp-action="AddNewComment" method="post">
             <div class="form-group input-div">
                 <label>Comment: </label>
-                <input asp-for="Text" class="rectangle-input" />
+                <input asp-for="Text" class="rectangle-input" id="comment-input"/>
                 <span asp-validation-for="Text" style="color:red"></span> <br />
                 <input asp-for="PictureId" type="hidden" />
             </div>
@@ -23,10 +23,8 @@
                 <button type="submit" class="rectangle-submit">Submit</button>
             </div>
         </form>
-        <a class="cancle-button" asp-action="Index" asp-route-id="@Model.PictureId">Cancle</a>
+        <a class="cancle-button" asp-action="Index" asp-route-id="@Model.PictureId">Cancel</a>
     </div>
 </div>
-
-
 
 

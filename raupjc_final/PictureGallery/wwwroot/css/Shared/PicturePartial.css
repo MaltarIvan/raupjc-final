@@ -47,7 +47,7 @@
 }
 
 .dislike-div {
-    margin: 0px;
+    margin-right: 5px;
     padding: 0px;
     background-color: #F44336;
     border-radius: 10px;
@@ -67,3 +67,16 @@
     text-align: center;
 }
 
+.comment-div {
+    margin: 0px;
+    padding: 0px;
+    background-color: #FFE0B2;
+    border-radius: 10px;
+}
+
+.comment-par {
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+}

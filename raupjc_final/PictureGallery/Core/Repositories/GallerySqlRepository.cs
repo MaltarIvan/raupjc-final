@@ -76,7 +76,7 @@ namespace PictureGallery.Core
 
         public async Task<Album> GetAlbumAsync(Guid id)
         {
-            return await _context.Albums.Include(a => a.Pictures).FirstOrDefaultAsync(a => a.Id == id);
+            return await _context.Albums.Include(a => a.Pictures.Select(p => p.Comments)).FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Album> UpdateAlbumAsync(Album album, Guid userId)
@@ -145,12 +145,12 @@ namespace PictureGallery.Core
 
         public async Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id)
         {
-            return await _context.Pictures.Where(p => p.Album.Id == id).OrderByDescending(p => p.DateCreted).ToListAsync();
+            return await _context.Pictures.Where(p => p.Album.Id == id).OrderByDescending(p => p.DateCreted).Include(p => p.Comments).ToListAsync();
         }
 
         public async Task<List<Picture>> GetHotPicturesAsync()
         {
-            return await _context.Pictures.Where(p => p.IsHot).ToListAsync();
+            return await _context.Pictures.Where(p => p.IsHot).Include(p => p.Comments).ToListAsync();
         }
 
         public async Task<Picture> UpdatePictureAsync(Picture picture, Guid userId)
@@ -220,7 +220,7 @@ namespace PictureGallery.Core
 
         public async Task<List<Picture>> GetAllPicturesAsync()
         {
-            return await _context.Pictures.Where(p => p.Album != null).OrderByDescending(p => p.DateCreted).ToListAsync();
+            return await _context.Pictures.Where(p => p.Album != null).OrderByDescending(p => p.DateCreted).Include(p => p.Comments).ToListAsync();
         }
 
         public async Task<bool> ContainsPictureAsync(Guid id)
