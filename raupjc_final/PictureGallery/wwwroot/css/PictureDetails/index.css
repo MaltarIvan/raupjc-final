@@ -6,8 +6,7 @@
 }
 
 .image {
-    width : 400px;
-    height: 400px;
+    width : 100%;
     margin: 10px;
     border-radius: 5px;
 }
