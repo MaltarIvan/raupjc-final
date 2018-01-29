@@ -17,6 +17,8 @@ namespace PictureGallery.Models.PictureDetails
         public string DateCreated { get; set; }
         public string Description { get; set; }
         public List<CommentVM> CommentsVM { get; set; }
+        public List<UserGradedVM> UsersLikedVM { get; set; }
+        public List<UserGradedVM> UsersDislikedVM { get; set; }
         public bool IsFollowing { get; set; }
         public bool IsUsersPicture { get; set; }
         public bool IsAdmin { get; set; }
@@ -32,11 +34,25 @@ namespace PictureGallery.Models.PictureDetails
             NumberOfDislikes = picture.NumberOfDislikes;
             DateCreated = picture.DateCreted.ToShortDateString();
             Description = picture.Description;
+
             CommentsVM = new List<CommentVM>();
             foreach (var com in picture.Comments)
             {
                 CommentsVM.Add(new CommentVM(currentUserId == com.User.Id, com));
             }
+
+            UsersLikedVM = new List<UserGradedVM>();
+            foreach (var user in picture.UsersLiked)
+            {
+                UsersLikedVM.Add(new UserGradedVM(user));
+            }
+
+            UsersDislikedVM = new List<UserGradedVM>();
+            foreach (var user in picture.UsersDisliked)
+            {
+                UsersDislikedVM.Add(new UserGradedVM(user));
+            }
+
             IsFollowing = isFollowing;
             IsUsersPicture = currentUserId == picture.UserId;
             IsAdmin = isAdmin;

@@ -143,6 +143,11 @@ namespace PictureGallery.Core
             return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        public async Task<Picture> GetPictureWithUsersGradedAsync(Guid pictureId)
+        {
+            return await _context.Pictures.Include(p => p.Comments.Select(c => c.User.ProfilePicture)).Include(p => p.UsersFavorite).Include(p => p.Album).Include(p => p.UsersLiked).Include(p => p.UsersDisliked).FirstOrDefaultAsync(p => p.Id == pictureId);
+        }
+
         public async Task<List<Picture>> GetPicturesFromAlbumAsync(Guid id)
         {
             return await _context.Pictures.Where(p => p.Album.Id == id).OrderByDescending(p => p.DateCreted).Include(p => p.Comments).ToListAsync();
@@ -253,6 +258,7 @@ namespace PictureGallery.Core
         {
             return await _context.Pictures.Where(p => p.UserId == id && p.User == null).ToListAsync();
         }
+
         public async Task<Comment> GetCommentByIdAsync(Guid commentId)
         {
             return await _context.Comments.Include(c => c.User).Include(c => c.Picture).FirstOrDefaultAsync(c => c.Id == commentId);

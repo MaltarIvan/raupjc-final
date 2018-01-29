@@ -55,8 +55,8 @@ namespace PictureGallery.Controllers
 
             List<string> roles = (List<string>)await _userManager.GetRolesAsync(applicationUser);
             bool isAdmin = roles.Contains("Admin");
-            
-            Picture picture = await _repository.GetPictureAsync(id);
+
+            Picture picture = await _repository.GetPictureWithUsersGradedAsync(id);
             if (picture == null)
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");

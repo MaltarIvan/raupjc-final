@@ -28,14 +28,14 @@
         </div>
     </div>
     <div class="row" style="margin-left: 25px">
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+        <div class="col-sm-2" id="like-button-div" style="margin: 0px; padding: 0px;">
             <a asp-action="LikePicture" asp-route-id="@Model.Id">
                 <div class="button-div" style="background-color: #2196F3;">
                     <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
                 </div>
             </a>
         </div>
-        <div class="col-sm-2" style="margin: 0px; padding: 0px;">
+        <div class="col-sm-2" id="dislike-button-div" style="margin: 0px; padding: 0px;">
             <a asp-action="DislikePicture" asp-route-id="@Model.Id">
                 <div class="button-div" style="background-color: #F44336;">
                     <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
@@ -43,6 +43,41 @@
             </a>
         </div>
     </div>
+    <p>Hover over the buttons with mouse to see users who liked or disliked the picture<span class="glyphicon glyphicon-user"></span></p>
+</div>
+<div class="row users-div" id="users-liked-div" style="display:none">
+    <hr style="margin-bottom: 10px;" />
+    <button class="hide-button" id="hide-button-like">Hide</button>
+    @if (Model.UsersLikedVM.Count == 0)
+    {
+        <p>Nobody Liked This Picture!</p>
+    }
+    else
+    {
+        <p>Users Who Liked The Picture:</p>
+        @foreach (var item in Model.UsersLikedVM)
+        {
+            <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@item.Id">| @item.UserName |</a>
+        }
+    }
+    <hr />
+</div>
+<div class="row users-div" id="users-disliked-div" style="display:none">
+    <hr style="margin-bottom: 10px;"/>
+    <button class="hide-button" id="hide-button-dislike">Hide</button>
+    @if (Model.UsersDislikedVM.Count == 0)
+    {
+        <p>Nobody Disliked This Picture!</p>
+    }
+    else
+    {
+       <p>Users Who Disliked The Picture:</p>
+       @foreach (var item in Model.UsersDislikedVM)
+       {
+            <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@item.Id">| @item.UserName |</a>
+       }
+    }
+    <hr/>
 </div>
 <div class="row">
     <div class="col-sm-3" style="margin: 0px; padding: 0px;">
@@ -131,3 +166,7 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/PictureDetails/index.js"></script>
+}
