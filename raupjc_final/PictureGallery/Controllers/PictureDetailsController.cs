@@ -61,6 +61,7 @@ namespace PictureGallery.Controllers
             {
                 return View("~/Views/Shared/InvalidAttempt.cshtml");
             }
+            picture.Comments.OrderByDescending(c => c.DateCreated);
             picture.User = await _repository.GetUserByIdAsync(picture.UserId);
             PictureDetailsVM pictureDetailsVM = new PictureDetailsVM(picture.UsersFavorite.Any(u => u.Id == currentUserId), currentUserId, isAdmin, picture);
             return View(pictureDetailsVM);
