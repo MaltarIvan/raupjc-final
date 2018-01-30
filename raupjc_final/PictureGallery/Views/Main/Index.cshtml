@@ -16,12 +16,14 @@
             <p class="My-profile">My profile</p>
             <hr  />
             <div class="row" style="margin-bottom:10px;">
-                <div class="col-sm-4">
-                    <img class="My-profile-picture" src="@Model.UserProfile.ProfilePictureVM.Url" /> <br />
-                </div>
-                <div class="col-sm-8">
-                    <p class="My-user-name">@Model.UserProfile.UserName</p>
-                </div>
+                <a asp-controller="ManageProfile" asp-action="Index">
+                    <div class="col-sm-4">
+                        <img class="My-profile-picture" src="@Model.UserProfile.ProfilePictureVM.Url" /> <br />
+                    </div>
+                    <div class="col-sm-8">
+                        <p class="My-user-name">@Model.UserProfile.UserName</p>
+                    </div>
+                </a>
             </div>
             <hr  />
             <div class="row">
