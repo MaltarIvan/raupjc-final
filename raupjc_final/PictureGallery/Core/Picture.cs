@@ -22,7 +22,7 @@ namespace PictureGallery.Core
         public int NumberOfDislikes { get; set; }
         public List<UserProfile> UsersLiked { get; set; }
         public List<UserProfile> UsersDisliked { get; set; }
-        public List<Comment> Comments { get; set; } 
+        public List<Comment> Comments { get; set; }
         
         public Picture(Guid userId, string description, Album album, string url)
         {
