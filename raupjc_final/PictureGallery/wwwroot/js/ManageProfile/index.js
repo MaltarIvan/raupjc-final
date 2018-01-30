@@ -9,5 +9,5 @@ $(".cont").niceScroll({
     cursorwidth: 5,
     cursoropacitymin: 0.4,
     cursorcolor: '#9E9E9E',
-    cursorborder: 'none',
+    cursorborder: 'none'
 });

@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using PictureGallery.Models.Shared;
 using Microsoft.Extensions.Configuration;
 using PictureGallery.Utilities;
+using PictureGallery.CustomeExceptions;
 
 namespace PictureGallery.Controllers
 {
@@ -107,11 +108,26 @@ namespace PictureGallery.Controllers
             if (ModelState.IsValid)
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-                Guid curretUserId = new Guid(applicationUser.Id);
-                if (await _repository.ContainsUserAsync(curretUserId))
+                Guid currentUserId = new Guid(applicationUser.Id);
+                if (await _repository.ContainsUserAsync(currentUserId))
                 {
                     return RedirectToAction("Index");
                 }
+
+                UserProfile currentUser = new UserProfile(currentUserId);
+                currentUser.UserName = model.UserName;
+                try
+                {
+                    await _repository.AddUserAsync(currentUser);
+                }
+                catch (DuplicateItemException)
+                {
+                    ModelState.AddModelError("CustomError", "This user name is already taken!");
+                    model.ProfilePictureUpload = null;
+                    model.UserName = null;
+                    return View(model);
+                }
+
                 Picture profilePicture = null;
                 byte[] data = null;
 
@@ -123,7 +139,7 @@ namespace PictureGallery.Controllers
                     var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
                     profilePicture = await uploader.Upload(_storageContainerName, data);
 
-                    profilePicture.UserId = curretUserId;
+                    profilePicture.UserId = currentUserId;
                 }
                 else
                 {
@@ -134,10 +150,8 @@ namespace PictureGallery.Controllers
                     var uploader = new AzureStorageUtility(_storageAccountName, _storageAccountKey);
                     profilePicture = await uploader.Upload(_storageContainerName, data);
 
-                    profilePicture.UserId = curretUserId;
+                    profilePicture.UserId = currentUserId;
                 }
-                
-                UserProfile currentUser = CreateNewUserProfile(curretUserId);
 
                 if (profilePicture != null)
                 {
@@ -145,8 +159,7 @@ namespace PictureGallery.Controllers
                     currentUser.ProfilePicture = profilePicture;
                 }
 
-                currentUser.UserName = model.UserName;
-                await _repository.AddUserAsync(currentUser);
+                await _repository.UpdateUserAsync(currentUser);
 
                 return RedirectToAction("Index");
             }
@@ -296,11 +309,6 @@ namespace PictureGallery.Controllers
                 followingUserProfilesVM.Add(new UserProfileVM(followingUserProfile));
             }
             return followingUserProfilesVM;
-        }
-
-        private UserProfile CreateNewUserProfile(Guid id)
-        {
-            return new UserProfile(id);
         }
     }
 }
