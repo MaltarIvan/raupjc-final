@@ -29,18 +29,40 @@
     </div>
     <div class="row" style="margin-left: 25px">
         <div class="col-sm-2" id="like-button-div" style="margin: 0px; padding: 0px;">
-            <a asp-action="LikePicture" asp-route-id="@Model.Id">
-                <div class="button-div" style="background-color: #2196F3;">
-                    <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
-                </div>
-            </a>
+            @if (Model.CurrentUserLiked)
+            {
+                <a asp-action="LikePicture" asp-route-id="@Model.Id">
+                    <div class="like-button-div liked">
+                        <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a asp-action="LikePicture" asp-route-id="@Model.Id">
+                    <div class="like-button-div">
+                        <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
+                    </div>
+                </a>
+            }
         </div>
         <div class="col-sm-2" id="dislike-button-div" style="margin: 0px; padding: 0px;">
-            <a asp-action="DislikePicture" asp-route-id="@Model.Id">
-                <div class="button-div" style="background-color: #F44336;">
-                    <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
-                </div>
-            </a>
+            @if (Model.CurrentUserDisliked)
+            {
+                <a asp-action="DislikePicture" asp-route-id="@Model.Id">
+                    <div class="dislike-button-div disliked">
+                        <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a asp-action="DislikePicture" asp-route-id="@Model.Id">
+                    <div class="dislike-button-div">
+                        <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
+                    </div>
+                </a>
+            }
         </div>
     </div>
     <p>Hover over the buttons with mouse to see users who liked or disliked the picture<span class="glyphicon glyphicon-user"></span></p>

@@ -202,6 +202,13 @@ namespace PictureGallery.Core
                 }
                 await _context.SaveChangesAsync();
             }
+            else
+            {
+                UserProfile userProfile = await _context.UserProfiles.FirstAsync(u => u.Id == userId);
+                picture.NumberOfLikes--;
+                userProfile.PicturesLiked.Remove(picture);
+                await _context.SaveChangesAsync();
+            }
             return picture;
         }
 
@@ -218,6 +225,13 @@ namespace PictureGallery.Core
                     picture.NumberOfLikes--;
                     userProfile.PicturesLiked.Remove(picture);
                 }
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                UserProfile userProfile = await _context.UserProfiles.FirstAsync(u => u.Id == userId);
+                picture.NumberOfDislikes--;
+                userProfile.PicturesDisliked.Remove(picture);
                 await _context.SaveChangesAsync();
             }
             return picture;

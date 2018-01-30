@@ -23,6 +23,8 @@ namespace PictureGallery.Models.PictureDetails
         public bool IsUsersPicture { get; set; }
         public bool IsAdmin { get; set; }
         public bool IsHot { get; set; }
+        public bool CurrentUserLiked { get; set; }
+        public bool CurrentUserDisliked { get; set; }
 
         public PictureDetailsVM(bool isFollowing, Guid currentUserId, bool isAdmin, Picture picture)
         {
@@ -57,6 +59,8 @@ namespace PictureGallery.Models.PictureDetails
             IsUsersPicture = currentUserId == picture.UserId;
             IsAdmin = isAdmin;
             IsHot = picture.IsHot;
+            CurrentUserLiked = picture.UsersLiked.Any(u => u.Id == currentUserId);
+            CurrentUserDisliked = picture.UsersDisliked.Any(u => u.Id == currentUserId);
         }
     }
 }
