@@ -47,14 +47,13 @@ namespace PictureGallery.Controllers
                 return RedirectToAction("MakeNewProfile", "Main");
             }
             ProfilePictureVM profilePictureVM = new ProfilePictureVM(currentUser.ProfilePicture);
-            UserProfileVM userProfileVM = new UserProfileVM(currentUser);
             List<Album> albums = await _repository.GetUsersAlbumsAsync(currentUser.Id);
             List<AlbumVM> albumsVM = new List<AlbumVM>();
             foreach (var album in albums)
             {
                 albumsVM.Add(new AlbumVM(album.Id, album.UserId, album.DateCreated, album.Description));
             }
-            ManageProfileVM manageProfileVM = new ManageProfileVM(userProfileVM, albumsVM);
+            ManageProfileVM manageProfileVM = new ManageProfileVM(currentUser, albumsVM);
 
             return View(manageProfileVM);
         }

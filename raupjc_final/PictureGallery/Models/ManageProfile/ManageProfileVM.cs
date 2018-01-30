@@ -1,4 +1,5 @@
-﻿using PictureGallery.Models.Main;
+﻿using PictureGallery.Core;
+using PictureGallery.Models.Main;
 using PictureGallery.Models.Shared;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,17 @@ namespace PictureGallery.Models.ManageProfile
     {
         public UserProfileVM UserProfileVM { get; set; }
         public List<AlbumVM> Albums { get; set; }
+        public List<UserProfileVM> Followers { get; set; }
 
-        public ManageProfileVM(UserProfileVM userProfile, List<AlbumVM> albums)
+        public ManageProfileVM(UserProfile currentUserProfile, List<AlbumVM> albums)
         {
-            UserProfileVM = userProfile;
+            UserProfileVM = new UserProfileVM(currentUserProfile);
             Albums = albums;
+            Followers = new List<UserProfileVM>();
+            foreach (var follower in currentUserProfile.Followers)
+            {
+                Followers.Add(new UserProfileVM(follower));
+            }
         }
     }
 }

@@ -36,7 +36,7 @@ namespace PictureGallery.Core
 
         public Task<UserProfile> GetUserByIdAsync(Guid id)
         {
-            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers).SingleOrDefaultAsync(u => u.Id == id);
+            return _context.UserProfiles.Include(u => u.Favorites).Include(u => u.ProfilePicture).Include(u => u.Following).Include(u => u.Followers.Select(f => f.ProfilePicture)).SingleOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<bool> ContainsUserAsync(Guid id)

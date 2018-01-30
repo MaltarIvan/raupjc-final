@@ -33,7 +33,7 @@
             </div>
         </a><br />
     </div>
-    <div class="col-sm-5 album-section">
+    <div class="col-sm-5 album-section cont">
         @if (!Model.Albums.Any())
         {
             <h4>No albums to present!</h4>
@@ -47,6 +47,22 @@
             }
         }
 
+    </div>
+    <div class="col-sm-1" style="margin:0px; padding:0px;">
+        <p class="user-group">Followers</p>
+        <div class="cont">
+            @if (!Model.Followers.Any())
+            {
+                <h4>No Followers!</h4>
+            }
+            else
+            {
+                foreach (var item in Model.Followers)
+                {
+                    @Html.Partial("~/Views/Shared/PartialPresentUser.cshtml", item)
+                }
+            }
+        </div>
     </div>
 </div>
 

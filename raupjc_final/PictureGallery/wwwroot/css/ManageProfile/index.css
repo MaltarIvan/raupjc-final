@@ -62,3 +62,13 @@
     overflow-x: hidden;
     margin: 20px;
 }
+
+.user-group {
+    height: 40px;
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-top: 6px;
+    font-size: 20px;
+    font-family: Arial;
+    color: #000000;
+}

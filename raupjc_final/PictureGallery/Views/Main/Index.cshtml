@@ -91,7 +91,7 @@
                 {
                     foreach (var item in Model.UsersVM)
                     {
-                        @Html.Partial("PartialPresentUser", item)
+                        @Html.Partial("~/Views/Shared/PartialPresentUser.cshtml", item)
                     }
                 }
             </div>
@@ -107,7 +107,7 @@
                 {
                     foreach (var item in Model.FollowingUsersVM)
                     {
-                        @Html.Partial("PartialPresentUser", item)
+                        @Html.Partial("~/Views/Shared/PartialPresentUser.cshtml", item)
                     }
                 }
             </div>
