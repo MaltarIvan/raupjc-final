@@ -14,11 +14,13 @@ namespace PictureGallery.Models.PictureDetails
         public string Url { get; set; }
         public int NumberOfLikes { get; set; }
         public int NumberOfDislikes { get; set; }
+        public int TimesFavorited { get; set; }
         public string DateCreated { get; set; }
         public string Description { get; set; }
         public List<CommentVM> CommentsVM { get; set; }
         public List<UserGradedVM> UsersLikedVM { get; set; }
         public List<UserGradedVM> UsersDislikedVM { get; set; }
+        public List<UserGradedVM> UsersFavoritedVM { get; set; }
         public bool IsFollowing { get; set; }
         public bool IsUsersPicture { get; set; }
         public bool IsAdmin { get; set; }
@@ -34,6 +36,7 @@ namespace PictureGallery.Models.PictureDetails
             Url = picture.Url;
             NumberOfLikes = picture.NumberOfLikes;
             NumberOfDislikes = picture.NumberOfDislikes;
+            TimesFavorited = picture.UsersFavorite.Count();
             DateCreated = picture.DateCreted.ToShortDateString();
             Description = picture.Description;
 
@@ -53,6 +56,12 @@ namespace PictureGallery.Models.PictureDetails
             foreach (var user in picture.UsersDisliked)
             {
                 UsersDislikedVM.Add(new UserGradedVM(user));
+            }
+
+            UsersFavoritedVM = new List<UserGradedVM>();
+            foreach (var user in picture.UsersFavorite)
+            {
+                UsersFavoritedVM.Add(new UserGradedVM(user));
             }
 
             IsFollowing = isFollowing;

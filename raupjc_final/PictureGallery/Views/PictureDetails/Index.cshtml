@@ -64,13 +64,31 @@
                 </a>
             }
         </div>
+        <div class="col-sm-2" id="favorite-button-div" style="margin: 0px; padding: 0px;">
+            @if (Model.IsFollowing)
+            {
+                <a asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
+                    <div class="favorite-button-div favorited">
+                        <p class="button-par"><span class="glyphicon glyphicon-star" style="margin-right:5px"></span>@Model.TimesFavorited</p>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <a asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
+                    <div class="favorite-button-div">
+                        <p class="button-par"><span class="glyphicon glyphicon-star" style="margin-right:5px"></span>@Model.TimesFavorited</p>
+                    </div>
+                </a>
+            }
+        </div>
     </div>
     <p>Hover over the buttons with mouse to see users who liked or disliked the picture<span class="glyphicon glyphicon-user"></span></p>
 </div>
 <div class="row users-div" id="users-liked-div" style="display:none">
     <hr style="margin-bottom: 10px;" />
     <button class="hide-button" id="hide-button-like">Hide</button>
-    @if (Model.UsersLikedVM.Count == 0)
+    @if (Model.NumberOfLikes == 0)
     {
         <p>Nobody Liked This Picture!</p>
     }
@@ -87,7 +105,7 @@
 <div class="row users-div" id="users-disliked-div" style="display:none">
     <hr style="margin-bottom: 10px;"/>
     <button class="hide-button" id="hide-button-dislike">Hide</button>
-    @if (Model.UsersDislikedVM.Count == 0)
+    @if (Model.NumberOfDislikes == 0)
     {
         <p>Nobody Disliked This Picture!</p>
     }
@@ -101,6 +119,23 @@
     }
     <hr/>
 </div>
+<div class="row users-div" id="users-favorited-div" style="display:none">
+    <hr style="margin-bottom: 10px;" />
+    <button class="hide-button" id="hide-button-favorited">Hide</button>
+    @if (Model.TimesFavorited == 0)
+    {
+        <p>Nobody Favorited This Picture!</p>
+    }
+    else
+    {
+        <p>Users Who Favorited The Picture:</p>
+        @foreach (var item in Model.UsersFavoritedVM)
+        {
+            <a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@item.Id">| @item.UserName |</a>
+        }
+    }
+    <hr />
+</div>
 <div class="row">
     <div class="col-sm-3" style="margin: 0px; padding: 0px;">
         <a asp-action="AddNewComment" asp-route-pictureId="@Model.Id">
@@ -109,26 +144,6 @@
             </div>
         </a>
     </div>
-    @if (Model.IsFollowing)
-    {
-        <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-            <a asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
-                <div class="button-div" style="background-color: red;">
-                    <p class="button-par"><span class="glyphicon glyphicon-star-empty"></span>Remove From Favorites</p>
-                </div>
-            </a>
-        </div>
-    }
-    else
-    {
-        <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-            <a asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
-                <div class="button-div">
-                    <p class="button-par"><span class="glyphicon glyphicon-star"></span>Add To Favorites</p>
-                </div>
-            </a>
-        </div>
-    }
     @if (Model.IsUsersPicture || Model.IsAdmin)
     {
         <div class="col-sm-3" style="margin: 0px; padding: 0px;">

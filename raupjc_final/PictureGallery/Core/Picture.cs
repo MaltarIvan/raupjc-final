@@ -38,6 +38,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             Comments = new List<Comment>();
+            UsersFavorite = new List<UserProfile>();
             IsHot = false;
         }
 
@@ -53,6 +54,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             Comments = new List<Comment>();
+            UsersFavorite = new List<UserProfile>();
             IsHot = false;
         }
 
@@ -65,6 +67,7 @@ namespace PictureGallery.Core
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
             UsersFavorite = new List<UserProfile>();
+            UsersFavorite = new List<UserProfile>();
             IsHot = false;
         }
 
@@ -73,6 +76,7 @@ namespace PictureGallery.Core
             Comments = new List<Comment>();
             UsersLiked = new List<UserProfile>();
             UsersDisliked = new List<UserProfile>();
+            UsersFavorite = new List<UserProfile>();
             UsersFavorite = new List<UserProfile>();
             IsHot = false;
         }

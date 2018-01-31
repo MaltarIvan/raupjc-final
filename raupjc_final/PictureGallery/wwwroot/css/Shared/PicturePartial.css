@@ -1,7 +1,6 @@
 ﻿.main-div {
     padding-top: 10px;
     padding-left: 20px;
-    /*padding-right: 10px;*/
     padding-bottom: 5px;
     margin-bottom: 10px;
     background-color: #FFCC80;
@@ -53,14 +52,7 @@
     border-radius: 10px;
 }
 
-.like-par {
-    height: 100%;
-    width: 100%;
-    padding: 5px;
-    text-align: center;
-}
-
-.dislike-par {
+.stats-par {
     height: 100%;
     width: 100%;
     padding: 5px;
@@ -68,15 +60,15 @@
 }
 
 .comment-div {
-    margin: 0px;
+    margin-right: 5px;
     padding: 0px;
     background-color: #FFE0B2;
     border-radius: 10px;
 }
 
-.comment-par {
-    height: 100%;
-    width: 100%;
-    padding: 5px;
-    text-align: center;
+.favorited-div {
+    margin: 0px;
+    padding: 0px;
+    background-color: #FBC02D;
+    border-radius: 10px;
 }

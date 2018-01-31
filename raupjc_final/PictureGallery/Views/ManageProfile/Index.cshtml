@@ -34,9 +34,10 @@
         </a><br />
     </div>
     <div class="col-sm-5 album-section cont">
+        <h3>Albums</h3>
         @if (!Model.Albums.Any())
         {
-            <h4>No albums to present!</h4>
+            <h2>No albums to present!</h2>
             <p>Add albums to your profile</p>
         }
         else
@@ -49,7 +50,7 @@
 
     </div>
     <div class="col-sm-1" style="margin:0px; padding:0px;">
-        <p class="user-group">Followers</p>
+        <h3 class="user-group">Followers</h3>
         <div class="cont">
             @if (!Model.Followers.Any())
             {
