@@ -16,7 +16,7 @@
             <p class="My-profile">My profile</p>
             <hr  />
             <div class="row" style="margin-bottom:10px;">
-                <a asp-controller="ManageProfile" asp-action="Index">
+                <a asp-controller="ManageProfile" asp-action="Index" title="Your Profile">
                     <div class="col-sm-4">
                         <img class="My-profile-picture" src="@Model.UserProfile.ProfilePictureVM.Url" /> <br />
                     </div>
@@ -28,32 +28,32 @@
             <hr  />
             <div class="row">
                 <div class="col-sm-12">
-                    <a asp-controller="ManageProfile" asp-action="Index">
+                    <a asp-controller="ManageProfile" asp-action="Index" title="Manage Your Profile">
                         <div class="button-div">
                             <p class="button-par"><span class="glyphicon glyphicon-plus-sign" style="margin-right:5px"></span>Manage Your Pictures!</p>
                         </div>
                     </a><br/>
-                    <a asp-action="Index">
+                    <a asp-action="Index" title="Show Newest Pictures">
                         <div class="button-div">
                             <p class="button-par">Newest!</p>
                         </div>
                     </a><br />
-                    <a asp-action="Top">
+                    <a asp-action="Top" title="Show Top Pictures">
                         <div class="button-div">
                             <p class="button-par">Top!</p>
                         </div>
                     </a><br />
-                    <a asp-action="Favorites">
+                    <a asp-action="Favorites" title="Show Your Favorite Pictures">
                         <div class="button-div">
                             <p class="button-par">Favorites!</p>
                         </div>
                     </a><br />
-                    <a asp-action="FollowingPictures">
+                    <a asp-action="FollowingPictures" title="Show Pictures From Users You Follow">
                         <div class="button-div">
                             <p class="button-par">Pictures You Follow!</p>
                         </div>
                     </a><br />
-                    <a asp-action="HotPictures">
+                    <a asp-action="HotPictures" title="Show Hot Pictures">
                         <div class="button-div">
                             <p class="button-par">Hot!</p>
                         </div>
@@ -96,7 +96,7 @@
                 }
             </div>
         </div>
-        <div class="col-sm-1" style="margin:0px; padding:0px;">
+        <div class="col-sm-1" style="margin-right:15px; padding:0px;">
             <p class="User-group">Following</p>
             <div class="cont">
                 @if (!Model.FollowingUsersVM.Any())

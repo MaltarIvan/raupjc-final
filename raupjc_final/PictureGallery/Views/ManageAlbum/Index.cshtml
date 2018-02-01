@@ -15,24 +15,24 @@
         <img class="album-img" src="~/Content/album.jpg"/>
         <h2>@Model.AlbumVM.Description</h2>
         <p>@Model.AlbumVM.DateCreated</p>
-        <a class="button-href" asp-action="ChangeAlbumDescription" asp-route-id="@Model.AlbumVM.Id" asp-route-description="@Model.AlbumVM.Description">
+        <a class="button-href" asp-action="ChangeAlbumDescription" asp-route-id="@Model.AlbumVM.Id" asp-route-description="@Model.AlbumVM.Description" title="Change Album Description">
             <div class="button-div">
                 <p class="button-par">Change Album Description</p>
             </div>
         </a><br />
-        <a class="button-href" asp-action="AddNewPicture" asp-route-id="@Model.AlbumVM.Id">
+        <a class="button-href" asp-action="AddNewPicture" asp-route-id="@Model.AlbumVM.Id" title="Add New Picture To Album">
             <div class="button-div">
                 <p class="button-par">Add New Picture</p>
             </div>
         </a><br />
         @if (Model.IsUsersAlbum)
             {
-            <a class="button-href" asp-action="DeleteAlbum" asp-route-albumId="@Model.AlbumVM.Id">
+            <a class="button-href" asp-action="DeleteAlbum" asp-route-albumId="@Model.AlbumVM.Id" title="Delete This Album">
                 <div class="button-div" style="background-color:red;">
                     <p class="button-par">Delete Album</p>
                 </div>
             </a><br />
-            <a class="button-href" asp-controller="ManageProfile" asp-action="Index">
+            <a class="button-href" asp-controller="ManageProfile" asp-action="Index" title="Back To Your Profile">
                 <div class="button-div">
                     <p class="button-par"><span class="glyphicon glyphicon-arrow-left" style="margin-right: 5px"></span>Back</p>
                 </div>

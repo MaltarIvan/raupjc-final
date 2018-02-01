@@ -31,7 +31,7 @@
         <div class="col-sm-2" id="like-button-div" style="margin: 0px; padding: 0px;">
             @if (Model.CurrentUserLiked)
             {
-                <a asp-action="LikePicture" asp-route-id="@Model.Id">
+                <a asp-action="LikePicture" asp-route-id="@Model.Id" title="Un-like Picture">
                     <div class="like-button-div liked">
                         <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
                     </div>
@@ -39,7 +39,7 @@
             }
             else
             {
-                <a asp-action="LikePicture" asp-route-id="@Model.Id">
+                <a asp-action="LikePicture" asp-route-id="@Model.Id" title="Like Picture">
                     <div class="like-button-div">
                         <p class="button-par"><span class="glyphicon glyphicon-arrow-up" style="margin-right:5px"></span>@Model.NumberOfLikes</p>
                     </div>
@@ -49,7 +49,7 @@
         <div class="col-sm-2" id="dislike-button-div" style="margin: 0px; padding: 0px;">
             @if (Model.CurrentUserDisliked)
             {
-                <a asp-action="DislikePicture" asp-route-id="@Model.Id">
+                <a asp-action="DislikePicture" asp-route-id="@Model.Id" title="Un-dislike Picture">
                     <div class="dislike-button-div disliked">
                         <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
                     </div>
@@ -57,7 +57,7 @@
             }
             else
             {
-                <a asp-action="DislikePicture" asp-route-id="@Model.Id">
+                <a asp-action="DislikePicture" asp-route-id="@Model.Id" title="Dislike Picture">
                     <div class="dislike-button-div">
                         <p class="button-par"><span class="glyphicon glyphicon-arrow-down" style="margin-right:5px"></span>@Model.NumberOfDislikes</p>
                     </div>
@@ -67,7 +67,7 @@
         <div class="col-sm-2" id="favorite-button-div" style="margin: 0px; padding: 0px;">
             @if (Model.IsFollowing)
             {
-                <a asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id">
+                <a asp-action="RemoveFromFavorites" asp-route-pictureId="@Model.Id" title="Remove This Picture From Favorites">
                     <div class="favorite-button-div favorited">
                         <p class="button-par"><span class="glyphicon glyphicon-star" style="margin-right:5px"></span>@Model.TimesFavorited</p>
                     </div>
@@ -75,7 +75,7 @@
             }
             else
             {
-                <a asp-action="AddToFavorites" asp-route-pictureId="@Model.Id">
+                <a asp-action="AddToFavorites" asp-route-pictureId="@Model.Id" title="Add Picture To Favorites">
                     <div class="favorite-button-div">
                         <p class="button-par"><span class="glyphicon glyphicon-star" style="margin-right:5px"></span>@Model.TimesFavorited</p>
                     </div>
@@ -138,7 +138,7 @@
 </div>
 <div class="row">
     <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-        <a asp-action="AddNewComment" asp-route-pictureId="@Model.Id">
+        <a asp-action="AddNewComment" asp-route-pictureId="@Model.Id" title="Add New Comment">
             <div class="button-div">
                 <p class="button-par"><span class="glyphicon glyphicon-comment"></span>Add Comment</p>
             </div>
@@ -147,14 +147,14 @@
     @if (Model.IsUsersPicture || Model.IsAdmin)
     {
         <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-            <a asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description">
+            <a asp-action="ChangePictureDescription" asp-route-pictureId="@Model.Id" asp-route-description="@Model.Description" title="Change Picture Description">
                 <div class="button-div">
                     <p class="button-par">Change Description</p>
                 </div>
             </a>
         </div>
             <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-                <a asp-action="DeletePicture" asp-route-pictureId="@Model.Id">
+                <a asp-action="DeletePicture" asp-route-pictureId="@Model.Id" title="Delete This Picture">
                     <div class="button-div" style="background-color: red;">
                         <p class="button-par">Delete Picture</p>
                     </div>
@@ -166,7 +166,7 @@
         if (Model.IsHot)
         {
             <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id">
+                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" title="Un-mark This Picture As Hot">
                     <div class="button-div" style="background-color: red;">
                         <p class="button-par">Remove From Hot</p>
                     </div>
@@ -176,7 +176,7 @@
         else
         {
             <div class="col-sm-3" style="margin: 0px; padding: 0px;">
-                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id">
+                <a asp-action="HotPictureManage" asp-route-pictureId="@Model.Id" title="Mark This Picture As Hot">
                     <div class="button-div">
                         <p class="button-par">Add To Hot</p>
                     </div>

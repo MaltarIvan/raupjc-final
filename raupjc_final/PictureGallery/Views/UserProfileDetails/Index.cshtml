@@ -23,7 +23,7 @@
         <hr />
         @if (Model.IsFollowing)
         {
-            <a class="button-href" asp-action="UnfollowUser" asp-route-id="@Model.UserProfileVM.Id">
+            <a class="button-href" asp-action="UnfollowUser" asp-route-id="@Model.UserProfileVM.Id" title="Un-follow This User">
                 <div class="button-div" style="background-color: red;">
                     <p class="button-par">Unfollow User</p>
                 </div>
@@ -31,7 +31,7 @@
         }
         else
         {
-            <a class="button-href" asp-action="FollowUser" asp-route-id="@Model.UserProfileVM.Id">
+            <a class="button-href" asp-action="FollowUser" asp-route-id="@Model.UserProfileVM.Id" title="Follow This User">
                 <div class="button-div">
                     <p class="button-par">Follow User</p>
                 </div>
