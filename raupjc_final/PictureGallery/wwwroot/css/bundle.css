@@ -1,0 +1,174 @@
+.Login-title {
+    width: 100%;
+    height: 31px;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+}
+
+.Please-enter-your-cr {
+    width: 100%;
+    height: 20px;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+}
+
+.Rectangle-input {
+    padding: 5px;
+    margin: 5px auto;
+    width: 400px;
+    height: 44px;
+    border-radius: 50px;
+    border: solid 1px #f5a623;
+}
+
+.Rectangle-login {
+    margin: 5px auto;
+    width: 301px;
+    height: 44px;
+    border-radius: 50px;
+    background-color: #f5a623;
+}
+
+.Rectangle-login-external-facebook {
+    margin: 5px auto;
+    width: 301px;
+    /*width: 301px;*/
+    height: 44px;
+    border-radius: 50px;
+    background-color: #4a90e2;
+    border: solid 1px #4a90e2;
+}
+
+.Rectangle-login-external-google {
+    margin: 5px auto;
+    width: 301px;
+    /*width: 301px;*/
+    height: 44px;
+    border-radius: 50px;
+    background-color: #d50f25;
+    border: solid 1px #4a90e2;
+}
+
+.InputDiv {
+    margin: 5px auto;
+    width: 484px;
+}
+
+.Button-div {
+    margin: 5px auto;
+    width: 301px;
+}
+
+.Forg-Pass-New-Us {
+    margin: 5px auto;
+    width: 152px;
+}
+
+
+.Register-title {
+    width: 100%;
+    height: 31px;
+    font-family: Arial;
+    font-size: 24px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+}
+
+.Create-new-acc {
+    width: 100%;
+    height: 20px;
+    font-family: Arial;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+}
+
+.Rectangle-input {
+    padding: 5px;
+    margin: 5px auto;
+    width: 500px;
+    height: 44px;
+    border-radius: 50px;
+    border: solid 1px #f5a623;
+}
+
+.Rectangle-register {
+    margin: 5px auto;
+    width: 301px;
+    height: 44px;
+    border-radius: 50px;
+    background-color: #f5a623;
+}
+
+.InputDiv {
+    margin: 5px auto;
+    width: 500px;
+}
+
+.Button-div {
+    margin: 5px auto;
+    width: 301px;
+}
+
+.Input-label {
+    width: 125px;
+}
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Carousel */
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Make .svg files in the carousel display properly in older browsers */
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+/* QR code generator */
+#qrCode {
+    margin: 15px;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
