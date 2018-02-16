@@ -17,6 +17,7 @@ namespace PictureGallery.Models.Shared
         public int NumberOfDislikes { get; set; }
         public int NumberOfComments { get; set; }
         public int TimesFavorited { get; set; }
+        public bool IsHot { get; set; }
 
         public PictureVM(Picture picture)
         {
@@ -29,6 +30,7 @@ namespace PictureGallery.Models.Shared
             NumberOfDislikes = picture.NumberOfDislikes;
             NumberOfComments = picture.Comments.Count();
             TimesFavorited = picture.UsersFavorite.Count();
+            IsHot = picture.IsHot;
         }
     }
 }

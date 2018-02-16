@@ -13,7 +13,14 @@
 <div class="row image-row">
     <div class="row">
         <div class="col-sm-5">
-            <img class="image" src="@Model.Url" />
+            @if (Model.IsHot)
+            {
+                <img class="image-hot" src="@Model.Url" />
+            }
+            else
+            {
+                <img class="image" src="@Model.Url" />
+            }
         </div>
         <div class="col-sm-4 description-div">
             <p>@Model.Description</p>

@@ -12,8 +12,15 @@
 <div class="main-div">
     <a class="Rectangle" asp-controller="PictureDetails" asp-action="Index" asp-route-id="@Model.Id">
         <div class="row Image-div">
-            <div class="col-sm-6">
-                <img class="Image" src=" @Model.Url" />
+            <div class="col-sm-6" style="border: 1px; border-color: red;">
+                @if (Model.IsHot)
+                {
+                    <img class="Image-hot" src=" @Model.Url" />
+                }
+                else
+                {
+                    <img class="Image" src=" @Model.Url" />
+                }
             </div>
             <div class="col-sm-4" style="margin-left:0px; padding:0px;">
                 <p style="margin-left:10px;">@Model.Description</p>
