@@ -63,6 +63,16 @@
     border: solid 1px #4a90e2;
 }
 
+.Rectangle-login-external-microsoft {
+    margin: 5px auto;
+    width: 301px;
+    /*width: 301px;*/
+    height: 44px;
+    border-radius: 50px;
+    background-color: #8BC34A;
+    border: solid 1px #4a90e2;
+}
+
 .InputDiv {
     margin: 5px auto;
     width: 484px;
