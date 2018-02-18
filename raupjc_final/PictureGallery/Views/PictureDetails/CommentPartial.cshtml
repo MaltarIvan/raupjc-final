@@ -34,22 +34,5 @@
             }
         </div>
     </div>
-
-    <!--
-    <div class="row" style="border-style:solid; border-color:black;">
-        <div class="col-sm-1">
-            <img src="data:image/png;base64, @Model.UsersProfilePictureUrl" width="50" height="50" style="margin:10px" />
-        </div>
-        <div class="col-sm-8">
-            <h4 style="text-decoration:underline"><a asp-controller="UserProfileDetails" asp-action="Index" asp-route-id="@Model.UserId">@Model.UserName</a></h4>
-            (@Model.DateCreated)
-            <p>@Model.Text</p>
-            @if (Model.IsUsersComment)
-            {
-                <a asp-controller="PictureDetails" asp-action="DeleteComment" asp-route-commentId="@Model.Id">Delete comment</a>
-            }
-        </div>
-    </div>
-        -->
 </body>
 </html>
