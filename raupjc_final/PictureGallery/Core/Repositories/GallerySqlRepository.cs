@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data.Entity;
-//using Microsoft.EntityFrameworkCore;
 using System.Data.Entity.Infrastructure;
 using PictureGallery.Core.Repositories;
 using System.Data.Entity.Validation;
@@ -51,12 +50,6 @@ namespace PictureGallery.Core
 
         public async Task<UserProfile> UpdateUserAsync(UserProfile user)
         {
-            /*
-            _context.UserProfiles.Attach(user);
-            _context.Entry(user).State = EntityState.Modified;
-            _context.SaveChangesAsync();
-            */
-
             var userProfile = _context.UserProfiles.First(u => u.Id == user.Id);
             userProfile.UserName = user.UserName;
             userProfile.ProfilePicture = user.ProfilePicture;
